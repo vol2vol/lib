@@ -24,10 +24,10 @@ class BookController extends Controller
     public function show($id)
     {
         $book = Book::with([
-            'genre',
-            'authors',
-            'publisher',
-            'format'
+            'genre:genre_id,genre_name',
+            'authors:author_id,last_name,first_name,middle_name',
+            'publisher:publisher_id,publisher_name',
+            'format:format_id,format_name'
         ])->findOrFail($id);
 
         return response()->json(
@@ -37,22 +37,24 @@ class BookController extends Controller
 
     private function formatBooksList(Collection $books)
     {
-        return $books->map(function ($book) {
-            return [
-                'book_id' => $book->book_id,
-                'book_title' => $book->book_title,
-                'genre' => $book->genre,
-                'authors' => $book->authors->map(function ($author) {
-                    return [
-                        'author_id' => $author->author_id,
-                        'last_name' => $author->last_name,
-                        'first_name' => $author->first_name,
-                        'middle_name' => $author->middle_name,
-                    ];
-                }),
-                'publisher' => $book->publisher,
-            ];
-        });
+        return $books->map(fn($book) => [
+            'book_id' => $book->book_id,
+            'book_title' => $book->book_title,
+            'genre' => [
+                'genre_id' => $book->genre->genre_id,
+                'genre_name' => $book->genre->genre_name
+            ],
+            'authors' => $book->authors->map(fn($author) => [
+                'author_id' => $author->author_id,
+                'last_name' => $author->last_name,
+                'first_name' => $author->first_name,
+                'middle_name' => $author->middle_name
+            ]),
+            'publisher' => [
+                'publisher_id' => $book->publisher->publisher_id,
+                'publisher_name' => $book->publisher->publisher_name
+            ]
+        ]);
     }
 
     private function formatBookDetail($book)
@@ -62,23 +64,26 @@ class BookController extends Controller
             'book_title' => $book->book_title,
             'description' => $book->description,
             'published_year' => $book->published_year,
-            'isbn' => $book->isbn,
-            'page_count' => $book->page_count,
-            'language' => $book->language,
             'file_path' => $book->file_path,
             'file_size_bytes' => $book->file_size_bytes,
-            'file_size_mb' => round($book->file_size_bytes / 1048576, 2),
-            'genre' => $book->genre,
-            'authors' => $book->authors->map(function ($author) {
-                return [
-                    'author_id' => $author->author_id,
-                    'last_name' => $author->last_name,
-                    'first_name' => $author->first_name,
-                    'middle_name' => $author->middle_name,
-                ];
-            }),
-            'publisher' => $book->publisher,
-            'format' => $book->format,
+            'genre' => [
+                'genre_id' => $book->genre->genre_id,
+                'genre_name' => $book->genre->genre_name
+            ],
+            'authors' => $book->authors->map(fn($author) => [
+                'author_id' => $author->author_id,
+                'last_name' => $author->last_name,
+                'first_name' => $author->first_name,
+                'middle_name' => $author->middle_name
+            ]),
+            'publisher' => [
+                'publisher_id' => $book->publisher->publisher_id,
+                'publisher_name' => $book->publisher->publisher_name
+            ],
+            'format' => [
+                'format_id' => $book->format->format_id,
+                'format_name' => $book->format->format_name
+            ]
         ];
     }
 }
