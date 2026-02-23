@@ -19,9 +19,9 @@ class Book extends Model
         'file_size_bytes'
     ];
 
-    public function genre()
+    public function genres()
     {
-        return $this->belongsTo(Genre::class, 'genre_id', 'genre_id');
+        return $this->belongsToMany(Genre::class, 'book_genres', 'book_id', 'genre_id');
     }
 
     public function publisher()

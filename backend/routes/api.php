@@ -8,12 +8,12 @@ use App\Http\Controllers\API\PublisherController;
 use App\Http\Controllers\API\FormatController;
 use App\Http\Controllers\API\BookController;
 
-//TODO не работает
+//TODO Шаблон( обновить под наш прект)
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// ПУБЛИЧНЫЕ МАРШРУТЫ (без авторизации)
+// ПУБЛИЧНЫЕ МАРШРУТЫ (работают без авторизации)
 
 // Жанры
 Route::get('/genres', [GenreController::class, 'index']);

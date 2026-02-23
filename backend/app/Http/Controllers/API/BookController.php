@@ -11,7 +11,7 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::with([
-            'genre:genre_id,genre_name',
+            'genres:genre_id,genre_name',
             'authors:author_id,last_name,first_name,middle_name',
             'publisher:publisher_id,publisher_name'
         ])->get();
@@ -24,7 +24,7 @@ class BookController extends Controller
     public function show($id)
     {
         $book = Book::with([
-            'genre:genre_id,genre_name',
+            'genres:genre_id,genre_name',
             'authors:author_id,last_name,first_name,middle_name',
             'publisher:publisher_id,publisher_name',
             'format:format_id,format_name'
@@ -40,10 +40,10 @@ class BookController extends Controller
         return $books->map(fn($book) => [
             'book_id' => $book->book_id,
             'book_title' => $book->book_title,
-            'genre' => [
-                'genre_id' => $book->genre->genre_id,
-                'genre_name' => $book->genre->genre_name
-            ],
+            'genres' => $book->genres->map(fn($genre) => [
+                'genre_id' => $genre->genre_id,
+                'genre_name' => $genre->genre_name
+            ]),
             'authors' => $book->authors->map(fn($author) => [
                 'author_id' => $author->author_id,
                 'last_name' => $author->last_name,
@@ -66,10 +66,11 @@ class BookController extends Controller
             'published_year' => $book->published_year,
             'file_path' => $book->file_path,
             'file_size_bytes' => $book->file_size_bytes,
-            'genre' => [
-                'genre_id' => $book->genre->genre_id,
-                'genre_name' => $book->genre->genre_name
-            ],
+            'file_size_mb' => round($book->file_size_bytes / 1048576, 2),
+            'genres' => $book->genres->map(fn($genre) => [
+                'genre_id' => $genre->genre_id,
+                'genre_name' => $genre->genre_name
+            ]),
             'authors' => $book->authors->map(fn($author) => [
                 'author_id' => $author->author_id,
                 'last_name' => $author->last_name,
