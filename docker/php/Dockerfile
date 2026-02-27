@@ -18,4 +18,9 @@ RUN usermod -u ${USER_ID} www-data && \
     groupmod -g ${GROUP_ID} www-data
 
 WORKDIR /var/www/html
+
+COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
 USER www-data
