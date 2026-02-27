@@ -19,7 +19,7 @@ class UserFactory extends Factory
 
         return [
             'login' => $this->faker->unique()->userName(),
-            'password' => bcrypt('password123'), // Хешированный пароль
+            'password' => 'password123', // Хешированный пароль
             'role_id' => $roleId,
         ];
     }
