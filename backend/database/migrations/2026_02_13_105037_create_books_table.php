@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('book_id');
             $table->string('book_title');
             $table->text('description');
+            $table->integer('published_year');
 
             $table->unsignedBigInteger('publisher_id');
             $table->unsignedBigInteger('format_id');
