@@ -15,6 +15,6 @@ class Format extends Model
 
     public function books()
     {
-        return $this->hasMany(Book::class, 'genre_id', 'genre_id');
+        return $this->hasMany(Book::class, 'format_id', 'format_id');
     }
 }
