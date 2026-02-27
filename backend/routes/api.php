@@ -9,6 +9,7 @@ use App\Http\Controllers\API\FormatController;
 use App\Http\Controllers\API\BookController;
 
 require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';
 
 // ПУБЛИЧНЫЕ МАРШРУТЫ (работают без авторизации)
 
@@ -37,4 +38,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+});
+
+
+// ТЕСТОВЫЙ МАРШРУТ ДЛЯ ПРОВЕРКИ АДМИНА
+Route::middleware(['auth:sanctum', 'admin'])->get('/admin-test', function() {
+    return response()->json([
+        'success' => true,
+        'message' => 'Вы админ! Доступ разрешен'
+    ]);
 });
