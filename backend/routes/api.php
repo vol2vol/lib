@@ -8,10 +8,7 @@ use App\Http\Controllers\API\PublisherController;
 use App\Http\Controllers\API\FormatController;
 use App\Http\Controllers\API\BookController;
 
-//TODO Шаблон( обновить под наш прект)
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+require __DIR__.'/auth.php';
 
 // ПУБЛИЧНЫЕ МАРШРУТЫ (работают без авторизации)
 
@@ -34,3 +31,10 @@ Route::get('/formats/{id}', [FormatController::class, 'show']);
 // КНИГИ
 Route::get('/books', [BookController::class, 'index']);
 Route::get('/books/{id}', [BookController::class, 'show']);
+
+// Приватные маршруты
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
