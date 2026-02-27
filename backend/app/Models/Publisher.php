@@ -13,6 +13,6 @@ class Publisher extends Model
 
     public function books()
     {
-        return $this->hasMany(Book::class, 'genre_id', 'genre_id');
+        return $this->hasMany(Book::class, 'publisher_id', 'pushlisher_id');
     }
 }
