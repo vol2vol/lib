@@ -12,7 +12,7 @@ class RoleFactory extends Factory
     public function definition(): array
     {
         return [
-            'role_name' => $this->faker->randomElement(['admin', 'user']),
+            'role_name' => $this->faker->unique()->randomElement(['admin', 'user']),
         ];
     }
 }

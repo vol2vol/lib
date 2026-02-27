@@ -12,7 +12,7 @@ class FormatFactory extends Factory
     public function definition(): array
     {
         return [
-            'format_name' => $this->faker->randomElement([
+            'format_name' => $this->faker->unique()->randomElement([
                 'Электронная книга',
                 'Аудиокнига',
                 'Бумажная книга',
