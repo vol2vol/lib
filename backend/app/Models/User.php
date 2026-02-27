@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 class User extends Authenticatable
 {
     use HasFactory;
-    
     use HasApiTokens;
 
     protected $primaryKey = 'user_id';

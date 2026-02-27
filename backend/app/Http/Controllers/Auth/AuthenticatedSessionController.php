@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Validation\ValidationException;
+//use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,15 +28,10 @@ class AuthenticatedSessionController extends Controller
 
         $user = $request->user();
         $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'Bearer',
-            'user' => [
-                'id' => $user->user_id,
-                'login' => $user->login,
-                'role_id' => $user->role_id
-            ]
+            'token_type' => "Bearer $token",
+            'user' => $user
         ]);
     }
 
