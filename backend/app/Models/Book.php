@@ -3,19 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Book extends Model
 {
+    use HasFactory; // для генерации данных
+
     protected $primaryKey = 'book_id';
     public $timestamps = true;
 
     protected $fillable = [
         'book_title',
         'description',
+        'publisher_year',
         'publisher_id',
         'format_id',
         'file_path',
         'file_size_bytes'
+    ];
+
+    protected $casts = [
+        'published_year' => 'integer',
+        'file_size_bytes' => 'integer',
     ];
 
     public function genres()
@@ -41,5 +50,17 @@ class Book extends Model
     public function favoritedBy()
     {
         return $this->belongsToMany(User::class, 'favorite_books', 'book_id', 'user_id');
+    }
+
+    public function isFavoritedByUser($userId)
+    {
+        return $this->favoritedBy()->where('users.user_id', $userId)->exists();
+    }
+
+    public function getAuthorsFullNameAttribute()
+    {
+        return $this->authors->map(function($author) {
+            return trim("{$author->last_name} {$author->first_name} {$author->middle_name}");
+        })->implode(', ');
     }
 }
