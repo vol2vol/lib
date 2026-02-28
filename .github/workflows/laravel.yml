@@ -21,7 +21,7 @@ jobs:
       with:
         ref: ${{ github.ref_name }}
     - name: Copy .env
-      run: cd ./backend/.env.example ./backend/.env
+      run: cp ./backend/.env.example ./backend/.env
     - name: Install Dependencies
       run: |
         cd backend
