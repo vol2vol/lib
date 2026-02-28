@@ -18,6 +18,8 @@ jobs:
         tools: composer:v2
         coverage: none
     - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref_name }}
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
