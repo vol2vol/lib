@@ -38,4 +38,4 @@ jobs:
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
       run: |
         cd backend
-        php artisan test --verbose
+        php artisan test
