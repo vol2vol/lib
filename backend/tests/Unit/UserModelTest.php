@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Book;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -141,5 +142,52 @@ class UserModelTest extends TestCase
         $user = User::factory()->create();
 
         $this->assertCount(0, $user->favoriteBooks);
+    }
+
+    public function test_login_is_required()
+    {
+        $this->expectException(QueryException::class);
+
+        User::create([
+            'password' => bcrypt('password123'),
+            'role_id' => 1,
+        ]);
+    }
+
+    public function test_login_must_be_unique()
+    {
+        User::factory()->create(['login' => 'john_doe']);
+
+        $this->expectException(QueryException::class);
+        User::factory()->create(['login' => 'john_doe']);
+    }
+
+    public function test_password_is_required()
+    {
+        $this->expectException(QueryException::class);
+
+        User::create([
+            'login' => 'testuser',
+            'role_id' => 1,
+        ]);
+    }
+
+    public function test_role_id_is_required()
+    {
+        $this->expectException(QueryException::class);
+
+        User::create([
+            'login' => 'testuser',
+            'password' => bcrypt('password123'),
+        ]);
+    }
+
+    public function test_login_can_contain_underscores_and_numbers()
+    {
+        $user = User::factory()->create([
+            'login' => 'user_123',
+        ]);
+
+        $this->assertEquals('user_123', $user->login);
     }
 }
