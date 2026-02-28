@@ -16,6 +16,7 @@ class BookSeeder extends Seeder
             [
                 'book_id' => 1,
                 'book_title' => 'Война и мир',
+                'published_year' => '1834',
                 'description' => 'Роман-эпопея',
                 'publisher_id' => 1,
                 'format_id' => 1,
@@ -27,6 +28,7 @@ class BookSeeder extends Seeder
             [
                 'book_id' => 2,
                 'book_title' => 'Книга 2',
+                'published_year' => '1834',
                 'description' => 'Роман-эпопея',
                 'publisher_id' => 2,
                 'format_id' => 1,
