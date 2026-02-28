@@ -20,6 +20,8 @@ jobs:
     - uses: actions/checkout@v4
       with:
         ref: ${{ github.ref_name }}
+    - name: Change directory to backend
+      run: cd backend
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
