@@ -31,7 +31,10 @@ jobs:
         cd backend
         php artisan key:generate
     - name: Create Database
-      run: touch ./backend/database/database.sqlite
+      run: |
+        cd backend
+        touch ./database/database.sqlite
+        php artisan migrate:fresh --seed
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
       run: |
         cd backend
