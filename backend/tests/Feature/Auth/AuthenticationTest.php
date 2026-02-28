@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -14,34 +15,63 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password',
+        $response = $this->post('/api/login', [
+            'login' => $user->login,
+            'password' => 'password123',
         ]);
 
-        $this->assertAuthenticated();
-        $response->assertNoContent();
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'access_token',
+            'token_type',
+            'user' => ['user_id', 'login', 'role_id'],
+        ]);
+        $this->assertNotEmpty($response->json('access_token'));
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();
 
-        $this->post('/login', [
-            'email' => $user->email,
+        $response = $this->post('/api/login', [
+            'login' => $user->login,
             'password' => 'wrong-password',
         ]);
 
-        $this->assertGuest();
+        $response->assertStatus(401);
+        $response->assertJson([
+            'success' => false,
+            'message' => 'Неверный логин или пароль'
+        ]);
+    }
+
+    public function test_users_can_not_authenticate_with_invalid_login(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post('/api/login', [
+            'login' => 'nonexistent-login',
+            'password' => 'password123',
+        ]);
+
+        $response->assertStatus(401);
+        $response->assertJson([
+            'success' => false,
+            'message' => 'Неверный логин или пароль'
+        ]);
     }
 
     public function test_users_can_logout(): void
     {
         $user = User::factory()->create();
+        Sanctum::actingAs($user, ['*']);
 
-        $response = $this->actingAs($user)->post('/logout');
+        $response = $this->post('/api/logout');
 
-        $this->assertGuest();
-        $response->assertNoContent();
+        $response->assertStatus(200);
+        $response->assertJson([
+            'message' => 'Вы успешно вышли из системы'
+        ]);
     }
+
 }
