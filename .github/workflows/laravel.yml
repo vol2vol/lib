@@ -21,12 +21,18 @@ jobs:
       with:
         ref: ${{ github.ref_name }}
     - name: Copy .env
-      run: cp ./backend/.env.example ./backend/.env
+      run: cd ./backend/.env.example ./backend/.env
     - name: Install Dependencies
-      run: composer install
+      run: |
+        cd backend
+        composer install
     - name: Generate key
-      run: php artisan key:generate
+      run: |
+        cd backend
+        php artisan key:generate
     - name: Create Database
       run: touch ./backend/database/database.sqlite
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-      run: php artisan test
+      run: |
+        cd backend
+        php artisan test
