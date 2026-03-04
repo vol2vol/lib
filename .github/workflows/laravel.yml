@@ -18,8 +18,6 @@ jobs:
         tools: composer:v2
         coverage: none
     - uses: actions/checkout@v4
-      with:
-        ref: ${{ github.ref_name }}
     - name: Copy .env
       run: cp ./backend/.env.example ./backend/.env
     - name: Install Dependencies
