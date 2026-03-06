@@ -1,0 +1,44 @@
+services:
+  laravel:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+    working_dir: /var/www/html/backend
+    volumes:
+      - ./backend:/var/www/html/backend
+    networks:
+      - network
+
+  nginx:
+    image: nginx:1.26-alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www/html/backend
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - laravel
+    networks:
+      - network
+
+  node:
+    build:
+      context: ./docker/nodejs
+      dockerfile: Dockerfile
+    working_dir: /var/www/html/frontend
+    volumes:
+      - ./frontend:/var/www/html/frontend
+    ports:
+      - "5173:5173"
+      - "24678:24678"  # Vite HMR
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000/api
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
