@@ -20,7 +20,7 @@ class UserRoleAssignmentTest extends TestCase
             'user_id' => $user->user_id,
             'role_id' => $user->role_id,
         ]);
-        $this->assertEquals('user', $user->role->role_name)
+        $this->assertEquals('user', $user->role->role_name);
     }
 
     public function test_user_can_be_assigned_admin_role()
