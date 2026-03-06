@@ -1,4 +1,4 @@
-# Logs
+#frontend
 /frontend/logs
 /frontend/*.log
 /frontend/npm-debug.log*
@@ -6,13 +6,10 @@
 /frontend/yarn-error.log*
 /frontend/pnpm-debug.log*
 /frontend/lerna-debug.log*
-
 /frontend/node_modules
 /frontend/dist
 /frontend/dist-ssr
 /frontend/*.local
-
-# Editor directories and files
 /frontend/vscode/*
 /frontend/!.vscode/extensions.json
 /frontend/.idea
@@ -24,7 +21,6 @@
 /frontend/*.sw?
 
 #backend (при переключении между ветками)
-/frontend/*.log
 /backend/.DS_Store
 /backend/.env
 /backend/.env.backup
@@ -48,3 +44,23 @@
 /backend/Homestead.json
 /backend/Homestead.yaml
 /backend/Thumbs.db
+/backend/bootstrap/cache
+/backend/database/*.sqlite*
+/backend/storage/framework/compiled.php
+/backend/storage/framework/config.php
+/backend/storage/framework/down
+/backend/storage/framework/events.scanned.php
+/backend/storage/framework/maintenance.php
+/backend/storage/framework/routes.php
+/backend/storage/framework/routes.scanned.php
+/backend/storage/framework/schedule-*
+/backend/storage/framework/services.json
+/backend/storage/framework/views
+/backend/storage/framework/testing
+/backend/storage/framework/sessions
+/backend/storage/framework/cache
+/backend/storage/framework/cache/data
+/backend/storage/framework/logs
+/backend/storage/framework/app
+!/backend/storage/framework/app/private
+!/backend/storage/framework/app/public
