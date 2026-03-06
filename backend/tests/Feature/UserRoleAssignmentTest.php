@@ -20,7 +20,7 @@ class UserRoleAssignmentTest extends TestCase
             'user_id' => $user->user_id,
             'role_id' => $user->role_id,
         ]);
-        &this->assert('user', $user->role->role_name)
+        $this->assertEquals('user', $user->role->role_name)
     }
 
     public function test_user_can_be_assigned_admin_role()
@@ -37,13 +37,5 @@ class UserRoleAssignmentTest extends TestCase
         $user = User::factory()->create(['role_id' => $userRole->role_id]);
 
         $this->assertEquals('user', $user->role->role_name);
-    }
-
-    public function test_user_inherits_role_permissions()
-    {
-        $adminRole = Role::factory()->create(['role_name' => 'admin']);
-        $adminUser = User::factory()->create(['role_id' => $adminRole->role_id]);
-
-        $this->assertTrue($adminUser->role->role_name === 'admin');
     }
 }
