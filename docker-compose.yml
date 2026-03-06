@@ -25,17 +25,17 @@ services:
       - network
 
   node:
-    image: node:20-alpine
+    build:
+      context: ./docker/nodejs
+      dockerfile: Dockerfile
     working_dir: /var/www/html/frontend
     volumes:
-      - ./frontend:/var/www/html/frontend:cached
-      - /var/www/html/frontend/node_modules
+      - ./frontend:/var/www/html/frontend
     ports:
       - "5173:5173"
       - "24678:24678"  # Vite HMR
     environment:
       - VITE_API_BASE_URL=http://localhost:8000/api
-    command: sh -c "npm install && npm run dev"
     networks:
       - network
 
