@@ -15,4 +15,15 @@ export default defineConfig({
       '@api': path.resolve(__dirname, 'src/api'),
     },
   },
+
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://host.docker.internal:8000',
+        changeOrigin: true,
+      },
+    },
+  },
 })

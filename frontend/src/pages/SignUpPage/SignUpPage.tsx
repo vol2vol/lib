@@ -2,8 +2,14 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Logo } from '@components/Logo'
-import { registerUser } from '@api/auth'
+import { ApiError, registerUser } from '@api/auth'
 import styles from './SignUpPage.module.css'
+
+type FieldErrors = {
+  login?: string
+  password?: string
+  password_confirmation?: string
+}
 
 export const SignUpPage = () => {
   const navigate = useNavigate()
@@ -12,24 +18,32 @@ export const SignUpPage = () => {
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false)
+
+  const resetErrors = () => {
+    setError('')
+    setFieldErrors({})
+  }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setError('')
+    resetErrors()
 
     if (!login.trim()) {
-      setError('Введите логин')
+      setFieldErrors({ login: 'Введите логин' })
       return
     }
 
     if (!password.trim()) {
-      setError('Введите пароль')
+      setFieldErrors({ password: 'Введите пароль' })
       return
     }
 
     if (password !== passwordConfirmation) {
-      setError('Пароли не совпадают')
+      setFieldErrors({ password_confirmation: 'Пароли не совпадают' })
       return
     }
 
@@ -42,7 +56,7 @@ export const SignUpPage = () => {
         password_confirmation: passwordConfirmation,
       })
 
-      const token = data.token || data.access_token
+      const token = data.access_token
 
       if (token) {
         localStorage.setItem('token', token)
@@ -50,7 +64,20 @@ export const SignUpPage = () => {
 
       navigate('/library')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Произошла ошибка')
+      if (err instanceof ApiError) {
+        if (err.fieldErrors) {
+          setFieldErrors({
+            login: err.fieldErrors.login?.[0],
+            password: err.fieldErrors.password?.[0],
+            password_confirmation: err.fieldErrors.password_confirmation?.[0],
+          })
+          setError('')
+        } else {
+          setError(err.message)
+        }
+      } else {
+        setError(err instanceof Error ? err.message : 'Произошла ошибка')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -68,34 +95,92 @@ export const SignUpPage = () => {
             <label className={styles.label}>
               Логин
               <input
-                className={styles.input}
+                className={`${styles.input} ${fieldErrors.login ? styles.inputError : ''}`}
                 type="text"
                 value={login}
-                onChange={(event) => setLogin(event.target.value)}
+                onChange={(event) => {
+                  setLogin(event.target.value)
+                  setError('')
+                  setFieldErrors((prev) => ({ ...prev, login: undefined }))
+                }}
                 autoComplete="username"
               />
+              {fieldErrors.login ? (
+                <span className={styles.fieldError}>{fieldErrors.login}</span>
+              ) : null}
             </label>
 
             <label className={styles.label}>
               Придумайте пароль
-              <input
-                className={styles.input}
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                autoComplete="new-password"
-              />
+
+              <div className={styles.passwordField}>
+                <input
+                  className={`${styles.input} ${fieldErrors.password ? styles.inputError : ''}`}
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(event) => {
+                    setPassword(event.target.value)
+                    setError('')
+                    setFieldErrors((prev) => ({ ...prev, password: undefined }))
+                  }}
+                  autoComplete="new-password"
+                />
+
+                <button
+                  className={styles.passwordToggle}
+                  type="button"
+                  onMouseDown={() => setShowPassword(true)}
+                  onMouseUp={() => setShowPassword(false)}
+                  onMouseLeave={() => setShowPassword(false)}
+                  onTouchStart={() => setShowPassword(true)}
+                  onTouchEnd={() => setShowPassword(false)}
+                >
+                  Показать
+                </button>
+              </div>
+
+              {fieldErrors.password ? (
+                <span className={styles.fieldError}>{fieldErrors.password}</span>
+              ) : null}
             </label>
 
             <label className={styles.label}>
               Повторите пароль
-              <input
-                className={styles.input}
-                type="password"
-                value={passwordConfirmation}
-                onChange={(event) => setPasswordConfirmation(event.target.value)}
-                autoComplete="new-password"
-              />
+
+              <div className={styles.passwordField}>
+                <input
+                  className={`${styles.input} ${fieldErrors.password_confirmation ? styles.inputError : ''}`}
+                  type={showPasswordConfirmation ? 'text' : 'password'}
+                  value={passwordConfirmation}
+                  onChange={(event) => {
+                    setPasswordConfirmation(event.target.value)
+                    setError('')
+                    setFieldErrors((prev) => ({
+                      ...prev,
+                      password_confirmation: undefined,
+                    }))
+                  }}
+                  autoComplete="new-password"
+                />
+
+                <button
+                  className={styles.passwordToggle}
+                  type="button"
+                  onMouseDown={() => setShowPasswordConfirmation(true)}
+                  onMouseUp={() => setShowPasswordConfirmation(false)}
+                  onMouseLeave={() => setShowPasswordConfirmation(false)}
+                  onTouchStart={() => setShowPasswordConfirmation(true)}
+                  onTouchEnd={() => setShowPasswordConfirmation(false)}
+                >
+                  Показать
+                </button>
+              </div>
+
+              {fieldErrors.password_confirmation ? (
+                <span className={styles.fieldError}>
+                  {fieldErrors.password_confirmation}
+                </span>
+              ) : null}
             </label>
           </div>
 
@@ -104,7 +189,7 @@ export const SignUpPage = () => {
           <div className={styles.footer}>
             <span className={styles.footerText}>Уже есть аккаунт?</span>
             <Link className={styles.link} to="/signin">
-                Войти
+              Войти
             </Link>
           </div>
 
