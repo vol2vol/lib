@@ -1,0 +1,33 @@
+:root {
+  --color-bg-primary: #5c6f2b;
+  --color-accent: #de802b;
+  --color-surface: #d8c9a7;
+  --color-text-primary: #000;
+
+  --font-primary: Georgia, 'Times New Roman', serif;
+
+  --container-xl: 1440px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}

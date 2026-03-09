@@ -1,9 +1,7 @@
 import { Routes, Route, Outlet } from 'react-router-dom'
 import { Header } from '@components/Header/Header'
 import { HomePage } from '@pages/HomePage'
-// import { BookPage } from '@pages/BookPage/BookPage'
-// import { ProfilePage } from '@pages/ProfilePage/ProfilePage'
-// import { LoginPage } from '@pages/LoginPage/LoginPage'
+import { EnterPage } from '@pages/EnterPage'
 
 const Layout = () => {
   return (
@@ -17,11 +15,10 @@ const Layout = () => {
 export const App = () => {
   return (
     <Routes>
+      <Route path="/" element={<EnterPage />} />
+
       <Route element={<Layout />}>
-        <Route path="/" element={<HomePage />} />
-        {/* <Route path="/book/:id" element={<BookPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/login" element={<LoginPage />} /> */}
+        <Route path="/library" element={<HomePage />} />
       </Route>
     </Routes>
   )

@@ -14,7 +14,8 @@
       "@pages/*": ["pages/*"],
       "@components/*": ["components/*"],
       "@models/*": ["types/*"],
-      "@data/*": ["data/*"]
+      "@data/*": ["data/*"],
+      "@assets/*": ["assets/*"]
     },
 
     /* Bundler mode */
