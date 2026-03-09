@@ -15,7 +15,8 @@
       "@components/*": ["components/*"],
       "@models/*": ["types/*"],
       "@data/*": ["data/*"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["assets/*"],
+      "@api/*": ["api/*"]
     },
 
     /* Bundler mode */
