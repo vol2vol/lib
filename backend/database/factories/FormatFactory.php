@@ -11,16 +11,16 @@ class FormatFactory extends Factory
 
     public function definition(): array
     {
+        // Возвращаем существующий формат
         return [
-            'format_name' => $this->faker->unique()->randomElement([
-                'Электронная книга',
-                'Аудиокнига',
-                'Бумажная книга',
-                'PDF',
-                'EPUB',
-                'MOBI',
-                'FB2',
-            ]),
+            'format_name' => 'PDF'
         ];
+    }
+
+    // Переопределяем метод создания - НЕ создаем новые форматы
+    public function create($attributes = [], ?\Illuminate\Database\Eloquent\Model $parent = null)
+    {
+        // Просто возвращаем существующий формат с ID=1
+        return Format::find(1) ?? parent::create($attributes, $parent);
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Author extends Model
 {
-    use HasFactory; // для генерации данных
+    use HasFactory;
 
     protected $primaryKey = 'author_id';
     public $timestamps = true;

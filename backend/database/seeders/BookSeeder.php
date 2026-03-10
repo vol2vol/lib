@@ -2,41 +2,63 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use App\Models\Book;
+use App\Models\Author;
+use App\Models\Genre;
+use App\Models\Publisher;
+use App\Models\BookFile;
 
 class BookSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        DB::table('books')->insert([
-            [
-                'book_id' => 1,
-                'book_title' => 'Война и мир',
-                'published_year' => '1834',
-                'description' => 'Роман-эпопея',
-                'publisher_id' => 1,
-                'format_id' => 1,
-                'file_path' => 'books1.pdf',
-                'file_size_bytes' => 111,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'book_id' => 2,
-                'book_title' => 'Книга 2',
-                'published_year' => '1834',
-                'description' => 'Роман-эпопея',
-                'publisher_id' => 2,
-                'format_id' => 1,
-                'file_path' => 'books2.pdf',
-                'file_size_bytes' => 112,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        $authors = Author::all();
+        $genres = Genre::all();
+        $publishers = Publisher::all();
+
+        if ($authors->count() < 30 || $genres->count() < 20 || $publishers->count() < 30) {
+            $this->command->error('Сначала запустите AuthorSeeder, GenreSeeder и PublisherSeeder!');
+            return;
+        }
+
+        Book::factory()
+            ->count(30)
+            ->make()
+            ->each(function ($book) use ($authors, $genres, $publishers) {
+                $book->publisher_id = $publishers->random()->publisher_id;
+                $book->save();
+
+                $book->authors()->attach(
+                    $authors->random(rand(1, 3))->pluck('author_id')
+                );
+
+                $book->genres()->attach(
+                    $genres->random(rand(1, 2))->pluck('genre_id')
+                );
+
+                $formats = [1, 2, 3];
+                $numFiles = rand(1, 3);
+                $selectedFormats = array_rand(array_flip($formats), $numFiles);
+
+                if (!is_array($selectedFormats)) {
+                    $selectedFormats = [$selectedFormats];
+                }
+
+                foreach ($selectedFormats as $formatId) {
+                    $ext = match($formatId) {
+                        1 => 'pdf',
+                        2 => 'txt',
+                        3 => 'fb2',
+                        default => 'pdf'
+                    };
+
+                    BookFile::factory()->create([
+                        'book_id' => $book->book_id,
+                        'format_id' => $formatId,
+                        'file_path' => 'books/' . fake()->uuid() . '.' . $ext,
+                    ]);
+                }
+            });
     }
 }
