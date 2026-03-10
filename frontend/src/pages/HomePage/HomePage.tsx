@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getBooks, getGenres } from '@api/library'
 import { BookList } from '@components/BookList'
 import { GenreList } from '@components/GenreList'
@@ -7,6 +8,8 @@ import type { Book, Genre } from 'models/library'
 import styles from './HomePage.module.css'
 
 export const HomePage = () => {
+  const navigate = useNavigate()
+
   const [genres, setGenres] = useState<Genre[]>([])
   const [books, setBooks] = useState<Book[]>([])
   const [search, setSearch] = useState('')
@@ -50,7 +53,11 @@ export const HomePage = () => {
 
   return (
     <main className={styles.homePage}>
-      <Header searchValue={search} onSearchChange={setSearch} />
+      <Header
+        searchValue={search}
+        onSearchChange={setSearch}
+        onProfileClick={() => navigate('/profile')}
+      />
 
       <section className={styles.container}>
         {isLoading ? <p className={styles.state}>Загрузка...</p> : null}
@@ -64,7 +71,7 @@ export const HomePage = () => {
             </section>
 
             <section className={styles.section}>
-              <h2 className={styles.sectionTitle}>Книги</h2>
+              <h2 className={styles.sectionTitle}>Популярное</h2>
               <BookList books={filteredBooks} />
             </section>
           </>

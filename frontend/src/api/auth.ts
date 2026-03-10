@@ -23,6 +23,14 @@ type AuthResponse = {
   }
 }
 
+type UserResponse = {
+  user_id: number
+  login: string
+  role_id: number
+  created_at: string
+  updated_at: string
+}
+
 type ApiErrorData = {
   message?: string
   errors?: Record<string, string[]>
@@ -60,21 +68,19 @@ const translateErrorMessage = (message: string) => {
 async function parseResponse<T>(response: Response): Promise<T> {
   const raw = await response.clone().text()
 
-  console.log('STATUS:', response.status)
-  console.log('RAW RESPONSE:', raw)
-
   let data: unknown = null
 
   try {
     data = raw ? JSON.parse(raw) : null
   } catch {
-    console.error('JSON PARSE ERROR:', raw)
-    throw new Error('Некорректный ответ сервера')
+    if (!response.ok) {
+      throw new Error('Некорректный ответ сервера')
+    }
+
+    return null as T
   }
 
   if (!response.ok) {
-    console.error('REQUEST FAILED:', data)
-
     const errorData = (data ?? {}) as ApiErrorData
 
     const fieldErrors = errorData.errors
@@ -102,15 +108,10 @@ async function parseResponse<T>(response: Response): Promise<T> {
     throw new ApiError(message, response.status, fieldErrors)
   }
 
-  console.log('PARSED DATA:', data)
-
   return data as T
 }
 
 export async function registerUser(payload: RegisterPayload): Promise<AuthResponse> {
-  console.log('REGISTER PAYLOAD:', payload)
-  console.log('REGISTER URL:', `${API_BASE_URL}/register`)
-
   const response = await fetch(`${API_BASE_URL}/register`, {
     method: 'POST',
     headers: {
@@ -124,9 +125,6 @@ export async function registerUser(payload: RegisterPayload): Promise<AuthRespon
 }
 
 export async function loginUser(payload: LoginPayload): Promise<AuthResponse> {
-  console.log('LOGIN PAYLOAD:', payload)
-  console.log('LOGIN URL:', `${API_BASE_URL}/login`)
-
   const response = await fetch(`${API_BASE_URL}/login`, {
     method: 'POST',
     headers: {
@@ -137,4 +135,28 @@ export async function loginUser(payload: LoginPayload): Promise<AuthResponse> {
   })
 
   return parseResponse<AuthResponse>(response)
+}
+
+export async function logoutUser(token: string): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/logout`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  await parseResponse<void>(response)
+}
+
+export async function getCurrentUser(token: string): Promise<UserResponse> {
+  const response = await fetch(`${API_BASE_URL}/user`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  return parseResponse<UserResponse>(response)
 }

@@ -3,6 +3,7 @@ import { EnterPage } from '@pages/EnterPage'
 import { SignUpPage } from '@pages/SignUpPage'
 import { SignInPage } from '@pages/SignInPage'
 import { HomePage } from '@pages/HomePage'
+import { ProfilePage } from '@pages/ProfilePage'
 
 export const App = () => {
   return (
@@ -11,6 +12,7 @@ export const App = () => {
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/library" element={<HomePage />} />
+      <Route path="/profile" element={<ProfilePage />} />
     </Routes>
   )
 }
