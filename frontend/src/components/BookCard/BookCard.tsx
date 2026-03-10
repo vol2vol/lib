@@ -1,20 +1,21 @@
-import { Link } from 'react-router-dom'
-import type { Book } from '@models/book'
+import type { Book } from '@models/library'
+import styles from './BookCard.module.css'
 
-
-type Props = {
+type BookCardProps = {
   book: Book
 }
 
-export const BookCard = ({ book }: Props) => {
+export const BookCard = ({ book }: BookCardProps) => {
   return (
-    <article>
-      <h3>{book.title}</h3>
-      <p>{book.author}</p>
+    <article className={styles.bookCard}>
+      <div className={styles.cover} />
 
-      <Link to={`/book/${book.id}`}>
-        Подробнее
-      </Link>
+      <div className={styles.info}>
+        <h3 className={styles.title}>{book.title}</h3>
+        <p className={styles.meta}>{book.author}</p>
+        <p className={styles.meta}>{book.genre}</p>
+        <p className={styles.meta}>{book.publisher}</p>
+      </div>
     </article>
   )
 }

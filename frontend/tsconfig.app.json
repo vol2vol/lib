@@ -13,7 +13,7 @@
       "@app/*": ["app/*"],
       "@pages/*": ["pages/*"],
       "@components/*": ["components/*"],
-      "@models/*": ["types/*"],
+      "@models/*": ["models/*"],
       "@data/*": ["data/*"],
       "@assets/*": ["assets/*"],
       "@api/*": ["api/*"]

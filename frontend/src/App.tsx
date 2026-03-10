@@ -1,18 +1,8 @@
-import { Routes, Route, Outlet } from 'react-router-dom'
-import { Header } from '@components/Header/Header'
-import { HomePage } from '@pages/HomePage'
+import { Routes, Route } from 'react-router-dom'
 import { EnterPage } from '@pages/EnterPage'
 import { SignUpPage } from '@pages/SignUpPage'
 import { SignInPage } from '@pages/SignInPage'
-
-const Layout = () => {
-  return (
-    <>
-      <Header />
-      <Outlet />
-    </>
-  )
-}
+import { HomePage } from '@pages/HomePage'
 
 export const App = () => {
   return (
@@ -20,10 +10,7 @@ export const App = () => {
       <Route path="/" element={<EnterPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/signin" element={<SignInPage />} />
-
-      <Route element={<Layout />}>
-        <Route path="/library" element={<HomePage />} />
-      </Route>
+      <Route path="/library" element={<HomePage />} />
     </Routes>
   )
 }

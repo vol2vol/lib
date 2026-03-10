@@ -1,0 +1,33 @@
+.bookCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cover {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #d9d9d9;
+  border: 1px solid #cfcfcf;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+.meta {
+  margin: 0;
+  color: #444444;
+  font-size: 14px;
+  line-height: 1.3;
+}

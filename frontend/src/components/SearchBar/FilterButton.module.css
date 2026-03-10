@@ -1,0 +1,10 @@
+.filterButton {
+  border: none;
+  background: var(--color-surface);
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

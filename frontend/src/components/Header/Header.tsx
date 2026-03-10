@@ -1,13 +1,34 @@
-import { Link } from 'react-router-dom'
+import { Icon } from '@components/Icon'
+import { ProfileButton } from '@components/ProfileButton'
+import { SearchBar } from '@components/SearchBar'
+import styles from './Header.module.css'
 
-export const Header = () => {
+type HeaderProps = {
+  searchValue: string
+  onSearchChange: (value: string) => void
+  onProfileClick?: () => void
+}
+
+export const Header = ({
+  searchValue,
+  onSearchChange,
+  onProfileClick,
+}: HeaderProps) => {
   return (
-    <header>
-      <Link to="/">Электронная библиотека</Link>
+    <header className={styles.header}>
+      <div className={styles.left}>
+        <Icon name="Logo" className={styles.logo} />
+      </div>
 
-      <nav>
-        <Link to="/profile">Профиль</Link>
-      </nav>
+      <div className={styles.center}>
+        <div className={styles.searchWrap}>
+          <SearchBar value={searchValue} onChange={onSearchChange} />
+        </div>
+      </div>
+
+      <div className={styles.right}>
+        <ProfileButton onClick={onProfileClick} />
+      </div>
     </header>
   )
 }
