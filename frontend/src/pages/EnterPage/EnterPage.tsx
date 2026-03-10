@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Logo } from '@components/Logo'
+import { Icon } from '@components/Icon'
 import styles from './EnterPage.module.css'
 
 export const EnterPage = () => {
@@ -8,7 +8,7 @@ export const EnterPage = () => {
   return (
     <main className={styles.enterPage}>
       <section className={styles.hero}>
-        <Logo className={styles.logo} />
+        <Icon name="Logo" className={styles.logo} />
 
         <p className={styles.subtitle}>
           Добро пожаловать в онлайн-библиотеку — здесь вы можете:

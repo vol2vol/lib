@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Logo } from '@components/Logo'
+import { Icon } from '@components/Icon'
 import { ApiError, loginUser } from '@api/auth'
 import styles from './SignInPage.module.css'
 
@@ -71,7 +71,7 @@ export const SignInPage = () => {
   return (
     <main className={styles.signInPage}>
       <section className={styles.content}>
-        <Logo className={styles.logo} />
+        <Icon name="Logo" className={styles.logo} />
 
         <p className={styles.subtitle}>Чтобы войти, введите данные аккаунта</p>
 
@@ -142,7 +142,7 @@ export const SignInPage = () => {
           </div>
 
           <button className={styles.submit} type="submit" disabled={isLoading}>
-            {isLoading ? '...' : '→'}
+            {isLoading ? '...' : <Icon name="ForwardButton" size={20} />}
           </button>
         </form>
       </section>

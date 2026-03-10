@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Logo } from '@components/Logo'
+import { Icon } from '@components/Icon'
 import { ApiError, registerUser } from '@api/auth'
 import styles from './SignUpPage.module.css'
 
@@ -86,7 +86,7 @@ export const SignUpPage = () => {
   return (
     <main className={styles.signUpPage}>
       <section className={styles.content}>
-        <Logo className={styles.logo} />
+        <Icon name="Logo" className={styles.logo} />
 
         <p className={styles.subtitle}>Чтобы присоединиться, зарегистрируйтесь</p>
 
@@ -193,9 +193,9 @@ export const SignUpPage = () => {
             </Link>
           </div>
 
-          <button className={styles.submit} type="submit" disabled={isLoading}>
-            {isLoading ? '...' : '→'}
-          </button>
+        <button className={styles.submit} type="submit" disabled={isLoading}>
+            {isLoading ? '...' : <Icon name="ForwardButton" size={20} />}
+        </button>
         </form>
       </section>
     </main>
