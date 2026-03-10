@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Format;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -249,5 +250,28 @@ class FormatController extends Controller
                 'error' => config('app.debug') ? $e->getMessage() : null
             ], 500);
         }
+    }
+
+    public function books($id, Request $request)
+    {
+        if (!auth()->check()) {
+            return response()->json(['success' => false, 'message' => 'Необходимо авторизоваться'], 401);
+        }
+
+        if (auth()->user()->role_id != 1) {
+            return response()->json(['success' => false, 'message' => 'Только администраторы'], 403);
+        }
+
+        $genre = Genre::findOrFail($id);
+
+        $books = $genre->books()
+            ->with(['authors', 'publisher', 'files.format'])
+            ->paginate($request->per_page ?? 15);
+
+        return response()->json([
+            'success' => true,
+            'genre' => $genre->genre_name,
+            'data' => $books
+        ]);
     }
 }

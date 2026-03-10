@@ -18,4 +18,19 @@ class FormatController extends Controller
         $format = Format::with('books')->findOrFail($id);
         return response()->json($format);
     }
+
+    public function books($id, Request $request)
+    {
+        $format = Format::findOrFail($id);
+
+        $books = $format->books()
+            ->with(['authors', 'publisher', 'genres'])
+            ->paginate($request->per_page ?? 15);
+
+        return response()->json([
+            'success' => true,
+            'format' => $format->format_name,
+            'books' => $books
+        ]);
+    }
 }

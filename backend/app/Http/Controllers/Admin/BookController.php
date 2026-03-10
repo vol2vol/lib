@@ -4,16 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
-use App\Models\Author;
-use App\Models\Genre;
+use App\Models\BookFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         try {
@@ -35,7 +31,9 @@ class BookController extends Controller
                 'genres:genre_id,genre_name',
                 'authors:author_id,last_name,first_name,middle_name',
                 'publisher:publisher_id,publisher_name',
-                'format:format_id,format_name'
+                'files' => function($q) {
+                    $q->with('format:format_id,format_name');
+                }
             ])->paginate(20);
 
             return response()->json([
@@ -54,9 +52,6 @@ class BookController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         try {
@@ -78,14 +73,16 @@ class BookController extends Controller
                 'book_title' => 'required|string|max:255',
                 'description' => 'nullable|string',
                 'published_year' => 'nullable|integer|min:1800|max:' . date('Y'),
-                'file_path' => 'nullable|string',
-                'file_size_bytes' => 'nullable|integer|min:0',
+                'cover_path' => 'nullable|string',
                 'publisher_id' => 'nullable|exists:publishers,publisher_id',
-                'format_id' => 'nullable|exists:formats,format_id',
                 'author_ids' => 'required|array|min:1',
                 'author_ids.*' => 'exists:authors,author_id',
                 'genre_ids' => 'required|array|min:1',
                 'genre_ids.*' => 'exists:genres,genre_id',
+                'files' => 'nullable|array',
+                'files.*.format_id' => 'required_with:files|exists:formats,format_id',
+                'files.*.file_path' => 'required_with:files|string',
+                'files.*.file_size_bytes' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
@@ -100,10 +97,8 @@ class BookController extends Controller
                 'book_title' => $request->book_title,
                 'description' => $request->description,
                 'published_year' => $request->published_year,
-                'file_path' => $request->file_path,
-                'file_size_bytes' => $request->file_size_bytes,
+                'cover_path' => $request->cover_path,
                 'publisher_id' => $request->publisher_id,
-                'format_id' => $request->format_id,
             ]);
 
             if ($request->has('author_ids')) {
@@ -114,10 +109,20 @@ class BookController extends Controller
                 $book->genres()->attach($request->genre_ids);
             }
 
+            if ($request->has('files')) {
+                foreach ($request->files as $fileData) {
+                    $book->files()->create([
+                        'format_id' => $fileData['format_id'],
+                        'file_path' => $fileData['file_path'],
+                        'file_size_bytes' => $fileData['file_size_bytes'] ?? null,
+                    ]);
+                }
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Книга успешно создана',
-                'data' => $book->load(['authors', 'genres', 'publisher', 'format'])
+                'data' => $book->load(['authors', 'genres', 'publisher', 'files.format'])
             ], 201);
 
         } catch (\Illuminate\Database\QueryException $e) {
@@ -140,9 +145,6 @@ class BookController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         try {
@@ -164,7 +166,7 @@ class BookController extends Controller
                 'genres',
                 'authors',
                 'publisher',
-                'format'
+                'files.format'
             ])->find($id);
 
             if (!$book) {
@@ -190,9 +192,6 @@ class BookController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         try {
@@ -223,14 +222,17 @@ class BookController extends Controller
                 'book_title' => 'sometimes|string|max:255',
                 'description' => 'nullable|string',
                 'published_year' => 'nullable|integer|min:1800|max:' . date('Y'),
-                'file_path' => 'nullable|string',
-                'file_size_bytes' => 'nullable|integer|min:0',
+                'cover_path' => 'nullable|string',
                 'publisher_id' => 'nullable|exists:publishers,publisher_id',
-                'format_id' => 'nullable|exists:formats,format_id',
                 'author_ids' => 'sometimes|array|min:1',
                 'author_ids.*' => 'exists:authors,author_id',
                 'genre_ids' => 'sometimes|array|min:1',
                 'genre_ids.*' => 'exists:genres,genre_id',
+                'files' => 'nullable|array',
+                'files.*.file_id' => 'sometimes|integer|exists:book_files,file_id',
+                'files.*.format_id' => 'required_with:files|exists:formats,format_id',
+                'files.*.file_path' => 'required_with:files|string',
+                'files.*.file_size_bytes' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
@@ -243,7 +245,7 @@ class BookController extends Controller
 
             $book->update($request->only([
                 'book_title', 'description', 'published_year',
-                'file_path', 'file_size_bytes', 'publisher_id', 'format_id'
+                'cover_path', 'publisher_id'
             ]));
 
             if ($request->has('author_ids')) {
@@ -254,10 +256,41 @@ class BookController extends Controller
                 $book->genres()->sync($request->genre_ids);
             }
 
+            if ($request->has('files')) {
+                $existingFileIds = $book->files()->pluck('file_id')->toArray();
+                $newFileIds = [];
+
+                foreach ($request->files as $fileData) {
+                    if (isset($fileData['file_id'])) {
+                        $file = BookFile::find($fileData['file_id']);
+                        if ($file) {
+                            $file->update([
+                                'format_id' => $fileData['format_id'],
+                                'file_path' => $fileData['file_path'],
+                                'file_size_bytes' => $fileData['file_size_bytes'] ?? $file->file_size_bytes,
+                            ]);
+                            $newFileIds[] = $fileData['file_id'];
+                        }
+                    } else {
+                        $newFile = $book->files()->create([
+                            'format_id' => $fileData['format_id'],
+                            'file_path' => $fileData['file_path'],
+                            'file_size_bytes' => $fileData['file_size_bytes'] ?? null,
+                        ]);
+                        $newFileIds[] = $newFile->file_id;
+                    }
+                }
+
+                $filesToDelete = array_diff($existingFileIds, $newFileIds);
+                if (!empty($filesToDelete)) {
+                    BookFile::whereIn('file_id', $filesToDelete)->delete();
+                }
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Книга успешно обновлена',
-                'data' => $book->load(['authors', 'genres', 'publisher', 'format'])
+                'data' => $book->load(['authors', 'genres', 'publisher', 'files.format'])
             ]);
 
         } catch (\Illuminate\Database\QueryException $e) {
@@ -279,9 +312,6 @@ class BookController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         try {
@@ -310,6 +340,7 @@ class BookController extends Controller
 
             $book->authors()->detach();
             $book->genres()->detach();
+            $book->files()->delete();
             $book->delete();
 
             return response()->json([
