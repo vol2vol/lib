@@ -8,6 +8,8 @@ use App\Models\Book;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserModelTest extends TestCase
 {
@@ -72,6 +74,18 @@ class UserModelTest extends TestCase
         $user = User::factory()->create(['role_id' => $role->role_id]);
 
         $this->assertEquals($role->role_id, $user->role_id);
+    }
+
+    public function test_user_is_created_with_default_role()
+    {
+        $user = User::factory()->create();
+
+        $this->assertNotNull($user->role_id);
+        $this->assertDatabaseHas('users', [
+            'user_id' => $user->user_id,
+            'role_id' => $user->role_id,
+        ]);
+        $this->assertEquals('user', $user->role->role_name);
     }
 
     public function test_user_can_be_admin()
@@ -142,6 +156,49 @@ class UserModelTest extends TestCase
         $user = User::factory()->create();
 
         $this->assertCount(0, $user->favoriteBooks);
+    }
+
+    public function test_password_is_hashed_before_saving()
+    {
+        $user = User::factory()->make([
+            'password' => 'plain_password',
+        ]);
+
+        $this->assertNotEquals('plain_password', $user->password);
+        $this->assertTrue(Hash::check('plain_password', $user->password));
+    }
+
+    public function test_user_can_be_authenticated()
+    {
+        $user = User::factory()->create([
+            'login' => 'testuser',
+            'password' => 'password123',
+        ]);
+        
+        $authenticated = Auth::attempt([
+            'login' => 'testuser',
+            'password' => 'password123',
+        ]);
+
+        $this->assertTrue($authenticated);
+        $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_user_has_api_tokens_trait()
+    {
+        $user = User::factory()->create();
+
+        $this->assertTrue(method_exists($user, 'createToken'));
+    }
+
+    public function test_user_can_create_api_token()
+    {
+        $user = User::factory()->create();
+
+        $token = $user->createToken('test-token');
+
+        $this->assertNotNull($token->plainTextToken);
+        $this->assertEquals('test-token', $token->accessToken->name);
     }
 
     public function test_login_is_required()
