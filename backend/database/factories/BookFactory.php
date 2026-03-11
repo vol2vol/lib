@@ -6,7 +6,6 @@ use App\Models\Book;
 use App\Models\Author;
 use App\Models\Genre;
 use App\Models\Publisher;
-use App\Models\Format;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BookFactory extends Factory
@@ -19,10 +18,8 @@ class BookFactory extends Factory
             'book_title' => $this->faker->sentence(4),
             'description' => $this->faker->paragraph(3),
             'published_year' => $this->faker->numberBetween(1800, date('Y')),
+            'cover_path' => 'covers/' . $this->faker->uuid() . '.jpg',
             'publisher_id' => Publisher::factory(),
-            'format_id' => Format::factory(),
-            'file_path' => 'books/' . $this->faker->uuid() . '.pdf',
-            'file_size_bytes' => $this->faker->numberBetween(100000, 10000000), // 100KB - 10MB
         ];
     }
 
@@ -41,24 +38,6 @@ class BookFactory extends Factory
             $book->authors()->attach(
                 Author::factory()->count($count)->create()
             );
-        });
-    }
-
-    public function largeFile(): static
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'file_size_bytes' => 50 * 1024 * 1024, // 50MB
-            ];
-        });
-    }
-
-    public function smallFile(): static
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'file_size_bytes' => 100 * 1024, // 100KB
-            ];
         });
     }
 }

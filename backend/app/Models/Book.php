@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BookFile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
@@ -16,15 +17,14 @@ class Book extends Model
         'book_title',
         'description',
         'published_year',
+        'cover_path',
         'publisher_id',
-        'format_id',
-        'file_path',
-        'file_size_bytes'
     ];
 
     protected $casts = [
         'published_year' => 'integer',
-        'file_size_bytes' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function genres()
@@ -37,14 +37,14 @@ class Book extends Model
         return $this->belongsTo(Publisher::class, 'publisher_id', 'publisher_id');
     }
 
-    public function format()
-    {
-        return $this->belongsTo(Format::class, 'format_id', 'format_id');
-    }
-
     public function authors()
     {
         return $this->belongsToMany(Author::class, 'book_authors', 'book_id', 'author_id');
+    }
+
+    public function files()
+    {
+        return $this->hasMany(BookFile::class, 'book_id', 'book_id');
     }
 
     public function favoritedBy()
