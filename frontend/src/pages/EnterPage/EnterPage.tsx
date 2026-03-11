@@ -40,7 +40,7 @@ export const EnterPage = () => {
         <button
           className={styles.button}
           type="button"
-          onClick={() => navigate('/signup')}
+          onClick={() => navigate('/library')}
         >
           НАЧАТЬ ЧТЕНИЕ
         </button>
