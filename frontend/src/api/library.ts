@@ -1,20 +1,17 @@
 import { API_BASE_URL } from '@api/api'
 import type { Book, BookDto, Genre, GenreDto } from 'models/library'
 
-const getGenreName = (genre: BookDto['genre'], genres?: BookDto['genres']) => {
-  if (typeof genre === 'string') {
-    return genre
+const getGenreName = (genres?: BookDto['genres']) => {
+  if (!Array.isArray(genres) || genres.length === 0) {
+    return 'Без жанра'
   }
 
-  if (genre && typeof genre === 'object') {
-    return genre.name || genre.title || 'Без жанра'
-  }
-
-  if (Array.isArray(genres) && genres.length > 0) {
-    return genres[0].name || genres[0].title || 'Без жанра'
-  }
-
-  return 'Без жанра'
+  return (
+    genres
+      .map((item) => item.genre_name)
+      .filter(Boolean)
+      .join(', ') || 'Без жанра'
+  )
 }
 
 const getAuthorName = (authors?: BookDto['authors']) => {
@@ -22,22 +19,29 @@ const getAuthorName = (authors?: BookDto['authors']) => {
     return 'Автор неизвестен'
   }
 
-  const firstAuthor = authors[0]
-
-  return firstAuthor.full_name || firstAuthor.name || 'Автор неизвестен'
+  return (
+    authors
+      .map((author) =>
+        [author.last_name, author.first_name, author.middle_name]
+          .filter(Boolean)
+          .join(' ')
+      )
+      .filter(Boolean)
+      .join(', ') || 'Автор неизвестен'
+  )
 }
 
 const mapGenre = (genre: GenreDto, index: number): Genre => ({
-  id: genre.genre_id ?? genre.id ?? index,
-  name: genre.name ?? genre.title ?? `Жанр ${index + 1}`,
+  id: genre.genre_id ?? index,
+  name: genre.genre_name ?? `Жанр ${index + 1}`,
 })
 
 const mapBook = (book: BookDto, index: number): Book => ({
-  id: book.book_id ?? book.id ?? index,
-  title: book.title ?? book.name ?? `Книга ${index + 1}`,
-  genre: getGenreName(book.genre, book.genres),
+  id: book.book_id ?? index,
+  title: book.book_title ?? `Книга ${index + 1}`,
+  genre: getGenreName(book.genres),
   author: getAuthorName(book.authors),
-  publisher: book.publisher?.name ?? 'Издательство не указано',
+  publisher: book.publisher?.publisher_name ?? 'Издательство не указано',
 })
 
 export const getGenres = async (): Promise<Genre[]> => {
@@ -52,7 +56,6 @@ export const getGenres = async (): Promise<Genre[]> => {
   }
 
   const data: GenreDto[] = await response.json()
-
   return data.map(mapGenre)
 }
 
@@ -68,6 +71,5 @@ export const getBooks = async (): Promise<Book[]> => {
   }
 
   const data: BookDto[] = await response.json()
-
   return data.map(mapBook)
 }

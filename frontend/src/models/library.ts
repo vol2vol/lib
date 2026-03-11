@@ -1,19 +1,28 @@
 export type GenreDto = {
   genre_id?: number
-  id?: number
-  name?: string
-  title?: string
+  genre_name?: string
+  created_at?: string | null
+  updated_at?: string | null
+}
+
+export type AuthorDto = {
+  author_id?: number
+  last_name?: string
+  first_name?: string
+  middle_name?: string
+}
+
+export type PublisherDto = {
+  publisher_id?: number
+  publisher_name?: string
 }
 
 export type BookDto = {
   book_id?: number
-  id?: number
-  title?: string
-  name?: string
-  genre?: string | { name?: string; title?: string }
-  genres?: Array<{ name?: string; title?: string }>
-  authors?: Array<{ name?: string; full_name?: string }>
-  publisher?: { name?: string }
+  book_title?: string
+  genres?: GenreDto[]
+  authors?: AuthorDto[]
+  publisher?: PublisherDto
 }
 
 export type Genre = {
