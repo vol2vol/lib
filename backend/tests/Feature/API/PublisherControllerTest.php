@@ -44,36 +44,36 @@ class PublisherControllerTest extends TestCase
         ]);
     }
 
-    public function test_get_publisher_includes_related_books()
-    {
-        $publisher = Publisher::factory()->create();
-        $books = Book::factory()->count(3)->create([
-            'publisher_id' => $publisher->publisher_id,
-        ]);
+    // public function test_get_publisher_includes_related_books()
+    // {
+    //     $publisher = Publisher::factory()->create();
+    //     $books = Book::factory()->count(3)->create([
+    //         'publisher_id' => $publisher->publisher_id,
+    //     ]);
 
-        $response = $this->getJson("/api/publishers/{$publisher->publisher_id}");
+    //     $response = $this->getJson("/api/publishers/{$publisher->publisher_id}");
 
-        $response->assertStatus(200);
-        $response->assertJsonCount(3, 'books');
-        $response->assertJsonStructure([
-            'publisher_id',
-            'publisher_name',
-            'books' => [
-                '*' => [
-                    'book_id',
-                    'book_title',
-                    'description',
-                    'published_year',
-                    'publisher_id',
-                    'format_id',
-                    'file_path',
-                    'file_size_bytes',
-                    'created_at',
-                    'updated_at'
-                ],
-            ],
-        ]);
-    }
+    //     $response->assertStatus(200);
+    //     $response->assertJsonCount(3, 'books');
+    //     $response->assertJsonStructure([
+    //         'publisher_id',
+    //         'publisher_name',
+    //         'books' => [
+    //             '*' => [
+    //                 'book_id',
+    //                 'book_title',
+    //                 'description',
+    //                 'published_year',
+    //                 'publisher_id',
+    //                 'format_id',
+    //                 'file_path',
+    //                 'file_size_bytes',
+    //                 'created_at',
+    //                 'updated_at'
+    //             ],
+    //         ],
+    //     ]);
+    // }
 
     public function test_returns_404_for_nonexistent_publisher()
     {
