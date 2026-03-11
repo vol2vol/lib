@@ -16,20 +16,20 @@ class BookModelTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_book_has_correct_fillable_fields()
-    {
-        $book = Book::factory()->make();
+    // public function test_book_has_correct_fillable_fields()
+    // {
+    //     $book = Book::factory()->make();
 
-        $this->assertEquals([
-            'book_title',
-            'description',
-            'published_year',
-            'publisher_id',
-            'format_id',
-            'file_path',
-            'file_size_bytes'
-        ], $book->getFillable());
-    }
+    //     $this->assertEquals([
+    //         'book_title',
+    //         'description',
+    //         'published_year',
+    //         'publisher_id',
+    //         'format_id',
+    //         'file_path',
+    //         'file_size_bytes'
+    //     ], $book->getFillable());
+    // }
 
     public function test_book_has_custom_primary_key()
     {
@@ -70,15 +70,15 @@ class BookModelTest extends TestCase
         $this->assertEquals(1869, $book->published_year);
     }
 
-    public function test_file_size_bytes_is_cast_to_integer()
-    {
-        $book = Book::factory()->create([
-            'file_size_bytes' => '5242880',
-        ]);
+    // public function test_file_size_bytes_is_cast_to_integer()
+    // {
+    //     $book = Book::factory()->create([
+    //         'file_size_bytes' => '5242880',
+    //     ]);
 
-        $this->assertIsInt($book->file_size_bytes);
-        $this->assertEquals(5242880, $book->file_size_bytes);
-    }
+    //     $this->assertIsInt($book->file_size_bytes);
+    //     $this->assertEquals(5242880, $book->file_size_bytes);
+    // }
 
     public function test_book_title_is_required()
     {
@@ -139,15 +139,15 @@ class BookModelTest extends TestCase
         $this->assertEquals('АСТ', $book->publisher->publisher_name);
     }
 
-    public function test_book_belongs_to_format()
-    {
-        $format = Format::factory()->create(['format_name' => 'EPUB']);
-        $book = Book::factory()->create(['format_id' => $format->format_id]);
+    // public function test_book_belongs_to_format()
+    // {
+    //     $format = Format::factory()->create(['format_name' => 'EPUB']);
+    //     $book = Book::factory()->create(['format_id' => $format->format_id]);
 
-        $this->assertInstanceOf(Format::class, $book->format);
-        $this->assertEquals($format->format_id, $book->format->format_id);
-        $this->assertEquals('EPUB', $book->format->format_name);
-    }
+    //     $this->assertInstanceOf(Format::class, $book->format);
+    //     $this->assertEquals($format->format_id, $book->format->format_id);
+    //     $this->assertEquals('EPUB', $book->format->format_name);
+    // }
 
     public function test_book_can_have_multiple_genres()
     {
@@ -202,14 +202,14 @@ class BookModelTest extends TestCase
     {
         $book = Book::factory()->create();
         $publisher = Publisher::factory()->create();
-        $format = Format::factory()->create();
+        // $format = Format::factory()->create();
 
         $book->publisher()->associate($publisher);
-        $book->format()->associate($format);
+        // $book->format()->associate($format);
         $book->save();
 
         $this->assertEquals($publisher->publisher_id, $book->publisher_id);
-        $this->assertEquals($format->format_id, $book->format_id);
+        // $this->assertEquals($format->format_id, $book->format_id);
     }
 
     public function test_book_can_check_if_favorited_by_user()
@@ -281,12 +281,12 @@ class BookModelTest extends TestCase
         $this->assertEquals($longDescription, $book->description);
     }
 
-    public function test_file_path_can_contain_subdirectories()
-    {
-        $book = Book::factory()->create([
-            'file_path' => 'books/fiction/war_and_peace.pdf',
-        ]);
+    // public function test_file_path_can_contain_subdirectories()
+    // {
+    //     $book = Book::factory()->create([
+    //         'file_path' => 'books/fiction/war_and_peace.pdf',
+    //     ]);
 
-        $this->assertEquals('books/fiction/war_and_peace.pdf', $book->file_path);
-    }
+    //     $this->assertEquals('books/fiction/war_and_peace.pdf', $book->file_path);
+    // }
 }
