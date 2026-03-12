@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
          User::firstOrCreate(
             ['login' => 'admin'],
             [
-                'password' => Hash::make('password'),
+                'password' => 'password',
                 'role_id' => 1,
             ]
         );
@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
         User::firstOrCreate(
             ['login' => 'user'],
             [
-                'password' => Hash::make('password'),
+                'password' => 'password',
                 'role_id' => 2,
             ]
         );
