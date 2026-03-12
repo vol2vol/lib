@@ -7,6 +7,7 @@ use App\Http\Controllers\API\AuthorController;
 use App\Http\Controllers\API\PublisherController;
 use App\Http\Controllers\API\FormatController;
 use App\Http\Controllers\API\BookController;
+use App\Http\Controllers\API\FileController;
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
@@ -33,18 +34,14 @@ Route::get('/formats/{id}', [FormatController::class, 'show']);
 Route::get('/books', [BookController::class, 'index']);
 Route::get('/books/{id}', [BookController::class, 'show']);
 
+Route::get('/covers/{filename}', [FileController::class, 'getCover']);
+
 // Приватные маршруты
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::get('/books/file/{fileId}/read', [FileController::class, 'readFile']);
+    Route::get('/books/file/{fileId}/download', [FileController::class, 'downloadFile']);
 });
 
-
-// ТЕСТОВЫЙ МАРШРУТ ДЛЯ ПРОВЕРКИ АДМИНА
-Route::middleware(['auth:sanctum', 'admin'])->get('/admin-test', function() {
-    return response()->json([
-        'success' => true,
-        'message' => 'Вы админ! Доступ разрешен'
-    ]);
-});

@@ -29,7 +29,7 @@ class BookController extends Controller
                 'success' => false,
                 'message' => 'Ошибка валидации параметров',
                 'errors' => $validator->errors()
-            ], 422);
+            ], 422, [], JSON_UNESCAPED_UNICODE);
         }
 
         $query = Book::with([
@@ -164,6 +164,7 @@ class BookController extends Controller
                 'book_id' => $book->book_id,
                 'book_title' => $book->book_title,
                 'published_year' => $book->published_year,
+                'cover_url' => $book->cover_path ? '/api/covers/' . basename($book->cover_path) : null,
                 'genres' => $book->genres->map(fn($genre) => [
                     'genre_id' => $genre->genre_id,
                     'genre_name' => $genre->genre_name
@@ -202,6 +203,7 @@ class BookController extends Controller
                 'book_title' => $book->book_title,
                 'description' => $book->description,
                 'published_year' => $book->published_year,
+                'cover_url' => $book->cover_path ? '/api/covers/' . basename($book->cover_path) : null,
                 'genres' => $book->genres->map(fn($genre) => [
                     'genre_id' => $genre->genre_id,
                     'genre_name' => $genre->genre_name
@@ -220,9 +222,10 @@ class BookController extends Controller
                     'file_id' => $file->file_id,
                     'format_id' => $file->format_id,
                     'format_name' => $file->format->format_name,
-                    'file_path' => $file->file_path,
                     'file_size_bytes' => $file->file_size_bytes,
-                    'file_size_mb' => round($file->file_size_bytes / 1048576, 2)
+                    'file_size_mb' => round($file->file_size_bytes / 1048576, 2),
+                    'read_url' => '/api/books/file/' . $file->file_id . '/read',
+                    'download_url' => '/api/books/file/' . $file->file_id . '/download'
                 ]),
             ]
         ];
