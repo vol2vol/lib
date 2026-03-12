@@ -8,6 +8,7 @@ use App\Http\Controllers\API\PublisherController;
 use App\Http\Controllers\API\FormatController;
 use App\Http\Controllers\API\BookController;
 use App\Http\Controllers\API\FileController;
+use App\Http\Controllers\API\FavoriteController;
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
@@ -43,5 +44,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::get('/books/file/{fileId}/read', [FileController::class, 'readFile']);
     Route::get('/books/file/{fileId}/download', [FileController::class, 'downloadFile']);
+
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/favorites/{book}', [FavoriteController::class, 'store']);
+    Route::delete('/favorites/{book}', [FavoriteController::class, 'remove']);
 });
 
