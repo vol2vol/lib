@@ -40,4 +40,11 @@ class BookFactory extends Factory
             );
         });
     }
+
+    public function withGenre(Genre $genre): static
+    {
+        return $this->afterCreating(function (Book $book) use ($genre) {
+            $book->genres()->attach($genre);
+        });
+    }
 }
