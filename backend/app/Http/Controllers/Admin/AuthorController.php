@@ -26,7 +26,7 @@ class AuthorController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Только администраторы могут просматривать авторов'
-                ], 403);
+                ], 403, [], JSON_UNESCAPED_UNICODE);
             }
 
             $authors = Author::withCount('books')->paginate(20);
@@ -41,7 +41,7 @@ class AuthorController extends Controller
                 'success' => false,
                 'message' => 'Ошибка получения списка авторов',
                 'error' => config('app.debug') ? $e->getMessage() : null
-            ], 500);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -55,14 +55,14 @@ class AuthorController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Необходимо авторизоваться'
-                ], 401);
+                ], 401, [], JSON_UNESCAPED_UNICODE);
             }
 
             if (auth()->user()->role_id != 1) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Только администраторы могут создавать авторов'
-                ], 403);
+                ], 403, [], JSON_UNESCAPED_UNICODE);
             }
 
             $validator = Validator::make($request->all(), [
@@ -77,7 +77,7 @@ class AuthorController extends Controller
                     'success' => false,
                     'message' => 'Ошибка валидации',
                     'errors' => $validator->errors()
-                ], 422);
+                ], 422, [], JSON_UNESCAPED_UNICODE);
             }
 
             $author = Author::create([
@@ -91,14 +91,14 @@ class AuthorController extends Controller
                 'success' => true,
                 'message' => 'Автор успешно создан',
                 'data' => $author
-            ], 201);
+            ], 201, [], JSON_UNESCAPED_UNICODE);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Ошибка при создании автора',
                 'error' => config('app.debug') ? $e->getMessage() : null
-            ], 500);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -112,14 +112,14 @@ class AuthorController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Необходимо авторизоваться'
-                ], 401);
+                ], 401, [], JSON_UNESCAPED_UNICODE);
             }
 
             if (auth()->user()->role_id != 1) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Только администраторы могут просматривать авторов'
-                ], 403);
+                ], 403, [], JSON_UNESCAPED_UNICODE);
             }
 
             $author = Author::with('books')->find($id);
@@ -128,7 +128,7 @@ class AuthorController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Автор не найден'
-                ], 404);
+                ], 404, [], JSON_UNESCAPED_UNICODE);
             }
 
             return response()->json([
@@ -141,7 +141,7 @@ class AuthorController extends Controller
                 'success' => false,
                 'message' => 'Ошибка получения автора',
                 'error' => config('app.debug') ? $e->getMessage() : null
-            ], 500);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -155,14 +155,14 @@ class AuthorController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Необходимо авторизоваться'
-                ], 401);
+                ], 401, [], JSON_UNESCAPED_UNICODE);
             }
 
             if (auth()->user()->role_id != 1) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Только администраторы могут обновлять авторов'
-                ], 403);
+                ], 403, [], JSON_UNESCAPED_UNICODE);
             }
 
             $author = Author::find($id);
@@ -171,7 +171,7 @@ class AuthorController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Автор не найден'
-                ], 404);
+                ], 404, [], JSON_UNESCAPED_UNICODE);
             }
 
             $validator = Validator::make($request->all(), [
@@ -186,7 +186,7 @@ class AuthorController extends Controller
                     'success' => false,
                     'message' => 'Ошибка валидации',
                     'errors' => $validator->errors()
-                ], 422);
+                ], 422, [], JSON_UNESCAPED_UNICODE);
             }
 
             $author->update($request->only([
@@ -204,7 +204,7 @@ class AuthorController extends Controller
                 'success' => false,
                 'message' => 'Ошибка при обновлении автора',
                 'error' => config('app.debug') ? $e->getMessage() : null
-            ], 500);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -219,14 +219,14 @@ class AuthorController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Необходимо авторизоваться'
-                ], 401);
+                ], 401, [], JSON_UNESCAPED_UNICODE);
             }
 
             if (auth()->user()->role_id != 1) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Только администраторы могут удалять авторов'
-                ], 403);
+                ], 403, [], JSON_UNESCAPED_UNICODE);
             }
 
             $author = Author::find($id);
@@ -235,15 +235,14 @@ class AuthorController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Автор не найден'
-                ], 404);
+                ], 404, [], JSON_UNESCAPED_UNICODE);
             }
 
-            // Проверяем, есть ли книги у этого автора
             if ($author->books()->count() > 0) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Нельзя удалить автора, у которого есть книги'
-                ], 422);
+                ], 422, [], JSON_UNESCAPED_UNICODE);
             }
 
             $author->delete();
@@ -258,7 +257,7 @@ class AuthorController extends Controller
                 'success' => false,
                 'message' => 'Ошибка при удалении автора',
                 'error' => config('app.debug') ? $e->getMessage() : null
-            ], 500);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 }
