@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Seeder;
 
 use App\Models\Role;
 use Database\Seeders\RoleSeeder;
