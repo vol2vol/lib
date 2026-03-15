@@ -15,10 +15,8 @@ class FavoriteBookSeeder extends Seeder
         $books = Book::all();
 
         foreach ($users as $user) {
-            $randomBooks = $books->random(rand(3, 8));
-
-            foreach ($randomBooks as $book) {
-                DB::table('favorite_books')->insert([
+            foreach ($books as $book) {
+                DB::table('favorite_books')->insertOrIgnore([
                     'user_id' => $user->user_id,
                     'book_id' => $book->book_id,
                     'created_at' => now(),
