@@ -23,8 +23,8 @@ class RoleSeederTest extends TestCase
     public function test_role_seeder_does_not_duplicate_roles()
     {
         $this->seed(RoleSeeder::class);
-        $this->seed(RoleSeeder::class); // Запускаем дважды
+        $this->seed(RoleSeeder::class);
 
-        $this->assertDatabaseCount('roles', 2); // Должно остаться 2
+        $this->assertDatabaseCount('roles', 2);
     }
 }
