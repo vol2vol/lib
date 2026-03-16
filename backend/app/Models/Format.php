@@ -13,8 +13,8 @@ class Format extends Model
     public $timestamps = true;
     protected $fillable = ['format_name'];
 
-    public function books()
+    public function files()
     {
-        return $this->hasMany(Book::class, 'format_id', 'format_id');
+        return $this->hasMany(BookFile::class, 'format_id', 'format_id');
     }
 }
