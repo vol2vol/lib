@@ -4,7 +4,9 @@ namespace Tests\Unit\Model;
 
 use App\Models\Format;
 use App\Models\Book;
+use App\Models\BookFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\QueryException;
 use Tests\TestCase;
 
 class FormatModelTest extends TestCase
@@ -45,41 +47,41 @@ class FormatModelTest extends TestCase
         ]);
     }
 
-    // public function test_format_has_many_books()
-    // {
-    //     $format = Format::factory()->create();
-    //     $books = Book::factory()->count(3)->create([
-    //         'format_id' => $format->format_id,
-    //     ]);
+    public function test_format_has_many_book_files()
+    {
+        $format = Format::factory()->create();
+        $book_files = BookFile::factory()->count(3)->create([
+            'format_id' => $format->format_id
+        ]);
 
-    //     $this->assertCount(3, $format->books);
-    //     $this->assertInstanceOf(Book::class, $format->books->first());
-    // }
+        $this->assertCount(3, $format->files);
+        $this->assertInstanceOf(BookFile::class, $format->files()->first());
+    }
 
-    // public function test_format_books_relationship_uses_correct_foreign_key()
-    // {
-    //     $format = Format::factory()->create();
-    //     $book = Book::factory()->create([
-    //         'format_id' => $format->format_id,
-    //     ]);
+    public function test_format_book_files_relationship_uses_correct_foreign_key()
+    {
+        $format = Format::factory()->create();
+        $book_file = BookFile::factory()->create([
+            'format_id' => $format->format_id,
+        ]);
 
-    //     $this->assertTrue($format->books->contains($book));
-    //     $this->assertEquals($format->format_id, $book->format_id);
-    // }
+        $this->assertTrue($format->files->contains($book_file));
+        $this->assertEquals($format->format_id, $book_file->format_id);
+    }
 
-    // public function test_format_can_have_no_books()
-    // {
-    //     $format = Format::factory()->create();
+    public function test_format_can_have_no_book_files()
+    {
+        $format = Format::factory()->create();
 
-    //     $this->assertCount(0, $format->books);
-    // }
+        $this->assertCount(0, $format->files);
+    }
 
     public function test_format_books_relationship_has_correct_keys()
     {
         $format = Format::factory()->create();
         
         // Проверяем, что отношение использует правильные ключи
-        $relation = $format->books();
+        $relation = $format->files();
         
         $this->assertEquals('format_id', $relation->getForeignKeyName());
         $this->assertEquals('format_id', $relation->getLocalKeyName());
@@ -87,18 +89,18 @@ class FormatModelTest extends TestCase
 
     public function test_format_name_is_required()
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
 
         Format::create([]);
     }
 
-    // public function test_format_name_must_be_unique()
-    // {
-    //     Format::factory()->create(['format_name' => 'EPUB']);
+    public function test_format_name_must_be_unique()
+    {
+        Format::factory()->create(['format_name' => 'EPUB']);
 
-    //     $this->expectException(\Illuminate\Database\QueryException::class);
-    //     Format::factory()->create(['format_name' => 'EPUB']);
-    // }
+        $this->expectException(QueryException::class);
+        Format::factory()->create(['format_name' => 'EPUB']);
+    }
 
     public function test_format_name_can_contain_russian_letters()
     {
