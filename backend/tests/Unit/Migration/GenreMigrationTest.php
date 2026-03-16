@@ -27,6 +27,14 @@ class GenreMigrationTest extends TestCase
         $this->assertTrue($primaryKeyColumn['auto_increment']);
     }
 
+    public function test_genre_id_cannot_be_null()
+    {
+        $columns = Schema::getColumns('genres');
+        $genreNameColumn = collect($columns)->firstWhere('name', 'genre_id');
+
+        $this->assertFalse($genreNameColumn['nullable']);
+    }
+
     public function test_genre_name_cannot_be_null()
     {
         $columns = Schema::getColumns('genres');

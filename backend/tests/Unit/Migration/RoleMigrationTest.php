@@ -26,4 +26,20 @@ class RoleMigrationTest extends TestCase
 
         $this->assertTrue($primaryKeyColumn['auto_increment']);
     }
+
+    public function test_role_id_cannot_be_null()
+    {
+        $columns = Schema::getColumns('roles');
+        $publisherNameColumn = collect($columns)->firstWhere('name', 'role_id');
+
+        $this->assertFalse($publisherNameColumn['nullable']);
+    }
+
+    public function test_role_name_cannot_be_null()
+    {
+        $columns = Schema::getColumns('roles');
+        $publisherNameColumn = collect($columns)->firstWhere('name', 'role_name');
+
+        $this->assertFalse($publisherNameColumn['nullable']);
+    }
 }

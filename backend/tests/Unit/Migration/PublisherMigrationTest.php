@@ -27,6 +27,14 @@ class PublisherMigrationTest extends TestCase
         $this->assertTrue($primaryKeyColumn['auto_increment']);
     }
 
+    public function test_publisher_id_cannot_be_null()
+    {
+        $columns = Schema::getColumns('publishers');
+        $publisherNameColumn = collect($columns)->firstWhere('name', 'publisher_id');
+
+        $this->assertFalse($publisherNameColumn['nullable']);
+    }
+
     public function test_publisher_name_cannot_be_null()
     {
         $columns = Schema::getColumns('publishers');
