@@ -1,162 +1,74 @@
-import { API_BASE_URL } from './api'
+import { buildUrl, createHeaders, parseResponse } from './http'
+import type {
+  AuthResponseDto,
+  AuthResult,
+  LoginPayload,
+  RegisterPayload,
+  User,
+  UserDto,
+} from '@models/auth'
 
-type RegisterPayload = {
-  login: string
-  password: string
-  password_confirmation: string
-}
+const mapUser = (user?: UserDto | null): User | null => {
+  if (!user) {
+    return null
+  }
 
-type LoginPayload = {
-  login: string
-  password: string
-}
-
-type AuthResponse = {
-  access_token: string
-  token_type: string
-  user: {
-    user_id: number
-    login: string
-    role_id: number
-    created_at: string
-    updated_at: string
+  return {
+    id: user.user_id ?? 0,
+    login: user.login ?? '',
+    roleId: user.role_id ?? null,
+    createdAt: user.created_at ?? null,
+    updatedAt: user.updated_at ?? null,
   }
 }
 
-type UserResponse = {
-  user_id: number
-  login: string
-  role_id: number
-  created_at: string
-  updated_at: string
-}
+const mapAuthResult = (data: AuthResponseDto): AuthResult => ({
+  accessToken: data.access_token ?? '',
+  tokenType: data.token_type ?? 'Bearer',
+  user: mapUser(data.user),
+})
 
-type ApiErrorData = {
-  message?: string
-  errors?: Record<string, string[]>
-}
-
-export class ApiError extends Error {
-  status: number
-  fieldErrors?: Record<string, string[]>
-
-  constructor(message: string, status: number, fieldErrors?: Record<string, string[]>) {
-    super(message)
-    this.name = 'ApiError'
-    this.status = status
-    this.fieldErrors = fieldErrors
-  }
-}
-
-const translateErrorMessage = (message: string) => {
-  const messagesMap: Record<string, string> = {
-    'The login has already been taken.': 'Этот логин уже занят.',
-    'The password field must be at least 8 characters.':
-      'Пароль должен содержать минимум 8 символов.',
-    'The password confirmation does not match.': 'Пароли не совпадают.',
-    'The login field is required.': 'Введите логин.',
-    'The password field is required.': 'Введите пароль.',
-    'The password confirmation field is required.': 'Подтвердите пароль.',
-    'The provided credentials are incorrect.': 'Неверный логин или пароль.',
-    Unauthorized: 'Необходима авторизация.',
-    Unauthenticated: 'Необходима авторизация.',
-  }
-
-  return messagesMap[message] || message
-}
-
-async function parseResponse<T>(response: Response): Promise<T> {
-  const raw = await response.clone().text()
-
-  let data: unknown = null
-
-  try {
-    data = raw ? JSON.parse(raw) : null
-  } catch {
-    if (!response.ok) {
-      throw new Error('Некорректный ответ сервера')
-    }
-
-    return null as T
-  }
-
-  if (!response.ok) {
-    const errorData = (data ?? {}) as ApiErrorData
-
-    const fieldErrors = errorData.errors
-      ? Object.fromEntries(
-          Object.entries(errorData.errors).map(([key, messages]) => [
-            key,
-            messages.map(translateErrorMessage),
-          ])
-        )
-      : undefined
-
-    const fieldMessage = fieldErrors
-      ? Object.values(fieldErrors).flat().join('\n')
-      : ''
-
-    const commonMessage = errorData.message
-      ? translateErrorMessage(errorData.message)
-      : ''
-
-    const message =
-      fieldMessage ||
-      commonMessage ||
-      `Ошибка запроса: ${response.status}`
-
-    throw new ApiError(message, response.status, fieldErrors)
-  }
-
-  return data as T
-}
-
-export async function registerUser(payload: RegisterPayload): Promise<AuthResponse> {
-  const response = await fetch(`${API_BASE_URL}/register`, {
+export async function registerUser(payload: RegisterPayload): Promise<AuthResult> {
+  const response = await fetch(buildUrl('/register'), {
     method: 'POST',
-    headers: {
+    headers: createHeaders(undefined, {
       'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
+    }),
     body: JSON.stringify(payload),
   })
 
-  return parseResponse<AuthResponse>(response)
+  const data = await parseResponse<AuthResponseDto>(response)
+  return mapAuthResult(data)
 }
 
-export async function loginUser(payload: LoginPayload): Promise<AuthResponse> {
-  const response = await fetch(`${API_BASE_URL}/login`, {
+export async function loginUser(payload: LoginPayload): Promise<AuthResult> {
+  const response = await fetch(buildUrl('/login'), {
     method: 'POST',
-    headers: {
+    headers: createHeaders(undefined, {
       'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
+    }),
     body: JSON.stringify(payload),
   })
 
-  return parseResponse<AuthResponse>(response)
+  const data = await parseResponse<AuthResponseDto>(response)
+  return mapAuthResult(data)
 }
 
 export async function logoutUser(token: string): Promise<void> {
-  const response = await fetch(`${API_BASE_URL}/logout`, {
+  const response = await fetch(buildUrl('/logout'), {
     method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
+    headers: createHeaders(token),
   })
 
   await parseResponse<void>(response)
 }
 
-export async function getCurrentUser(token: string): Promise<UserResponse> {
-  const response = await fetch(`${API_BASE_URL}/user`, {
+export async function getCurrentUser(token: string): Promise<User | null> {
+  const response = await fetch(buildUrl('/user'), {
     method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
+    headers: createHeaders(token),
   })
 
-  return parseResponse<UserResponse>(response)
+  const data = await parseResponse<UserDto>(response)
+  return mapUser(data)
 }

@@ -22,10 +22,10 @@ export const HomePage = () => {
         setIsLoading(true)
         setError('')
 
-        const [genresData, booksData] = await Promise.all([getGenres(), getBooks()])
+        const [genresData, booksResponse] = await Promise.all([getGenres(), getBooks()])
 
         setGenres(genresData)
-        setBooks(booksData)
+        setBooks(booksResponse.items)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Произошла ошибка при загрузке данных')
       } finally {

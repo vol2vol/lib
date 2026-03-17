@@ -2,7 +2,8 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Icon } from '@components/Icon'
-import { ApiError, registerUser } from '@api/auth'
+import { registerUser } from '@api/auth'
+import { ApiError } from '@api/http'
 import styles from './SignUpPage.module.css'
 
 type FieldErrors = {
@@ -56,7 +57,7 @@ export const SignUpPage = () => {
         password_confirmation: passwordConfirmation,
       })
 
-      const token = data.access_token
+      const token = data.accessToken
 
       if (token) {
         localStorage.setItem('token', token)

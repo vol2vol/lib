@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Icon } from '@components/Icon'
-import { ApiError, loginUser } from '@api/auth'
+import { loginUser } from '@api/auth'
+import { ApiError } from '@api/http'
 import styles from './SignInPage.module.css'
 
 type FieldErrors = {
@@ -42,7 +43,7 @@ export const SignInPage = () => {
         password,
       })
 
-      const token = data.access_token
+      const token = data.accessToken
 
       if (token) {
         localStorage.setItem('token', token)

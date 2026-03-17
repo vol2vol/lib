@@ -1,19 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { getCurrentUser, logoutUser } from '@api/auth'
+import { ApiError } from '@api/http'
 import { getBooks } from '@api/library'
-import { ApiError, getCurrentUser, logoutUser } from '@api/auth'
 import { BookList } from '@components/BookList'
 import { Header } from '@components/Header'
-import type { Book } from 'models/library'
+import type { User } from '@models/auth'
+import type { Book } from '@models/library'
 import styles from './ProfilePage.module.css'
-
-type User = {
-  user_id: number
-  login: string
-  role_id: number
-  created_at: string
-  updated_at: string
-}
 
 export const ProfilePage = () => {
   const navigate = useNavigate()
@@ -43,7 +37,7 @@ export const ProfilePage = () => {
         ])
 
         setUser(userData)
-        setBooks(booksData)
+        setBooks(booksData.items)
       } catch (err) {
         localStorage.removeItem('token')
 
@@ -77,6 +71,8 @@ export const ProfilePage = () => {
       localStorage.removeItem('token')
       navigate('/signin', { replace: true })
       return
+    } finally {
+      setIsLogoutLoading(false)
     }
 
     localStorage.removeItem('token')
