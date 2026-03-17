@@ -158,3 +158,15 @@
 .inputError {
   outline: 2px solid #d92d20;
 }
+.back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.container {
+  position: relative;
+}

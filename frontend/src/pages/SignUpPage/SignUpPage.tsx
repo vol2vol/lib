@@ -87,6 +87,9 @@ export const SignUpPage = () => {
   return (
     <main className={styles.signUpPage}>
       <section className={styles.content}>
+        <button className={styles.back} onClick={() => navigate('/library')}>
+          <Icon name="BackButtun" size={20} />
+        </button>
         <Icon name="Logo" className={styles.logo} />
 
         <p className={styles.subtitle}>Чтобы присоединиться, зарегистрируйтесь</p>

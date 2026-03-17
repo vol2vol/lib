@@ -72,6 +72,9 @@ export const SignInPage = () => {
   return (
     <main className={styles.signInPage}>
       <section className={styles.content}>
+      <button className={styles.back} onClick={() => navigate('/library')}>
+        <Icon name="BackButtun" size={20} />
+      </button>
         <Icon name="Logo" className={styles.logo} />
 
         <p className={styles.subtitle}>Чтобы войти, введите данные аккаунта</p>
