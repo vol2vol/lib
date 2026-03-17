@@ -54,8 +54,8 @@ class FormatModelTest extends TestCase
             'format_id' => $format->format_id
         ]);
 
-        $this->assertCount(3, $format->files);
-        $this->assertInstanceOf(BookFile::class, $format->files()->first());
+        $this->assertCount(3, $format->bookFiles);
+        $this->assertInstanceOf(BookFile::class, $format->bookFiles()->first());
     }
 
     public function test_format_book_files_relationship_uses_correct_foreign_key()
@@ -65,7 +65,7 @@ class FormatModelTest extends TestCase
             'format_id' => $format->format_id,
         ]);
 
-        $this->assertTrue($format->files->contains($book_file));
+        $this->assertTrue($format->bookFiles->contains($book_file));
         $this->assertEquals($format->format_id, $book_file->format_id);
     }
 
@@ -73,7 +73,7 @@ class FormatModelTest extends TestCase
     {
         $format = Format::factory()->create();
 
-        $this->assertCount(0, $format->files);
+        $this->assertCount(0, $format->bookFiles);
     }
 
     public function test_format_books_relationship_has_correct_keys()
@@ -81,7 +81,7 @@ class FormatModelTest extends TestCase
         $format = Format::factory()->create();
         
         // Проверяем, что отношение использует правильные ключи
-        $relation = $format->files();
+        $relation = $format->bookFiles();
         
         $this->assertEquals('format_id', $relation->getForeignKeyName());
         $this->assertEquals('format_id', $relation->getLocalKeyName());
