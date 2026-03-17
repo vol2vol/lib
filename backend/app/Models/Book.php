@@ -47,6 +47,11 @@ class Book extends Model
         return $this->hasMany(BookFile::class, 'book_id', 'book_id');
     }
 
+    public function formats()
+    {
+        return $this->belongsToMany(Format::class, 'book_files', 'book_id', 'format_id');
+    }
+
     public function favoritedBy()
     {
         return $this->belongsToMany(User::class, 'favorite_books', 'book_id', 'user_id');
