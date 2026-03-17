@@ -4,6 +4,7 @@ import { SignUpPage } from '@pages/SignUpPage'
 import { SignInPage } from '@pages/SignInPage'
 import { HomePage } from '@pages/HomePage'
 import { ProfilePage } from '@pages/ProfilePage'
+import { GenrePage } from '@pages/GenrePage'
 
 export const App = () => {
   return (
@@ -13,6 +14,7 @@ export const App = () => {
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/library" element={<HomePage />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/library/genres/:genreId" element={<GenrePage />} />
     </Routes>
   )
 }

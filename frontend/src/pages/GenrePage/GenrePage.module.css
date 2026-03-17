@@ -1,0 +1,59 @@
+.genrePage {
+  min-height: 100vh;
+  background: #eeeeee;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 20px 32px 40px;
+}
+
+.title {
+  margin: 0 0 24px;
+  color: var(--color-text-primary);
+  font-size: clamp(32px, 4vw, 64px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  column-gap: 24px;
+  row-gap: 28px;
+}
+
+.state,
+.error {
+  margin: 0;
+  font-size: 24px;
+}
+
+.error {
+  color: #b42318;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .container {
+    padding: 20px 16px 32px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+    gap: 20px 16px;
+  }
+}
+
+@media (max-width: 540px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

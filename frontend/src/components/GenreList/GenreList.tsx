@@ -5,9 +5,10 @@ import styles from './GenreList.module.css'
 
 type GenreListProps = {
   genres: Genre[]
+  onGenreClick?: (genre: Genre) => void
 }
 
-export const GenreList = ({ genres }: GenreListProps) => {
+export const GenreList = ({ genres, onGenreClick }: GenreListProps) => {
   const columns = useMemo(() => {
     const result: Genre[][] = []
 
@@ -35,7 +36,11 @@ export const GenreList = ({ genres }: GenreListProps) => {
         {columns.map((column, index) => (
           <div key={index} className={styles.column}>
             {column.map((genre) => (
-              <GenreCard key={genre.id} name={genre.name} />
+              <GenreCard
+                key={genre.id}
+                name={genre.name}
+                onClick={onGenreClick ? () => onGenreClick(genre) : undefined}
+              />
             ))}
           </div>
         ))}
