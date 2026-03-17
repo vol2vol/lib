@@ -85,7 +85,11 @@ export const GenrePage = () => {
           filteredBooks.length > 0 ? (
             <div className={styles.grid}>
               {filteredBooks.map((book) => (
-                <BookCard key={book.id} book={book} />
+                <BookCard
+                  key={book.id}
+                  book={book}
+                  onClick={() => navigate(`/library/books/${book.id}`)}
+                />
               ))}
             </div>
           ) : (

@@ -1,13 +1,34 @@
+import type { KeyboardEvent } from 'react'
 import type { Book } from '@models/library'
 import styles from './BookCard.module.css'
 
 type BookCardProps = {
   book: Book
+  onClick?: () => void
 }
 
-export const BookCard = ({ book }: BookCardProps) => {
+export const BookCard = ({ book, onClick }: BookCardProps) => {
+  const isInteractive = Boolean(onClick)
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (!onClick) {
+      return
+    }
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      onClick()
+    }
+  }
+
   return (
-    <article className={styles.bookCard}>
+    <article
+      className={`${styles.bookCard} ${isInteractive ? styles.interactive : ''}`}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      role={isInteractive ? 'button' : undefined}
+      tabIndex={isInteractive ? 0 : undefined}
+    >
       {book.coverUrl ? (
         <img
           className={styles.cover}

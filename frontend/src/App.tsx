@@ -5,6 +5,7 @@ import { SignInPage } from '@pages/SignInPage'
 import { HomePage } from '@pages/HomePage'
 import { ProfilePage } from '@pages/ProfilePage'
 import { GenrePage } from '@pages/GenrePage'
+import { BookPage } from '@pages/BookPage'
 
 export const App = () => {
   return (
@@ -13,8 +14,9 @@ export const App = () => {
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/library" element={<HomePage />} />
-      <Route path="/profile" element={<ProfilePage />} />
       <Route path="/library/genres/:genreId" element={<GenrePage />} />
+      <Route path="/library/books/:bookId" element={<BookPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
     </Routes>
   )
 }

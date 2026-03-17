@@ -4,7 +4,7 @@ import { getBooks, getGenres } from '@api/library'
 import { BookList } from '@components/BookList'
 import { GenreList } from '@components/GenreList'
 import { Header } from '@components/Header'
-import type { Book, Genre } from 'models/library'
+import type { Book, Genre } from '@models/library'
 import styles from './HomePage.module.css'
 
 export const HomePage = () => {
@@ -67,15 +67,15 @@ export const HomePage = () => {
           <>
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Жанры</h2>
-              <GenreList
-                genres={genres}
-                onGenreClick={(genre) => navigate(`/library/genres/${genre.id}`)}
-              />
+              <GenreList genres={genres} />
             </section>
 
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Популярное</h2>
-              <BookList books={filteredBooks} />
+              <BookList
+                books={filteredBooks}
+                onBookClick={(book) => navigate(`/library/books/${book.id}`)}
+              />
             </section>
           </>
         ) : null}

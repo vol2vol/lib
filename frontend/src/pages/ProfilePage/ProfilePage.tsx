@@ -99,7 +99,12 @@ export const ProfilePage = () => {
           {isLogoutLoading ? <p className={styles.state}>Выход...</p> : null}
           {error ? <p className={styles.error}>{error}</p> : null}
 
-          {!isLoading && !error ? <BookList books={books} /> : null}
+          {!isLoading && !error ? (
+            <BookList
+              books={books}
+              onBookClick={(book) => navigate(`/library/books/${book.id}`)}
+            />
+          ) : null}
         </section>
       </section>
     </main>
