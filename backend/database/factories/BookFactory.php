@@ -47,4 +47,11 @@ class BookFactory extends Factory
             $book->genres()->attach($genre);
         });
     }
+
+    public function withAuthor($author): static
+    {
+        return $this->afterCreating(function (Book $book) use ($author) {
+            $book->authors()->attach($author);
+        });
+    }
 }

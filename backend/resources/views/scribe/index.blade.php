@@ -26,7 +26,7 @@
             </style>
 
     <script>
-        var tryItOutBaseUrl = "http://localhost:8000";
+        var tryItOutBaseUrl = "http://localhost";
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
@@ -217,7 +217,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: March 12, 2026</li>
+        <li>Last updated: March 17, 2026</li>
     </ul>
 </div>
 
@@ -226,7 +226,7 @@
     <div class="content">
         <h1 id="introduction">Introduction</h1>
 <aside>
-    <strong>Base URL</strong>: <code>http://localhost:8000</code>
+    <strong>Base URL</strong>: <code>http://localhost</code>
 </aside>
 <pre><code>This documentation aims to provide all the information you need to work with our API.
 
@@ -253,14 +253,14 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/register" \
+    "http://localhost/api/register" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/register"
+    "http://localhost/api/register"
 );
 
 const headers = {
@@ -364,7 +364,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/login" \
+    "http://localhost/api/login" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -376,7 +376,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/login"
+    "http://localhost/api/login"
 );
 
 const headers = {
@@ -510,14 +510,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/logout" \
+    "http://localhost/api/logout" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/logout"
+    "http://localhost/api/logout"
 );
 
 const headers = {
@@ -621,14 +621,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/admin/books" \
+    --get "http://localhost/api/admin/books" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/books"
+    "http://localhost/api/admin/books"
 );
 
 const headers = {
@@ -750,14 +750,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/admin/books" \
+    "http://localhost/api/admin/books" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/books"
+    "http://localhost/api/admin/books"
 );
 
 const headers = {
@@ -861,14 +861,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/admin/books/architecto" \
+    --get "http://localhost/api/admin/books/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/books/architecto"
+    "http://localhost/api/admin/books/architecto"
 );
 
 const headers = {
@@ -1003,14 +1003,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/admin/books/architecto" \
+    "http://localhost/api/admin/books/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/books/architecto"
+    "http://localhost/api/admin/books/architecto"
 );
 
 const headers = {
@@ -1131,14 +1131,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/admin/books/architecto" \
+    "http://localhost/api/admin/books/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/books/architecto"
+    "http://localhost/api/admin/books/architecto"
 );
 
 const headers = {
@@ -1255,14 +1255,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/admin/authors" \
+    --get "http://localhost/api/admin/authors" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/authors"
+    "http://localhost/api/admin/authors"
 );
 
 const headers = {
@@ -1384,14 +1384,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/admin/authors" \
+    "http://localhost/api/admin/authors" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/authors"
+    "http://localhost/api/admin/authors"
 );
 
 const headers = {
@@ -1495,14 +1495,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/admin/authors/architecto" \
+    --get "http://localhost/api/admin/authors/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/authors/architecto"
+    "http://localhost/api/admin/authors/architecto"
 );
 
 const headers = {
@@ -1637,14 +1637,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/admin/authors/architecto" \
+    "http://localhost/api/admin/authors/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/authors/architecto"
+    "http://localhost/api/admin/authors/architecto"
 );
 
 const headers = {
@@ -1765,14 +1765,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/admin/authors/architecto" \
+    "http://localhost/api/admin/authors/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/authors/architecto"
+    "http://localhost/api/admin/authors/architecto"
 );
 
 const headers = {
@@ -1889,14 +1889,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/admin/genres" \
+    --get "http://localhost/api/admin/genres" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/genres"
+    "http://localhost/api/admin/genres"
 );
 
 const headers = {
@@ -2018,14 +2018,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/admin/genres" \
+    "http://localhost/api/admin/genres" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/genres"
+    "http://localhost/api/admin/genres"
 );
 
 const headers = {
@@ -2129,14 +2129,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/admin/genres/architecto" \
+    --get "http://localhost/api/admin/genres/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/genres/architecto"
+    "http://localhost/api/admin/genres/architecto"
 );
 
 const headers = {
@@ -2271,14 +2271,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/admin/genres/architecto" \
+    "http://localhost/api/admin/genres/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/genres/architecto"
+    "http://localhost/api/admin/genres/architecto"
 );
 
 const headers = {
@@ -2399,14 +2399,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/admin/genres/architecto" \
+    "http://localhost/api/admin/genres/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/genres/architecto"
+    "http://localhost/api/admin/genres/architecto"
 );
 
 const headers = {
@@ -2523,14 +2523,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/admin/publishers" \
+    --get "http://localhost/api/admin/publishers" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/publishers"
+    "http://localhost/api/admin/publishers"
 );
 
 const headers = {
@@ -2652,14 +2652,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/admin/publishers" \
+    "http://localhost/api/admin/publishers" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/publishers"
+    "http://localhost/api/admin/publishers"
 );
 
 const headers = {
@@ -2763,14 +2763,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/admin/publishers/architecto" \
+    --get "http://localhost/api/admin/publishers/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/publishers/architecto"
+    "http://localhost/api/admin/publishers/architecto"
 );
 
 const headers = {
@@ -2905,14 +2905,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/admin/publishers/architecto" \
+    "http://localhost/api/admin/publishers/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/publishers/architecto"
+    "http://localhost/api/admin/publishers/architecto"
 );
 
 const headers = {
@@ -3033,14 +3033,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/admin/publishers/architecto" \
+    "http://localhost/api/admin/publishers/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/publishers/architecto"
+    "http://localhost/api/admin/publishers/architecto"
 );
 
 const headers = {
@@ -3157,14 +3157,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/admin/formats" \
+    --get "http://localhost/api/admin/formats" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/formats"
+    "http://localhost/api/admin/formats"
 );
 
 const headers = {
@@ -3286,14 +3286,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/admin/formats" \
+    "http://localhost/api/admin/formats" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/formats"
+    "http://localhost/api/admin/formats"
 );
 
 const headers = {
@@ -3397,14 +3397,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/admin/formats/architecto" \
+    --get "http://localhost/api/admin/formats/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/formats/architecto"
+    "http://localhost/api/admin/formats/architecto"
 );
 
 const headers = {
@@ -3539,14 +3539,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/admin/formats/architecto" \
+    "http://localhost/api/admin/formats/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/formats/architecto"
+    "http://localhost/api/admin/formats/architecto"
 );
 
 const headers = {
@@ -3667,14 +3667,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/admin/formats/architecto" \
+    "http://localhost/api/admin/formats/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/admin/formats/architecto"
+    "http://localhost/api/admin/formats/architecto"
 );
 
 const headers = {
@@ -3791,14 +3791,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/genres" \
+    --get "http://localhost/api/genres" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/genres"
+    "http://localhost/api/genres"
 );
 
 const headers = {
@@ -3831,183 +3831,291 @@ access-control-allow-credentials: true
 <code class="language-json" style="max-height: 300px;">[
     {
         &quot;genre_id&quot;: 1,
-        &quot;genre_name&quot;: &quot;Роман&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Антиутопия&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 2,
-        &quot;genre_name&quot;: &quot;Фантастика&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Биографии и мемуары&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 3,
-        &quot;genre_name&quot;: &quot;Детектив&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Научная фантастика&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 4,
-        &quot;genre_name&quot;: &quot;Научная фантастика&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Боевики&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 5,
-        &quot;genre_name&quot;: &quot;Фэнтези&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Криминальные детективы&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 6,
-        &quot;genre_name&quot;: &quot;Триллер&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Исторические детективы&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 7,
-        &quot;genre_name&quot;: &quot;Приключения&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Автомобили и ПДД&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 8,
-        &quot;genre_name&quot;: &quot;Исторический роман&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Базы данных&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 9,
-        &quot;genre_name&quot;: &quot;Поэзия&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Детская образовательная литература&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 10,
-        &quot;genre_name&quot;: &quot;Драма&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Программирование&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 11,
-        &quot;genre_name&quot;: &quot;Биография&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Природа и животные&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 12,
-        &quot;genre_name&quot;: &quot;Мемуары&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Биология&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 13,
-        &quot;genre_name&quot;: &quot;Классика&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Физика&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 14,
-        &quot;genre_name&quot;: &quot;Современная проза&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Военная проза&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 15,
-        &quot;genre_name&quot;: &quot;Ужасы&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Исторические приключения&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 16,
         &quot;genre_name&quot;: &quot;Мистика&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 17,
-        &quot;genre_name&quot;: &quot;Психология&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Городское фэнтези&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 18,
-        &quot;genre_name&quot;: &quot;Философия&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Фэнтези&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 19,
-        &quot;genre_name&quot;: &quot;Религия&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Книга-игра&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 20,
-        &quot;genre_name&quot;: &quot;Искусство&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Философия&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 21,
-        &quot;genre_name&quot;: &quot;Публицистика&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Политика&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 22,
-        &quot;genre_name&quot;: &quot;Наука&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;История&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 23,
-        &quot;genre_name&quot;: &quot;Техника&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Государство и право&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 24,
-        &quot;genre_name&quot;: &quot;Спорт&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Классическая проза&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 25,
-        &quot;genre_name&quot;: &quot;Кулинария&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Роман&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 26,
-        &quot;genre_name&quot;: &quot;Путешествия&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Сказки&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 27,
-        &quot;genre_name&quot;: &quot;Юмор&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Детские стихи&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 28,
-        &quot;genre_name&quot;: &quot;Сказки&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Приключения про индейцев&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 29,
-        &quot;genre_name&quot;: &quot;Молодежная проза&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Путешествия и география&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;genre_id&quot;: 30,
-        &quot;genre_name&quot;: &quot;Любовный роман&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;genre_name&quot;: &quot;Математика&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 31,
+        &quot;genre_name&quot;: &quot;Справочники&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 32,
+        &quot;genre_name&quot;: &quot;Руководства&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 33,
+        &quot;genre_name&quot;: &quot;Учебники&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 34,
+        &quot;genre_name&quot;: &quot;Публицистика&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 35,
+        &quot;genre_name&quot;: &quot;Современная проза&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 36,
+        &quot;genre_name&quot;: &quot;Вестерны&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 37,
+        &quot;genre_name&quot;: &quot;Кулинария&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 38,
+        &quot;genre_name&quot;: &quot;Научпоп&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 39,
+        &quot;genre_name&quot;: &quot;Астрономия и Космос&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 40,
+        &quot;genre_name&quot;: &quot;Геология и география&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 41,
+        &quot;genre_name&quot;: &quot;Технические науки&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 42,
+        &quot;genre_name&quot;: &quot;Военная документалистика&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 43,
+        &quot;genre_name&quot;: &quot;Военная история&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 44,
+        &quot;genre_name&quot;: &quot;Физическая химия&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 45,
+        &quot;genre_name&quot;: &quot;Экология&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 46,
+        &quot;genre_name&quot;: &quot;Искусство и Дизайн&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 47,
+        &quot;genre_name&quot;: &quot;Обществознание&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;genre_id&quot;: 48,
+        &quot;genre_name&quot;: &quot;Зоология&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     }
 ]</code>
  </pre>
@@ -4098,14 +4206,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/genres/1" \
+    --get "http://localhost/api/genres/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/genres/1"
+    "http://localhost/api/genres/1"
 );
 
 const headers = {
@@ -4137,120 +4245,22 @@ access-control-allow-credentials: true
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;genre_id&quot;: 1,
-    &quot;genre_name&quot;: &quot;Роман&quot;,
-    &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-    &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
+    &quot;genre_name&quot;: &quot;Антиутопия&quot;,
+    &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+    &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
     &quot;books&quot;: [
         {
-            &quot;book_id&quot;: 30,
-            &quot;book_title&quot;: &quot;Officiis vero exercitationem dicta velit ipsam.&quot;,
-            &quot;description&quot;: &quot;Est exercitationem et quis fugiat ut. Dolore sint aut nulla ea quam. Placeat neque sunt sed culpa reprehenderit cum.&quot;,
-            &quot;published_year&quot;: 1935,
-            &quot;publisher_id&quot;: 25,
-            &quot;created_at&quot;: &quot;2026-03-11T18:06:31.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-11T18:06:31.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/c31c1cb3-c60a-301d-bf31-1a23f91f24c5.jpg&quot;,
-            &quot;pivot&quot;: {
-                &quot;genre_id&quot;: 1,
-                &quot;book_id&quot;: 30
-            }
-        },
-        {
-            &quot;book_id&quot;: 31,
-            &quot;book_title&quot;: &quot;Тестовая книга&quot;,
-            &quot;description&quot;: &quot;Подробное описание тестовой книги&quot;,
-            &quot;published_year&quot;: 2024,
+            &quot;book_id&quot;: 1,
+            &quot;book_title&quot;: &quot;Побег&quot;,
+            &quot;description&quot;: &quot;Этот увлекательный роман - первая часть фантастической трилогии американской писательницы Джин Дюпро. Действие первой части происходит в таинственном городе Эмбере, над которым никогда не восходит солнце. Тусклые электрические фонари - единственный источник света для горожан. Но фонари все чаще гаснут, и скоро город окончательно погрузится во тьму. Существуют ли где-то во мраке, окружающем Эмбер, другие острова света? Никто не знает ответа на этот вопрос, и только подростки Лина Мэйфлит и Дун Харроу найдут путь к спасению.&quot;,
+            &quot;published_year&quot;: 2008,
             &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-11T18:49:14.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-11T19:22:06.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773256926_cover_QwUoJdCeS5.png&quot;,
+            &quot;created_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+            &quot;cover_path&quot;: &quot;covers/1.jpg&quot;,
             &quot;pivot&quot;: {
                 &quot;genre_id&quot;: 1,
-                &quot;book_id&quot;: 31
-            }
-        },
-        {
-            &quot;book_id&quot;: 32,
-            &quot;book_title&quot;: &quot;Новая книга54455445&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:51:46.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:51:46.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298306_cover_jqqZWMEygB.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;genre_id&quot;: 1,
-                &quot;book_id&quot;: 32
-            }
-        },
-        {
-            &quot;book_id&quot;: 33,
-            &quot;book_title&quot;: &quot;Новая книга54455445&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук1&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:54:36.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:54:36.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298476_cover_NVmCpGIeUb.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;genre_id&quot;: 1,
-                &quot;book_id&quot;: 33
-            }
-        },
-        {
-            &quot;book_id&quot;: 34,
-            &quot;book_title&quot;: &quot;Новая книга54455445&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:56:00.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:56:00.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298560_cover_MO9oaHhjUK.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;genre_id&quot;: 1,
-                &quot;book_id&quot;: 34
-            }
-        },
-        {
-            &quot;book_id&quot;: 35,
-            &quot;book_title&quot;: &quot;Новая книга5445544115&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:57:11.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:57:11.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298631_cover_D7ag4pLOSn.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;genre_id&quot;: 1,
-                &quot;book_id&quot;: 35
-            }
-        },
-        {
-            &quot;book_id&quot;: 36,
-            &quot;book_title&quot;: &quot;Новая книга5445544115цу5&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T07:16:57.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T07:16:57.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773299817_cover_wsJOsdldBF.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;genre_id&quot;: 1,
-                &quot;book_id&quot;: 36
-            }
-        },
-        {
-            &quot;book_id&quot;: 37,
-            &quot;book_title&quot;: &quot;Новая книга5445544115цу511&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T07:22:31.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T07:22:31.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773300151_cover_w8PJ8B9fuW.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;genre_id&quot;: 1,
-                &quot;book_id&quot;: 37
+                &quot;book_id&quot;: 1
             }
         }
     ]
@@ -4356,14 +4366,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/authors" \
+    --get "http://localhost/api/authors" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/authors"
+    "http://localhost/api/authors"
 );
 
 const headers = {
@@ -4396,243 +4406,259 @@ access-control-allow-credentials: true
 <code class="language-json" style="max-height: 300px;">[
     {
         &quot;author_id&quot;: 1,
-        &quot;last_name&quot;: &quot;Толстой&quot;,
-        &quot;first_name&quot;: &quot;Лев&quot;,
-        &quot;middle_name&quot;: &quot;Николаевич&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;last_name&quot;: &quot;Дюпро&quot;,
+        &quot;first_name&quot;: &quot;Джин&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 2,
-        &quot;last_name&quot;: &quot;Достоевский&quot;,
-        &quot;first_name&quot;: &quot;Фёдор&quot;,
+        &quot;last_name&quot;: &quot;Володихин&quot;,
+        &quot;first_name&quot;: &quot;Дмитрий&quot;,
         &quot;middle_name&quot;: &quot;Михайлович&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 3,
-        &quot;last_name&quot;: &quot;Kertzmann&quot;,
-        &quot;first_name&quot;: &quot;Brando&quot;,
-        &quot;middle_name&quot;: null,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Маркеев&quot;,
+        &quot;first_name&quot;: &quot;Олег&quot;,
+        &quot;middle_name&quot;: &quot;Георгиевич&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 4,
-        &quot;last_name&quot;: &quot;Hilpert&quot;,
-        &quot;first_name&quot;: &quot;Arlene&quot;,
-        &quot;middle_name&quot;: null,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Парнов&quot;,
+        &quot;first_name&quot;: &quot;Еремей&quot;,
+        &quot;middle_name&quot;: &quot;Иудович&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 5,
-        &quot;last_name&quot;: &quot;Schiller&quot;,
-        &quot;first_name&quot;: &quot;Hope&quot;,
-        &quot;middle_name&quot;: &quot;Владимировна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Емельянов&quot;,
+        &quot;first_name&quot;: &quot;В.&quot;,
+        &quot;middle_name&quot;: &quot;М.&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 6,
-        &quot;last_name&quot;: &quot;Auer&quot;,
-        &quot;first_name&quot;: &quot;Dena&quot;,
-        &quot;middle_name&quot;: &quot;Дмитриевна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Рябченко&quot;,
+        &quot;first_name&quot;: &quot;Виктор&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 7,
-        &quot;last_name&quot;: &quot;Hills&quot;,
-        &quot;first_name&quot;: &quot;Marta&quot;,
-        &quot;middle_name&quot;: &quot;Сергеевна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Рэнди Дэвис&quot;,
+        &quot;first_name&quot;: &quot;Стефан&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 8,
-        &quot;last_name&quot;: &quot;Langworth&quot;,
-        &quot;first_name&quot;: &quot;Jake&quot;,
-        &quot;middle_name&quot;: &quot;Владимирович&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Эттенборо&quot;,
+        &quot;first_name&quot;: &quot;Дэвид&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 9,
-        &quot;last_name&quot;: &quot;Hintz&quot;,
-        &quot;first_name&quot;: &quot;Lincoln&quot;,
-        &quot;middle_name&quot;: &quot;Николаевна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Перельман&quot;,
+        &quot;first_name&quot;: &quot;Яков&quot;,
+        &quot;middle_name&quot;: &quot;Исидорович&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 10,
-        &quot;last_name&quot;: &quot;Wintheiser&quot;,
-        &quot;first_name&quot;: &quot;Mireille&quot;,
-        &quot;middle_name&quot;: &quot;Дмитриевна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Радзиевская&quot;,
+        &quot;first_name&quot;: &quot;Софья&quot;,
+        &quot;middle_name&quot;: &quot;Борисовна&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 11,
-        &quot;last_name&quot;: &quot;Lesch&quot;,
-        &quot;first_name&quot;: &quot;Shirley&quot;,
-        &quot;middle_name&quot;: &quot;Ивановна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Ренсом&quot;,
+        &quot;first_name&quot;: &quot;Риггз&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 12,
-        &quot;last_name&quot;: &quot;Gaylord&quot;,
-        &quot;first_name&quot;: &quot;Ivah&quot;,
-        &quot;middle_name&quot;: &quot;Александровна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Браславский&quot;,
+        &quot;first_name&quot;: &quot;Дмитрий&quot;,
+        &quot;middle_name&quot;: &quot;Юрьевич&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 13,
-        &quot;last_name&quot;: &quot;Kessler&quot;,
-        &quot;first_name&quot;: &quot;Manuela&quot;,
-        &quot;middle_name&quot;: &quot;Борисович&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Маркс&quot;,
+        &quot;first_name&quot;: &quot;Карл&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 14,
-        &quot;last_name&quot;: &quot;Sauer&quot;,
-        &quot;first_name&quot;: &quot;Freddy&quot;,
-        &quot;middle_name&quot;: &quot;Иванович&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Энгельс&quot;,
+        &quot;first_name&quot;: &quot;Фридрих&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 15,
-        &quot;last_name&quot;: &quot;Kshlerin&quot;,
-        &quot;first_name&quot;: &quot;Jarred&quot;,
-        &quot;middle_name&quot;: &quot;Николаевна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Булгаков&quot;,
+        &quot;first_name&quot;: &quot;Михаил&quot;,
+        &quot;middle_name&quot;: &quot;Афанасьевич&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 16,
-        &quot;last_name&quot;: &quot;Gerhold&quot;,
-        &quot;first_name&quot;: &quot;Bart&quot;,
-        &quot;middle_name&quot;: null,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Пушкин&quot;,
+        &quot;first_name&quot;: &quot;Александр&quot;,
+        &quot;middle_name&quot;: &quot;Сергеевич&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 17,
-        &quot;last_name&quot;: &quot;Reichel&quot;,
-        &quot;first_name&quot;: &quot;Elisa&quot;,
-        &quot;middle_name&quot;: &quot;Владимировна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Фидлер&quot;,
+        &quot;first_name&quot;: &quot;Аркадий&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 18,
-        &quot;last_name&quot;: &quot;Walsh&quot;,
-        &quot;first_name&quot;: &quot;Lionel&quot;,
+        &quot;last_name&quot;: &quot;Кофлер&quot;,
+        &quot;first_name&quot;: &quot;Михаэль&quot;,
         &quot;middle_name&quot;: null,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 19,
-        &quot;last_name&quot;: &quot;Quitzon&quot;,
-        &quot;first_name&quot;: &quot;Ofelia&quot;,
-        &quot;middle_name&quot;: &quot;Владимировна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Миронова&quot;,
+        &quot;first_name&quot;: &quot;Татьяна&quot;,
+        &quot;middle_name&quot;: &quot;Леонидовна&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 20,
-        &quot;last_name&quot;: &quot;Krajcik&quot;,
-        &quot;first_name&quot;: &quot;Odessa&quot;,
-        &quot;middle_name&quot;: &quot;Александровна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Юстейн&quot;,
+        &quot;first_name&quot;: &quot;Гордер&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 21,
-        &quot;last_name&quot;: &quot;Russel&quot;,
-        &quot;first_name&quot;: &quot;Edgar&quot;,
-        &quot;middle_name&quot;: &quot;Юрьевна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Ламур&quot;,
+        &quot;first_name&quot;: &quot;Луис&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 22,
-        &quot;last_name&quot;: &quot;Hansen&quot;,
-        &quot;first_name&quot;: &quot;Ruthe&quot;,
+        &quot;last_name&quot;: &quot;Велитов&quot;,
+        &quot;first_name&quot;: &quot;Алим&quot;,
         &quot;middle_name&quot;: null,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 23,
-        &quot;last_name&quot;: &quot;Zulauf&quot;,
-        &quot;first_name&quot;: &quot;Keaton&quot;,
-        &quot;middle_name&quot;: &quot;Олегович&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Уштей&quot;,
+        &quot;first_name&quot;: &quot;Анна&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 24,
-        &quot;last_name&quot;: &quot;West&quot;,
-        &quot;first_name&quot;: &quot;Kariane&quot;,
-        &quot;middle_name&quot;: &quot;Михайловна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Хокинг&quot;,
+        &quot;first_name&quot;: &quot;Стивен&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 25,
-        &quot;last_name&quot;: &quot;Stanton&quot;,
-        &quot;first_name&quot;: &quot;Cale&quot;,
+        &quot;last_name&quot;: &quot;Хабберт&quot;,
+        &quot;first_name&quot;: &quot;Марион Кинг&quot;,
         &quot;middle_name&quot;: null,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 26,
-        &quot;last_name&quot;: &quot;Turcotte&quot;,
-        &quot;first_name&quot;: &quot;Vesta&quot;,
-        &quot;middle_name&quot;: &quot;Юрьевна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Ковпак&quot;,
+        &quot;first_name&quot;: &quot;Сидор&quot;,
+        &quot;middle_name&quot;: &quot;Артемьевич&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 27,
-        &quot;last_name&quot;: &quot;Hammes&quot;,
-        &quot;first_name&quot;: &quot;Jodie&quot;,
-        &quot;middle_name&quot;: null,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Дигонский&quot;,
+        &quot;first_name&quot;: &quot;Сергей&quot;,
+        &quot;middle_name&quot;: &quot;Викторович&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 28,
-        &quot;last_name&quot;: &quot;Medhurst&quot;,
-        &quot;first_name&quot;: &quot;Magnolia&quot;,
-        &quot;middle_name&quot;: &quot;Дмитриевна&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Тен&quot;,
+        &quot;first_name&quot;: &quot;Вячеслав&quot;,
+        &quot;middle_name&quot;: &quot;Владимирович&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 29,
-        &quot;last_name&quot;: &quot;Gislason&quot;,
-        &quot;first_name&quot;: &quot;Ricardo&quot;,
-        &quot;middle_name&quot;: &quot;Иванович&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Аксенов&quot;,
+        &quot;first_name&quot;: &quot;Геннадий&quot;,
+        &quot;middle_name&quot;: &quot;Петрович&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;author_id&quot;: 30,
-        &quot;last_name&quot;: &quot;Padberg&quot;,
-        &quot;first_name&quot;: &quot;Lempi&quot;,
-        &quot;middle_name&quot;: &quot;Иванович&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;last_name&quot;: &quot;Гомбрих&quot;,
+        &quot;first_name&quot;: &quot;Эрнст&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;author_id&quot;: 31,
+        &quot;last_name&quot;: &quot;Вишняцкий&quot;,
+        &quot;first_name&quot;: &quot;Леонид&quot;,
+        &quot;middle_name&quot;: &quot;Борисович&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
+    },
+    {
+        &quot;author_id&quot;: 32,
+        &quot;last_name&quot;: &quot;Даррелл&quot;,
+        &quot;first_name&quot;: &quot;Джеральд&quot;,
+        &quot;middle_name&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     }
 ]</code>
  </pre>
@@ -4723,14 +4749,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/authors/1" \
+    --get "http://localhost/api/authors/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/authors/1"
+    "http://localhost/api/authors/1"
 );
 
 const headers = {
@@ -4762,122 +4788,24 @@ access-control-allow-credentials: true
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;author_id&quot;: 1,
-    &quot;last_name&quot;: &quot;Толстой&quot;,
-    &quot;first_name&quot;: &quot;Лев&quot;,
-    &quot;middle_name&quot;: &quot;Николаевич&quot;,
-    &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-    &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
+    &quot;last_name&quot;: &quot;Дюпро&quot;,
+    &quot;first_name&quot;: &quot;Джин&quot;,
+    &quot;middle_name&quot;: null,
+    &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+    &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
     &quot;books&quot;: [
         {
-            &quot;book_id&quot;: 7,
-            &quot;book_title&quot;: &quot;Mollitia consequuntur repellat ut.&quot;,
-            &quot;description&quot;: &quot;Iure consequatur eos aut. Quia aperiam possimus voluptate sapiente cum. Eum rerum corporis rerum.&quot;,
-            &quot;published_year&quot;: 1809,
-            &quot;publisher_id&quot;: 4,
-            &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/3e62d501-8c4e-32f5-81b4-2ade417f96c0.jpg&quot;,
-            &quot;pivot&quot;: {
-                &quot;author_id&quot;: 1,
-                &quot;book_id&quot;: 7
-            }
-        },
-        {
-            &quot;book_id&quot;: 31,
-            &quot;book_title&quot;: &quot;Тестовая книга&quot;,
-            &quot;description&quot;: &quot;Подробное описание тестовой книги&quot;,
-            &quot;published_year&quot;: 2024,
+            &quot;book_id&quot;: 1,
+            &quot;book_title&quot;: &quot;Побег&quot;,
+            &quot;description&quot;: &quot;Этот увлекательный роман - первая часть фантастической трилогии американской писательницы Джин Дюпро. Действие первой части происходит в таинственном городе Эмбере, над которым никогда не восходит солнце. Тусклые электрические фонари - единственный источник света для горожан. Но фонари все чаще гаснут, и скоро город окончательно погрузится во тьму. Существуют ли где-то во мраке, окружающем Эмбер, другие острова света? Никто не знает ответа на этот вопрос, и только подростки Лина Мэйфлит и Дун Харроу найдут путь к спасению.&quot;,
+            &quot;published_year&quot;: 2008,
             &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-11T18:49:14.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-11T19:22:06.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773256926_cover_QwUoJdCeS5.png&quot;,
+            &quot;created_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+            &quot;cover_path&quot;: &quot;covers/1.jpg&quot;,
             &quot;pivot&quot;: {
                 &quot;author_id&quot;: 1,
-                &quot;book_id&quot;: 31
-            }
-        },
-        {
-            &quot;book_id&quot;: 32,
-            &quot;book_title&quot;: &quot;Новая книга54455445&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:51:46.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:51:46.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298306_cover_jqqZWMEygB.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;author_id&quot;: 1,
-                &quot;book_id&quot;: 32
-            }
-        },
-        {
-            &quot;book_id&quot;: 33,
-            &quot;book_title&quot;: &quot;Новая книга54455445&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук1&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:54:36.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:54:36.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298476_cover_NVmCpGIeUb.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;author_id&quot;: 1,
-                &quot;book_id&quot;: 33
-            }
-        },
-        {
-            &quot;book_id&quot;: 34,
-            &quot;book_title&quot;: &quot;Новая книга54455445&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:56:00.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:56:00.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298560_cover_MO9oaHhjUK.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;author_id&quot;: 1,
-                &quot;book_id&quot;: 34
-            }
-        },
-        {
-            &quot;book_id&quot;: 35,
-            &quot;book_title&quot;: &quot;Новая книга5445544115&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:57:11.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:57:11.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298631_cover_D7ag4pLOSn.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;author_id&quot;: 1,
-                &quot;book_id&quot;: 35
-            }
-        },
-        {
-            &quot;book_id&quot;: 36,
-            &quot;book_title&quot;: &quot;Новая книга5445544115цу5&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T07:16:57.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T07:16:57.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773299817_cover_wsJOsdldBF.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;author_id&quot;: 1,
-                &quot;book_id&quot;: 36
-            }
-        },
-        {
-            &quot;book_id&quot;: 37,
-            &quot;book_title&quot;: &quot;Новая книга5445544115цу511&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T07:22:31.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T07:22:31.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773300151_cover_w8PJ8B9fuW.png&quot;,
-            &quot;pivot&quot;: {
-                &quot;author_id&quot;: 1,
-                &quot;book_id&quot;: 37
+                &quot;book_id&quot;: 1
             }
         }
     ]
@@ -4983,14 +4911,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/publishers" \
+    --get "http://localhost/api/publishers" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/publishers"
+    "http://localhost/api/publishers"
 );
 
 const headers = {
@@ -5023,363 +4951,153 @@ access-control-allow-credentials: true
 <code class="language-json" style="max-height: 300px;">[
     {
         &quot;publisher_id&quot;: 1,
-        &quot;publisher_name&quot;: &quot;Эксмо&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Махаон&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 2,
-        &quot;publisher_name&quot;: &quot;АСТ&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Молодая гвардия&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 3,
-        &quot;publisher_name&quot;: &quot;МИФ&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;ОЛМА-ПРЕСС&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 4,
-        &quot;publisher_name&quot;: &quot;Beer-Lowe&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Детская литература&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 5,
-        &quot;publisher_name&quot;: &quot;Luettgen-Emmerich&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Бук-Пресс&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 6,
-        &quot;publisher_name&quot;: &quot;Anderson, Schuppe and Vandervort&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Омское книжное издательство&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 7,
-        &quot;publisher_name&quot;: &quot;Prohaska-Waters&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Диалектика&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 8,
-        &quot;publisher_name&quot;: &quot;Grady, Greenfelder and Dibbert&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Мир&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 9,
-        &quot;publisher_name&quot;: &quot;Gleason, Runolfsson and Gulgowski&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Наука&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 10,
-        &quot;publisher_name&quot;: &quot;Rice-Borer&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Татарское книжное издательство&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 11,
-        &quot;publisher_name&quot;: &quot;Fritsch Group&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Книжный клуб \&quot;Клуб Семейного Досуга\&quot;&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 12,
-        &quot;publisher_name&quot;: &quot;Schumm, Haley and Breitenberg&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Производственно-коммерческий центр \&quot;АТ\&quot;&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 13,
-        &quot;publisher_name&quot;: &quot;Gutkowski LLC&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Государственное издательство политической литературы&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 14,
-        &quot;publisher_name&quot;: &quot;Koelpin-Eichmann&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Ленинград&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 15,
-        &quot;publisher_name&quot;: &quot;Watsica Group&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Питер&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 16,
-        &quot;publisher_name&quot;: &quot;Reinger-Cartwright&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Алгоритм&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 17,
-        &quot;publisher_name&quot;: &quot;Cronin, Schumm and Sauer&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Амфора&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 18,
-        &quot;publisher_name&quot;: &quot;Simonis Inc&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Центрполинраф&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 19,
-        &quot;publisher_name&quot;: &quot;Collins and Sons&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Росмэн&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 20,
-        &quot;publisher_name&quot;: &quot;Koss PLC&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Api&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 21,
-        &quot;publisher_name&quot;: &quot;Stehr-Rowe&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Воениздат НКО СССР&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 22,
-        &quot;publisher_name&quot;: &quot;Medhurst Group&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Эдиториал УРСС&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 23,
-        &quot;publisher_name&quot;: &quot;West, Denesik and Bogisich&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;АСТ&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 24,
-        &quot;publisher_name&quot;: &quot;Armstrong Inc&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Век2&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;
     },
     {
         &quot;publisher_id&quot;: 25,
-        &quot;publisher_name&quot;: &quot;Ortiz Group&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 26,
-        &quot;publisher_name&quot;: &quot;Mosciski and Sons&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 27,
-        &quot;publisher_name&quot;: &quot;Spencer-Braun&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 28,
-        &quot;publisher_name&quot;: &quot;Durgan, Prosacco and Beer&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 29,
-        &quot;publisher_name&quot;: &quot;Breitenberg Group&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 30,
-        &quot;publisher_name&quot;: &quot;McCullough, West and King&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 31,
-        &quot;publisher_name&quot;: &quot;O&#039;Reilly LLC&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 32,
-        &quot;publisher_name&quot;: &quot;Conn-VonRueden&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 33,
-        &quot;publisher_name&quot;: &quot;Kshlerin-Hermiston&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 34,
-        &quot;publisher_name&quot;: &quot;Medhurst LLC&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 35,
-        &quot;publisher_name&quot;: &quot;Adams and Sons&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 36,
-        &quot;publisher_name&quot;: &quot;Boyle, Jast and Howe&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 37,
-        &quot;publisher_name&quot;: &quot;Ankunding-Mosciski&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 38,
-        &quot;publisher_name&quot;: &quot;Fahey, Block and Dicki&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 39,
-        &quot;publisher_name&quot;: &quot;Morar, Beatty and Medhurst&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 40,
-        &quot;publisher_name&quot;: &quot;Swift Inc&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 41,
-        &quot;publisher_name&quot;: &quot;Balistreri, Feeney and Kling&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 42,
-        &quot;publisher_name&quot;: &quot;Luettgen PLC&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 43,
-        &quot;publisher_name&quot;: &quot;Walter-Wisoky&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 44,
-        &quot;publisher_name&quot;: &quot;Gusikowski-Corkery&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 45,
-        &quot;publisher_name&quot;: &quot;Kling PLC&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 46,
-        &quot;publisher_name&quot;: &quot;Gleichner-Macejkovic&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 47,
-        &quot;publisher_name&quot;: &quot;Russel, Kling and Marvin&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 48,
-        &quot;publisher_name&quot;: &quot;Beier-Ferry&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 49,
-        &quot;publisher_name&quot;: &quot;Lueilwitz, Flatley and Gutmann&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 50,
-        &quot;publisher_name&quot;: &quot;Harvey LLC&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 51,
-        &quot;publisher_name&quot;: &quot;Green, Hintz and Hettinger&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 52,
-        &quot;publisher_name&quot;: &quot;Murray Inc&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 53,
-        &quot;publisher_name&quot;: &quot;Bogan-Satterfield&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 54,
-        &quot;publisher_name&quot;: &quot;O&#039;Hara, Morissette and Kilback&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 55,
-        &quot;publisher_name&quot;: &quot;Boyle, Quitzon and Block&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 56,
-        &quot;publisher_name&quot;: &quot;Bruen, Mertz and Marks&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 57,
-        &quot;publisher_name&quot;: &quot;Kuhic Group&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 58,
-        &quot;publisher_name&quot;: &quot;Weissnat-Cummings&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 59,
-        &quot;publisher_name&quot;: &quot;Krajcik, Wiegand and Roob&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
-    },
-    {
-        &quot;publisher_id&quot;: 60,
-        &quot;publisher_name&quot;: &quot;Dicki, Fadel and Littel&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:30.000000Z&quot;
+        &quot;publisher_name&quot;: &quot;Воздушный транспорт&quot;,
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;
     }
 ]</code>
  </pre>
@@ -5470,14 +5188,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/publishers/1" \
+    --get "http://localhost/api/publishers/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/publishers/1"
+    "http://localhost/api/publishers/1"
 );
 
 const headers = {
@@ -5509,79 +5227,19 @@ access-control-allow-credentials: true
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;publisher_id&quot;: 1,
-    &quot;publisher_name&quot;: &quot;Эксмо&quot;,
-    &quot;created_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
-    &quot;updated_at&quot;: &quot;2026-03-11T18:06:29.000000Z&quot;,
+    &quot;publisher_name&quot;: &quot;Махаон&quot;,
+    &quot;created_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
+    &quot;updated_at&quot;: &quot;2026-03-17T11:55:35.000000Z&quot;,
     &quot;books&quot;: [
         {
-            &quot;book_id&quot;: 31,
-            &quot;book_title&quot;: &quot;Тестовая книга&quot;,
-            &quot;description&quot;: &quot;Подробное описание тестовой книги&quot;,
-            &quot;published_year&quot;: 2024,
+            &quot;book_id&quot;: 1,
+            &quot;book_title&quot;: &quot;Побег&quot;,
+            &quot;description&quot;: &quot;Этот увлекательный роман - первая часть фантастической трилогии американской писательницы Джин Дюпро. Действие первой части происходит в таинственном городе Эмбере, над которым никогда не восходит солнце. Тусклые электрические фонари - единственный источник света для горожан. Но фонари все чаще гаснут, и скоро город окончательно погрузится во тьму. Существуют ли где-то во мраке, окружающем Эмбер, другие острова света? Никто не знает ответа на этот вопрос, и только подростки Лина Мэйфлит и Дун Харроу найдут путь к спасению.&quot;,
+            &quot;published_year&quot;: 2008,
             &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-11T18:49:14.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-11T19:22:06.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773256926_cover_QwUoJdCeS5.png&quot;
-        },
-        {
-            &quot;book_id&quot;: 32,
-            &quot;book_title&quot;: &quot;Новая книга54455445&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:51:46.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:51:46.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298306_cover_jqqZWMEygB.png&quot;
-        },
-        {
-            &quot;book_id&quot;: 33,
-            &quot;book_title&quot;: &quot;Новая книга54455445&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук1&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:54:36.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:54:36.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298476_cover_NVmCpGIeUb.png&quot;
-        },
-        {
-            &quot;book_id&quot;: 34,
-            &quot;book_title&quot;: &quot;Новая книга54455445&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:56:00.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:56:00.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298560_cover_MO9oaHhjUK.png&quot;
-        },
-        {
-            &quot;book_id&quot;: 35,
-            &quot;book_title&quot;: &quot;Новая книга5445544115&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T06:57:11.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T06:57:11.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773298631_cover_D7ag4pLOSn.png&quot;
-        },
-        {
-            &quot;book_id&quot;: 36,
-            &quot;book_title&quot;: &quot;Новая книга5445544115цу5&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T07:16:57.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T07:16:57.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773299817_cover_wsJOsdldBF.png&quot;
-        },
-        {
-            &quot;book_id&quot;: 37,
-            &quot;book_title&quot;: &quot;Новая книга5445544115цу511&quot;,
-            &quot;description&quot;: &quot;Описаниеуукук12&quot;,
-            &quot;published_year&quot;: 2011,
-            &quot;publisher_id&quot;: 1,
-            &quot;created_at&quot;: &quot;2026-03-12T07:22:31.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2026-03-12T07:22:31.000000Z&quot;,
-            &quot;cover_path&quot;: &quot;covers/1773300151_cover_w8PJ8B9fuW.png&quot;
+            &quot;created_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-03-17T11:55:36.000000Z&quot;,
+            &quot;cover_path&quot;: &quot;covers/1.jpg&quot;
         }
     ]
 }</code>
@@ -5686,14 +5344,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/formats" \
+    --get "http://localhost/api/formats" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/formats"
+    "http://localhost/api/formats"
 );
 
 const headers = {
@@ -5727,20 +5385,20 @@ access-control-allow-credentials: true
     {
         &quot;format_id&quot;: 1,
         &quot;format_name&quot;: &quot;PDF&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;format_id&quot;: 2,
         &quot;format_name&quot;: &quot;TXT&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     },
     {
         &quot;format_id&quot;: 3,
         &quot;format_name&quot;: &quot;FB2&quot;,
-        &quot;created_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2026-03-11T18:06:28.000000Z&quot;
+        &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;
     }
 ]</code>
  </pre>
@@ -5831,14 +5489,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/formats/1" \
+    --get "http://localhost/api/formats/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/formats/1"
+    "http://localhost/api/formats/1"
 );
 
 const headers = {
@@ -5856,7 +5514,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-formats--id-">
             <blockquote>
-            <p>Example response (500):</p>
+            <p>Example response (200):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -5869,7 +5527,110 @@ access-control-allow-credentials: true
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;Server Error&quot;
+    &quot;format_id&quot;: 1,
+    &quot;format_name&quot;: &quot;PDF&quot;,
+    &quot;created_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+    &quot;updated_at&quot;: &quot;2026-03-17T11:55:34.000000Z&quot;,
+    &quot;books&quot;: [
+        {
+            &quot;book_id&quot;: 4,
+            &quot;book_title&quot;: &quot;Ларец Марии Медичи&quot;,
+            &quot;description&quot;: &quot;В жизнь молодых людей вошла древняя тайна &mdash; ларец Марии Медичи и семь его загадочных &laquo;спутников&raquo;. Силою обстоятельств чудесная реликвия попадает в тесную комнату в маленьком московском переулке, с этого, собственно, и начинается цепь удивительных происшествий, одним из звеньев которой является исчезновение иностранного туриста.&quot;,
+            &quot;published_year&quot;: 1972,
+            &quot;publisher_id&quot;: 4,
+            &quot;created_at&quot;: &quot;2026-03-17T11:55:37.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-03-17T11:55:37.000000Z&quot;,
+            &quot;cover_path&quot;: &quot;covers/4.jpg&quot;,
+            &quot;pivot&quot;: {
+                &quot;format_id&quot;: 1,
+                &quot;book_id&quot;: 4
+            }
+        },
+        {
+            &quot;book_id&quot;: 5,
+            &quot;book_title&quot;: &quot;Энциклопедия начинающего автомобилиста&quot;,
+            &quot;description&quot;: &quot;Чуть более ста лет назад изобретатели выпустили из бутылки джинна, имя которому &mdash; автомобиль. С невероятной быстротой расселились его потомки по всему миру. Автомобиль стал самой любимой, послушной и близкой к человеку машиной. И интерес к нему не угасает. Посмотрите, сколько людей обступает всякий раз новую, незнакомую марку. Он стал во многих семьях привычным предметом быта. Даже не верится, что было время, когда люди обходились без автомобиля. Первые автомобили многими воспринимались как проявление нечистой силы, дьявольщины или игрушки для взрослых. И тем не менее автомобиль убедительно доказал свою пригодность служить людям. Сейчас автомобиль является единым и неделимым, почти живым организмом. Только при полной работоспособности всех его составляющих автомобиль может выполнять те функции, которые возлагает на него хозяин. С помощью этой книги вы постигнете азы вождения, узнаете, как сдать экзамен в ГИБДД, разберетесь в устройстве автомобиля. Она будет полезна и при покупке автомобиля, и при его продаже. В книге вы найдете рекомендации по тому, как правильно вести себя на дороге в экстремальных ситуациях, в том числе и ДТП. Вы узнаете все о жизни автомобилиста и уходе за автомобилем.&quot;,
+            &quot;published_year&quot;: 2006,
+            &quot;publisher_id&quot;: 5,
+            &quot;created_at&quot;: &quot;2026-03-17T11:55:37.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-03-17T11:55:37.000000Z&quot;,
+            &quot;cover_path&quot;: &quot;covers/5.jpg&quot;,
+            &quot;pivot&quot;: {
+                &quot;format_id&quot;: 1,
+                &quot;book_id&quot;: 5
+            }
+        },
+        {
+            &quot;book_id&quot;: 7,
+            &quot;book_title&quot;: &quot;C++ для \&quot;чайников\&quot;&quot;,
+            &quot;description&quot;: &quot;C++ для \&quot;чайников\&quot; 4-е издание. \&quot;Моим друзьям и семье, которые помогли мне стать \&quot;чайником \&quot; в еще большей степени, чем я есть на самом деле\&quot; (Стефан Р. Дэвис). Стефан Р. Дэвис (Stephen R. Davis) &mdash; автор множества книг, включая такие бестсел- леры, как C++ для \&quot;чайников \&quot;, More C++for Dummies и Windows 95 Programming for Dummies. Стефан работает в компании Valtech, специализирующейся в области обучения информатике (Даллас, Техас). Книга, которая у вас в руках, - это введение в язык программирования C++. Она начинается с азов: от читателя не требуется каких-либо знаний в области программирования. В отличие от других книг по программированию на C++, в этой книге вопрос `почему` считается не менее важным, чем вопрос `как`. И потому перед изложением конкретных особенностей языка C++ читателю разъясняется, как они действуют в целом. Ведь каждая структурная особенность языка - это отдельный штрих единой картины. Прочитав книгу, вы сможете написать на C++ вразумительную программу и, что не менее важно, будете понимать, почему и как она работает. Книга рассчитана на пользователей с различным уровнем подготовки.&quot;,
+            &quot;published_year&quot;: 2003,
+            &quot;publisher_id&quot;: 7,
+            &quot;created_at&quot;: &quot;2026-03-17T11:55:37.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-03-17T11:55:37.000000Z&quot;,
+            &quot;cover_path&quot;: &quot;covers/7.jpg&quot;,
+            &quot;pivot&quot;: {
+                &quot;format_id&quot;: 1,
+                &quot;book_id&quot;: 7
+            }
+        },
+        {
+            &quot;book_id&quot;: 18,
+            &quot;book_title&quot;: &quot;Linux. Полное руководство&quot;,
+            &quot;description&quot;: &quot;Эта книга - перевод девятого издания фундаментального руководства Михаэля Кофлера, уже ставшего классическим произведением по Linux.Михаэль Кофлер открыл путь в мир свободных операционных систем для нескольких поколений пользователей Linux. Журнал Linux-Magazin причисляет его к 15 наиболее влиятельным специалистам в данной области.Книга представляет собой справочник на тему \&quot;Как это делается в Linux\&quot;, она будет полезна и актуальна для всех, кто хочет работать с Linux на ПК или на сервере.&quot;,
+            &quot;published_year&quot;: 2011,
+            &quot;publisher_id&quot;: 15,
+            &quot;created_at&quot;: &quot;2026-03-17T11:55:38.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-03-17T11:55:38.000000Z&quot;,
+            &quot;cover_path&quot;: &quot;covers/18.jpg&quot;,
+            &quot;pivot&quot;: {
+                &quot;format_id&quot;: 1,
+                &quot;book_id&quot;: 18
+            }
+        },
+        {
+            &quot;book_id&quot;: 24,
+            &quot;book_title&quot;: &quot;Ядерная энергия и ископаемое топливо&quot;,
+            &quot;description&quot;: &quot;Историческая работа американского геофизика М.К.Хабберта об истощении запасов нефти. Фотокопия с оригинала авторской рукописи 1956 года.&quot;,
+            &quot;published_year&quot;: 1956,
+            &quot;publisher_id&quot;: 20,
+            &quot;created_at&quot;: &quot;2026-03-17T11:55:38.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-03-17T11:55:38.000000Z&quot;,
+            &quot;cover_path&quot;: &quot;covers/24.jpg&quot;,
+            &quot;pivot&quot;: {
+                &quot;format_id&quot;: 1,
+                &quot;book_id&quot;: 24
+            }
+        },
+        {
+            &quot;book_id&quot;: 25,
+            &quot;book_title&quot;: &quot;От Путивля до Карпат&quot;,
+            &quot;description&quot;: &quot;Книга мемуаров командира Сумского партизанского соединения в Великую Отечественную войну, дважды Героя Советского Союза, генерал-майора Сидора Ковпака в литературной записи Евгения Герасимова.&quot;,
+            &quot;published_year&quot;: 1945,
+            &quot;publisher_id&quot;: 21,
+            &quot;created_at&quot;: &quot;2026-03-17T11:55:38.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-03-17T11:55:38.000000Z&quot;,
+            &quot;cover_path&quot;: &quot;covers/25.jpg&quot;,
+            &quot;pivot&quot;: {
+                &quot;format_id&quot;: 1,
+                &quot;book_id&quot;: 25
+            }
+        },
+        {
+            &quot;book_id&quot;: 26,
+            &quot;book_title&quot;: &quot;Неизвестный водород&quot;,
+            &quot;description&quot;: &quot;Известные технологические процессы рассмотрены с позиции участия в них водорода, практически всегда остающегося не замеченным. Изучена роль водорода в образовании кристаллической структуры графита и сделан вывод, что все твердые углеродистые вещества содержат в своем составе водород. Поскольку явление выделения водорода при нагревании угля, кокса или графита хорошо известно, то во всех высокотемпературных процессах с их участием непременно участвует и водород. Развитие подобных представлений позволило создать новую концепцию твердофазного  восстановления металлов и спекания порошкообразных  веществ,  в  которой  водороду  отводится  роль  транспортирующего агента в газофазных транспортных химических реакциях. На основании экспериментов сделана попытка связать с ювенильным водородно-метановым флюидом образование твердых и жидких ископаемых углеродистых веществ. Изучение возможности получения водорода путем газификации не горючих углеродистых веществ, например графита, является актуальным и вносит вклад в развитие водородной энергетики. Для специалистов в области физической химии, металлургии и материаловедения.&quot;,
+            &quot;published_year&quot;: 2006,
+            &quot;publisher_id&quot;: 9,
+            &quot;created_at&quot;: &quot;2026-03-17T11:55:38.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2026-03-17T11:55:38.000000Z&quot;,
+            &quot;cover_path&quot;: &quot;covers/26.jpg&quot;,
+            &quot;pivot&quot;: {
+                &quot;format_id&quot;: 1,
+                &quot;book_id&quot;: 26
+            }
+        }
+    ]
 }</code>
  </pre>
     </span>
@@ -5972,7 +5733,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/books" \
+    --get "http://localhost/api/books" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -5982,15 +5743,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"genre_id\": 16,
     \"author_id\": 16,
     \"publisher_id\": 16,
-    \"sort\": \"published_year\",
-    \"order\": \"desc\"
+    \"sort\": \"created_at\",
+    \"order\": \"asc\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/books"
+    "http://localhost/api/books"
 );
 
 const headers = {
@@ -6005,8 +5766,8 @@ let body = {
     "genre_id": 16,
     "author_id": 16,
     "publisher_id": 16,
-    "sort": "published_year",
-    "order": "desc"
+    "sort": "created_at",
+    "order": "asc"
 };
 
 fetch(url, {
@@ -6036,7 +5797,7 @@ access-control-allow-credentials: true
     &quot;message&quot;: &quot;Ошибка валидации параметров&quot;,
     &quot;errors&quot;: {
         &quot;search&quot;: [
-            &quot;The search field must be at least 2 characters.&quot;
+            &quot;Количество символов в поле search должно быть не меньше 2.&quot;
         ]
     }
 }</code>
@@ -6124,7 +5885,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="16"
                data-component="body">
     <br>
-<p>Must be at least 1. Example: <code>16</code></p>
+<p>Поле value должно быть не меньше 1. Example: <code>16</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -6136,7 +5897,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="22"
                data-component="body">
     <br>
-<p>Must be at least 1. Must not be greater than 100. Example: <code>22</code></p>
+<p>Поле value должно быть не меньше 1. Поле value не может быть больше 100. Example: <code>22</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>search</code></b>&nbsp;&nbsp;
@@ -6148,7 +5909,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="g"
                data-component="body">
     <br>
-<p>Must be at least 2 characters. Must not be greater than 100 characters. Example: <code>g</code></p>
+<p>Количество символов в поле value должно быть не меньше 2. Количество символов в поле value не может превышать 100. Example: <code>g</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>genre_id</code></b>&nbsp;&nbsp;
@@ -6217,10 +5978,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="sort"                data-endpoint="GETapi-books"
-               value="published_year"
+               value="created_at"
                data-component="body">
     <br>
-<p>Example: <code>published_year</code></p>
+<p>Example: <code>created_at</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>book_title</code></li> <li><code>published_year</code></li> <li><code>created_at</code></li></ul>
         </div>
@@ -6231,10 +5992,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="order"                data-endpoint="GETapi-books"
-               value="desc"
+               value="asc"
                data-component="body">
     <br>
-<p>Example: <code>desc</code></p>
+<p>Example: <code>asc</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>asc</code></li> <li><code>desc</code></li></ul>
         </div>
@@ -6253,14 +6014,14 @@ Must be one of:
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/books/1" \
+    --get "http://localhost/api/books/1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/books/1"
+    "http://localhost/api/books/1"
 );
 
 const headers = {
@@ -6294,68 +6055,47 @@ access-control-allow-credentials: true
     &quot;success&quot;: true,
     &quot;data&quot;: {
         &quot;book_id&quot;: 1,
-        &quot;book_title&quot;: &quot;Cumque deserunt fugiat animi eveniet doloremque.&quot;,
-        &quot;description&quot;: &quot;Voluptas nesciunt provident velit in. Quo quaerat vero error dolorem. Aut numquam ut est ex similique. Velit rerum consequatur dolor ex quo voluptatem.&quot;,
-        &quot;published_year&quot;: 1925,
-        &quot;cover_url&quot;: &quot;/api/covers/1e157b70-6214-328d-8fbc-f74443138dcd.jpg&quot;,
+        &quot;book_title&quot;: &quot;Побег&quot;,
+        &quot;description&quot;: &quot;Этот увлекательный роман - первая часть фантастической трилогии американской писательницы Джин Дюпро. Действие первой части происходит в таинственном городе Эмбере, над которым никогда не восходит солнце. Тусклые электрические фонари - единственный источник света для горожан. Но фонари все чаще гаснут, и скоро город окончательно погрузится во тьму. Существуют ли где-то во мраке, окружающем Эмбер, другие острова света? Никто не знает ответа на этот вопрос, и только подростки Лина Мэйфлит и Дун Харроу найдут путь к спасению.&quot;,
+        &quot;published_year&quot;: 2008,
+        &quot;cover_url&quot;: &quot;/api/covers/1.jpg&quot;,
         &quot;is_favorited&quot;: false,
         &quot;genres&quot;: [
             {
-                &quot;genre_id&quot;: 3,
-                &quot;genre_name&quot;: &quot;Детектив&quot;
+                &quot;genre_id&quot;: 1,
+                &quot;genre_name&quot;: &quot;Антиутопия&quot;
             }
         ],
         &quot;authors&quot;: [
             {
-                &quot;author_id&quot;: 9,
-                &quot;last_name&quot;: &quot;Hintz&quot;,
-                &quot;first_name&quot;: &quot;Lincoln&quot;,
-                &quot;middle_name&quot;: &quot;Николаевна&quot;
-            },
-            {
-                &quot;author_id&quot;: 12,
-                &quot;last_name&quot;: &quot;Gaylord&quot;,
-                &quot;first_name&quot;: &quot;Ivah&quot;,
-                &quot;middle_name&quot;: &quot;Александровна&quot;
-            },
-            {
-                &quot;author_id&quot;: 13,
-                &quot;last_name&quot;: &quot;Kessler&quot;,
-                &quot;first_name&quot;: &quot;Manuela&quot;,
-                &quot;middle_name&quot;: &quot;Борисович&quot;
+                &quot;author_id&quot;: 1,
+                &quot;last_name&quot;: &quot;Дюпро&quot;,
+                &quot;first_name&quot;: &quot;Джин&quot;,
+                &quot;middle_name&quot;: null
             }
         ],
         &quot;publisher&quot;: {
-            &quot;publisher_id&quot;: 26,
-            &quot;publisher_name&quot;: &quot;Mosciski and Sons&quot;
+            &quot;publisher_id&quot;: 1,
+            &quot;publisher_name&quot;: &quot;Махаон&quot;
         },
         &quot;files&quot;: [
-            {
-                &quot;file_id&quot;: 1,
-                &quot;format_id&quot;: 1,
-                &quot;format_name&quot;: &quot;PDF&quot;,
-                &quot;file_size_bytes&quot;: 33200606,
-                &quot;file_size_mb&quot;: 31.66,
-                &quot;read_url&quot;: &quot;/api/books/file/1/read&quot;,
-                &quot;download_url&quot;: &quot;/api/books/file/1/download&quot;
-            },
             {
                 &quot;file_id&quot;: 2,
                 &quot;format_id&quot;: 2,
                 &quot;format_name&quot;: &quot;TXT&quot;,
-                &quot;file_size_bytes&quot;: 7926391,
-                &quot;file_size_mb&quot;: 7.56,
+                &quot;file_size_bytes&quot;: null,
+                &quot;file_size_mb&quot;: 0,
                 &quot;read_url&quot;: &quot;/api/books/file/2/read&quot;,
                 &quot;download_url&quot;: &quot;/api/books/file/2/download&quot;
             },
             {
-                &quot;file_id&quot;: 3,
+                &quot;file_id&quot;: 1,
                 &quot;format_id&quot;: 3,
                 &quot;format_name&quot;: &quot;FB2&quot;,
-                &quot;file_size_bytes&quot;: 10524923,
-                &quot;file_size_mb&quot;: 10.04,
-                &quot;read_url&quot;: &quot;/api/books/file/3/read&quot;,
-                &quot;download_url&quot;: &quot;/api/books/file/3/download&quot;
+                &quot;file_size_bytes&quot;: null,
+                &quot;file_size_mb&quot;: 0,
+                &quot;read_url&quot;: &quot;/api/books/file/1/read&quot;,
+                &quot;download_url&quot;: &quot;/api/books/file/1/download&quot;
             }
         ]
     }
@@ -6461,14 +6201,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/covers/architecto" \
+    --get "http://localhost/api/covers/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/covers/architecto"
+    "http://localhost/api/covers/architecto"
 );
 
 const headers = {
@@ -6603,14 +6343,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/user" \
+    --get "http://localhost/api/user" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/user"
+    "http://localhost/api/user"
 );
 
 const headers = {
@@ -6732,14 +6472,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/books/file/architecto/read" \
+    --get "http://localhost/api/books/file/architecto/read" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/books/file/architecto/read"
+    "http://localhost/api/books/file/architecto/read"
 );
 
 const headers = {
@@ -6874,14 +6614,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/books/file/architecto/download" \
+    --get "http://localhost/api/books/file/architecto/download" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/books/file/architecto/download"
+    "http://localhost/api/books/file/architecto/download"
 );
 
 const headers = {
@@ -7016,14 +6756,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/favorites" \
+    --get "http://localhost/api/favorites" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/favorites"
+    "http://localhost/api/favorites"
 );
 
 const headers = {
@@ -7145,14 +6885,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/favorites/architecto" \
+    "http://localhost/api/favorites/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/favorites/architecto"
+    "http://localhost/api/favorites/architecto"
 );
 
 const headers = {
@@ -7269,14 +7009,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/favorites/architecto" \
+    "http://localhost/api/favorites/architecto" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/favorites/architecto"
+    "http://localhost/api/favorites/architecto"
 );
 
 const headers = {

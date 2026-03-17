@@ -56,11 +56,22 @@ class GenreControllerTest extends TestCase
         $response->assertJsonStructure([
             'genre_id',
             'genre_name',
+            'created_at',
+            'updated_at',
             'books' => [
                 '*' => [
                     'book_id',
                     'book_title',
-                    // другие поля книги
+                    'description',
+                    'published_year',
+                    'publisher_id',
+                    'created_at',
+                    'updated_at',
+                    'cover_path',
+                    'pivot' => [
+                        'genre_id',
+                        'book_id'
+                    ]
                 ],
             ],
         ]);
