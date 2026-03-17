@@ -67,7 +67,10 @@ export const HomePage = () => {
           <>
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Жанры</h2>
-              <GenreList genres={genres} />
+              <GenreList
+                genres={genres}
+                onGenreClick={(genre) => navigate(`/library/genres/${genre.id}`)}
+              />
             </section>
 
             <section className={styles.section}>
