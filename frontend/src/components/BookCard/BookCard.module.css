@@ -1,14 +1,26 @@
 .bookCard {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+}
+
+.cover,
+.coverPlaceholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  border: 1px solid #cfcfcf;
+  overflow: hidden;
+  display: block;
 }
 
 .cover {
-  width: 100%;
-  aspect-ratio: 1 / 1;
+  object-fit: cover;
   background: #d9d9d9;
-  border: 1px solid #cfcfcf;
+}
+
+.coverPlaceholder {
+  background: linear-gradient(180deg, #ececec 0%, #d9d9d9 100%);
 }
 
 .info {
@@ -22,7 +34,7 @@
   color: var(--color-text-primary);
   font-size: 18px;
   line-height: 1.2;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .meta {

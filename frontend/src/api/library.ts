@@ -38,7 +38,11 @@ const normalizeUrl = (url?: string | null) => {
     return url
   }
 
-  return buildUrl(url.startsWith('/') ? url : `/${url}`)
+  if (url.startsWith('/api/')) {
+    return url
+  }
+
+  return url.startsWith('/') ? url : `/${url}`
 }
 
 const getGenreName = (genres?: BookDto['genres']) => {
