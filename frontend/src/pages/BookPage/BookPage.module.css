@@ -236,3 +236,43 @@
     max-width: none;
   }
 }
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.favoriteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.favoriteButton:hover {
+  transform: scale(1.1);
+}
+
+.favoriteButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

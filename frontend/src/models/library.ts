@@ -42,7 +42,7 @@ export type BookDto = {
   is_favorited?: boolean
   genres?: GenreDto[]
   authors?: AuthorDto[]
-  publisher?: PublisherDto
+  publisher?: PublisherDto | string
   files_count?: number
   files?: BookFileDto[]
 }

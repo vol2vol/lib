@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getCurrentUser, logoutUser } from '@api/auth'
 import { ApiError } from '@api/http'
-import { getBooks } from '@api/library'
+import { getFavorites } from '@api/library'
 import { BookList } from '@components/BookList'
 import { Header } from '@components/Header'
 import type { User } from '@models/auth'
@@ -31,13 +31,13 @@ export const ProfilePage = () => {
         setIsLoading(true)
         setError('')
 
-        const [userData, booksData] = await Promise.all([
+        const [userData, favoritesData] = await Promise.all([
           getCurrentUser(token),
-          getBooks(),
+          getFavorites(token),
         ])
 
         setUser(userData)
-        setBooks(booksData.items)
+        setBooks(favoritesData.items)
       } catch (err) {
         localStorage.removeItem('token')
 
@@ -99,7 +99,11 @@ export const ProfilePage = () => {
           {isLogoutLoading ? <p className={styles.state}>Выход...</p> : null}
           {error ? <p className={styles.error}>{error}</p> : null}
 
-          {!isLoading && !error ? (
+          {!isLoading && !error && books.length === 0 ? (
+            <p className={styles.state}>В избранном пока нет книг</p>
+          ) : null}
+
+          {!isLoading && !error && books.length > 0 ? (
             <BookList
               books={books}
               onBookClick={(book) => navigate(`/library/books/${book.id}`)}

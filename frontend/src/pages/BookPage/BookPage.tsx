@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getBookById } from '@api/library'
+import { addToFavorites, getBookById, getFavorites, removeFromFavorites } from '@api/library'
 import { Header } from '@components/Header'
+import { Icon } from '@components/Icon'
 import type { Book, BookFile } from '@models/library'
+import { ApiError } from '@api/http'
 import styles from './BookPage.module.css'
 
 export const BookPage = () => {
@@ -13,6 +15,7 @@ export const BookPage = () => {
   const [selectedFileId, setSelectedFileId] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
+  const [isFavoriteLoading, setIsFavoriteLoading] = useState(false)
 
   useEffect(() => {
     const parsedBookId = Number(bookId)
@@ -23,13 +26,29 @@ export const BookPage = () => {
     }
 
     const loadBook = async () => {
+      const token = localStorage.getItem('token')
+
       try {
         setIsLoading(true)
         setError('')
 
-        const data = await getBookById(parsedBookId)
+        const data = await getBookById(parsedBookId, token ?? undefined)
 
-        setBook(data)
+        let isFavorited = Boolean(data.isFavorited)
+
+        if (token) {
+          try {
+            const favoritesData = await getFavorites(token)
+            isFavorited = favoritesData.items.some((item) => item.id === parsedBookId)
+          } catch {
+            isFavorited = Boolean(data.isFavorited)
+          }
+        }
+
+        setBook({
+          ...data,
+          isFavorited,
+        })
         setSelectedFileId(data.files[0]?.id ?? null)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Не удалось загрузить книгу')
@@ -73,6 +92,49 @@ export const BookPage = () => {
     window.open(selectedFile.downloadUrl, '_blank', 'noopener,noreferrer')
   }
 
+  const handleFavoriteClick = async () => {
+    if (!book) {
+      return
+    }
+
+    const token = localStorage.getItem('token')
+
+    if (!token) {
+      navigate('/signin', { replace: true })
+      return
+    }
+
+    try {
+      setIsFavoriteLoading(true)
+      setError('')
+
+      if (book.isFavorited) {
+        await removeFromFavorites(book.id, token)
+      } else {
+        await addToFavorites(book.id, token)
+      }
+
+      setBook((prev) =>
+        prev
+          ? {
+              ...prev,
+              isFavorited: !prev.isFavorited,
+            }
+          : prev
+      )
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 401) {
+        localStorage.removeItem('token')
+        navigate('/signin', { replace: true })
+        return
+      }
+
+      setError(err instanceof Error ? err.message : 'Не удалось обновить избранное')
+    } finally {
+      setIsFavoriteLoading(false)
+    }
+  }
+
   return (
     <main className={styles.bookPage}>
       <Header
@@ -102,7 +164,22 @@ export const BookPage = () => {
 
             <div className={styles.content}>
               <div className={styles.head}>
-                <h1 className={styles.title}>{book.title}</h1>
+                <div className={styles.titleRow}>
+                  <h1 className={styles.title}>{book.title}</h1>
+
+                  <button
+                    type="button"
+                    className={styles.favoriteButton}
+                    onClick={handleFavoriteClick}
+                    disabled={isFavoriteLoading}
+                  >
+                    <Icon
+                      name={book.isFavorited ? 'FavoriteActive' : 'Favorite'}
+                      size={18}
+                    />
+                  </button>
+                </div>
+
                 <p className={styles.author}>{book.author}</p>
               </div>
 

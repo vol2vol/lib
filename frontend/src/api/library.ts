@@ -7,6 +7,7 @@ import type {
   BookFileDto,
   BookListResponseDto,
   BooksListResult,
+  FavoritesResponseDto,
   Genre,
   GenreDto,
   GetBooksParams,
@@ -89,7 +90,10 @@ const mapBook = (book: BookDto, index: number): Book => ({
   description: book.description ?? '',
   genre: getGenreName(book.genres),
   author: getAuthorName(book.authors),
-  publisher: book.publisher?.publisher_name ?? 'Издательство не указано',
+  publisher:
+    typeof book.publisher === 'string'
+      ? book.publisher
+      : book.publisher?.publisher_name ?? 'Издательство не указано',
   publishedYear: book.published_year ?? null,
   coverUrl: normalizeUrl(book.cover_url),
   isFavorited: Boolean(book.is_favorited),
@@ -126,9 +130,9 @@ export const getBooks = async (params?: GetBooksParams): Promise<BooksListResult
   }
 }
 
-export const getBookById = async (bookId: number): Promise<Book> => {
+export const getBookById = async (bookId: number, token?: string): Promise<Book> => {
   const response = await fetch(buildUrl(`/books/${bookId}`), {
-    headers: createHeaders(),
+    headers: createHeaders(token),
   })
 
   const data = await parseResponse<BookDetailsResponseDto>(response)
@@ -138,6 +142,26 @@ export const getBookById = async (bookId: number): Promise<Book> => {
   }
 
   return mapBook(data.data, 0)
+}
+
+export const getFavorites = async (token: string): Promise<BooksListResult> => {
+  const response = await fetch(buildUrl('/favorites'), {
+    headers: createHeaders(token),
+  })
+
+  const data = await parseResponse<FavoritesResponseDto>(response)
+  const items = Array.isArray(data.data?.data) ? data.data.data.map(mapBook) : []
+
+  return {
+    items,
+    currentPage: data.data?.current_page ?? 1,
+    lastPage: data.data?.last_page ?? 1,
+    perPage: data.data?.per_page ?? items.length,
+    total: data.data?.total ?? items.length,
+    nextPageUrl: data.data?.next_page_url ?? null,
+    prevPageUrl: data.data?.prev_page_url ?? null,
+    message: null,
+  }
 }
 
 export const addToFavorites = async (bookId: number, token: string): Promise<void> => {
