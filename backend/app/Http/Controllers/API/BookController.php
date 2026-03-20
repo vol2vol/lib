@@ -166,7 +166,7 @@ class BookController extends Controller
                 'published_year' => $book->published_year,
                 'cover_url' => $book->cover_path ? '/api/covers/' . basename($book->cover_path) : null,
                 'is_favorited' => auth()->check()
-                    ? auth()->user()->favoriteBooks()->where('book_id', $book->book_id)->exists()
+                    ? auth()->user()->favoriteBooks()->where('favorite_books.book_id', $book->book_id)->exists()
                     : false,
                 'genres' => $book->genres->map(fn($genre) => [
                     'genre_id' => $genre->genre_id,
@@ -208,7 +208,7 @@ class BookController extends Controller
                 'published_year' => $book->published_year,
                 'cover_url' => $book->cover_path ? '/api/covers/' . basename($book->cover_path) : null,
                 'is_favorited' => auth()->check()
-                    ? auth()->user()->favoriteBooks()->where('book_id', $book->book_id)->exists()
+                    ? auth()->user()->favoriteBooks()->where('favorite_books.book_id', $book->book_id)->exists()
                     : false,
                 'genres' => $book->genres->map(fn($genre) => [
                     'genre_id' => $genre->genre_id,

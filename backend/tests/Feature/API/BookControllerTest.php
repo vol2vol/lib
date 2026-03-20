@@ -802,4 +802,66 @@ class BookControllerTest extends TestCase
         $this->assertEquals(1234567, $file['file_size_bytes']);
         $this->assertEquals(1.18, $file['file_size_mb']);
     }
+
+    public function test_index_is_favorited_true_for_authenticated_user_with_favorite()
+    {
+        $user = User::factory()->create();
+        $book = Book::factory()->create();
+
+        $user->favoriteBooks()->attach($book);
+
+        $response = $this->actingAs($user, 'sanctum')
+            ->getJson('/api/books');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment([
+                'book_id' => $book->book_id,
+                'is_favorited' => true
+            ]);
+    }
+
+    public function test_index_is_favorited_false_for_authenticated_user_without_favorite()
+    {
+        $user = User::factory()->create();
+        $book = Book::factory()->create();
+
+        $response = $this->actingAs($user, 'sanctum')
+            ->getJson('/api/books');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment([
+                'book_id' => $book->book_id,
+                'is_favorited' => false
+            ]);
+    }
+
+    public function test_show_is_favorited_true_for_authenticated_user_with_favorite()
+    {
+        $user = User::factory()->create();
+        $book = Book::factory()->create();
+
+        $user->favoriteBooks()->attach($book);
+
+        $response = $this->actingAs($user, 'sanctum')
+            ->getJson("/api/books/{$book->book_id}");
+
+        $response->assertStatus(200)
+            ->assertJsonFragment([
+                'is_favorited' => true
+            ]);
+    }
+
+    public function test_show_is_favorited_false_for_authenticated_user_without_favorite()
+    {
+        $user = User::factory()->create();
+        $book = Book::factory()->create();
+
+        $response = $this->actingAs($user, 'sanctum')
+            ->getJson("/api/books/{$book->book_id}");
+
+        $response->assertStatus(200)
+            ->assertJsonFragment([
+                'is_favorited' => false
+            ]);
+    }
 }
