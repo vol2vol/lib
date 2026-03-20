@@ -1,4 +1,4 @@
-import { buildUrl, createHeaders, parseResponse } from './http'
+import { buildUrl, createHeaders, parseResponse, ApiError } from './http'
 import type {
   Book,
   BookDetailsResponseDto,
@@ -101,6 +101,57 @@ const mapBook = (book: BookDto, index: number): Book => ({
   files: Array.isArray(book.files) ? book.files.map(mapBookFile) : [],
 })
 
+const extractFileName = (response: Response, fallbackFileName: string) => {
+  const contentDisposition = response.headers.get('content-disposition') ?? ''
+
+  const utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i)
+  if (utf8Match?.[1]) {
+    return decodeURIComponent(utf8Match[1])
+  }
+
+  const plainMatch = contentDisposition.match(/filename="?([^"]+)"?/i)
+  if (plainMatch?.[1]) {
+    return plainMatch[1]
+  }
+
+  return fallbackFileName
+}
+
+const getProtectedFileBlob = async (
+  path: string,
+  token: string,
+  fallbackFileName: string
+): Promise<{ blob: Blob; fileName: string; contentType: string }> => {
+  const response = await fetch(buildUrl(path), {
+    method: 'GET',
+    headers: createHeaders(token),
+  })
+
+  if (!response.ok) {
+    const raw = await response.clone().text()
+    let message = `Ошибка запроса: ${response.status}`
+
+    if (raw) {
+      try {
+        const data = JSON.parse(raw)
+        if (data?.message) {
+          message = data.message
+        }
+      } catch {
+        message = 'Не удалось получить файл'
+      }
+    }
+
+    throw new ApiError(message, response.status)
+  }
+
+  const blob = await response.blob()
+  const fileName = extractFileName(response, fallbackFileName)
+  const contentType = response.headers.get('content-type') ?? blob.type ?? ''
+
+  return { blob, fileName, contentType }
+}
+
 export const getGenres = async (): Promise<Genre[]> => {
   const response = await fetch(buildUrl('/genres'), {
     headers: createHeaders(),
@@ -180,4 +231,40 @@ export const removeFromFavorites = async (bookId: number, token: string): Promis
   })
 
   await parseResponse<void>(response)
+}
+
+export const getBookFileForReading = async (
+  fileId: number,
+  token: string
+): Promise<{ blob: Blob; fileName: string; contentType: string }> => {
+  return getProtectedFileBlob(`/books/file/${fileId}/read`, token, `book-file-${fileId}`)
+}
+
+export const readBookFile = async (fileId: number, token: string): Promise<string> => {
+  const { blob } = await getProtectedFileBlob(
+    `/books/file/${fileId}/read`,
+    token,
+    `book-file-${fileId}`
+  )
+
+  return URL.createObjectURL(blob)
+}
+
+export const downloadBookFile = async (fileId: number, token: string): Promise<void> => {
+  const { blob, fileName } = await getProtectedFileBlob(
+    `/books/file/${fileId}/download`,
+    token,
+    `book-file-${fileId}`
+  )
+
+  const blobUrl = URL.createObjectURL(blob)
+
+  const link = document.createElement('a')
+  link.href = blobUrl
+  link.download = fileName
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+
+  URL.revokeObjectURL(blobUrl)
 }

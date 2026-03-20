@@ -1,0 +1,260 @@
+.page {
+  min-height: 100vh;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.pageDark {
+  background: #231f18;
+  color: #f3ead7;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 48px 1fr 48px;
+  align-items: center;
+  gap: 16px;
+  height: 80px;
+  padding: 0 24px;
+  background: var(--color-bg-primary);
+}
+
+.logoWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  width: 130px;
+  height: auto;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 18px 16px 32px;
+}
+
+.settingsPanel {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 260px;
+  padding: 14px;
+  background: #99bc57;
+}
+
+.settingsTitle {
+  margin-bottom: 10px;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.settingsRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.settingsBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 86px;
+  min-height: 42px;
+  padding: 0 10px;
+  background: #f1eadb;
+  color: #000;
+}
+
+.select {
+  width: 84px;
+  height: 36px;
+  border: none;
+  padding: 0 8px;
+  background: #fff;
+  color: #000;
+  outline: none;
+}
+
+.themeButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.themeButton {
+  width: 86px;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: none;
+  background: #f1eadb;
+  color: #000;
+  text-align: left;
+  cursor: pointer;
+}
+
+.themeButtonActive {
+  outline: 2px solid rgba(0, 0, 0, 0.25);
+}
+
+.saveButton {
+  display: block;
+  margin: 0 auto;
+  min-height: 34px;
+  padding: 6px 14px;
+  border: none;
+  background: #dcebb8;
+  color: #7ca03c;
+  cursor: pointer;
+}
+
+.state,
+.error {
+  margin: 0;
+  padding: 40px 0;
+  text-align: center;
+  font-size: 20px;
+}
+
+.error {
+  color: #b42318;
+}
+
+.readerSurface {
+  min-height: calc(100vh - 130px);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.pageDark .readerSurface {
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.textReader {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 8px 20px 48px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.textReader a {
+  color: inherit;
+}
+
+.paragraph {
+  margin: 0 0 18px;
+  text-indent: 2em;
+}
+
+.title {
+  margin: 0;
+  text-align: center;
+  text-indent: 0;
+}
+
+.titleLevel1 {
+  margin-bottom: 24px;
+  font-size: 1.5em;
+  line-height: 1.2;
+}
+
+.titleLevel2 {
+  margin: 28px 0 16px;
+  font-size: 1.25em;
+  line-height: 1.2;
+}
+
+.titleLevel3 {
+  margin: 24px 0 14px;
+  font-size: 1.1em;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: 18px 0;
+  text-align: center;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+.epigraph {
+  width: min(540px, 100%);
+  margin: 0 0 16px auto;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.textAuthor {
+  width: min(540px, 100%);
+  margin: -6px 0 20px auto;
+  text-align: right;
+  font-style: italic;
+}
+
+.poem {
+  margin: 24px 0;
+  line-height: 1.7;
+  white-space: normal;
+}
+
+.image {
+  display: block;
+  max-width: 100%;
+  margin: 24px auto;
+}
+
+.emptyLine {
+  height: 18px;
+}
+
+.pdfWrap {
+  height: calc(100vh - 130px);
+  background: #fff;
+}
+
+.pdfFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.pageDark .pdfWrap {
+  background: #2f2a22;
+}
+
+@media (max-width: 900px) {
+  .header {
+    padding: 0 16px;
+  }
+
+  .logo {
+    width: 110px;
+  }
+
+  .settingsPanel {
+    width: 240px;
+  }
+
+  .textReader {
+    padding: 8px 8px 32px;
+  }
+}

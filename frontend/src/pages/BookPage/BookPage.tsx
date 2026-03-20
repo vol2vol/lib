@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { addToFavorites, getBookById, getFavorites, removeFromFavorites } from '@api/library'
+import {
+  addToFavorites,
+  downloadBookFile,
+  getBookById,
+  getFavorites,
+  removeFromFavorites,
+} from '@api/library'
 import { Header } from '@components/Header'
 import { Icon } from '@components/Icon'
 import type { Book, BookFile } from '@models/library'
@@ -16,6 +22,7 @@ export const BookPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [isFavoriteLoading, setIsFavoriteLoading] = useState(false)
+  const [isFileLoading, setIsFileLoading] = useState(false)
 
   useEffect(() => {
     const parsedBookId = Number(bookId)
@@ -77,19 +84,48 @@ export const BookPage = () => {
   }
 
   const handleRead = () => {
-    if (!selectedFile?.readUrl) {
+    if (!selectedFile) {
       return
     }
 
-    window.open(selectedFile.readUrl, '_blank', 'noopener,noreferrer')
+    const token = localStorage.getItem('token')
+
+    if (!token) {
+      navigate('/signin', { replace: true })
+      return
+    }
+
+    navigate(`/library/read/${selectedFile.id}`)
   }
 
-  const handleDownload = () => {
-    if (!selectedFile?.downloadUrl) {
+  const handleDownload = async () => {
+    if (!selectedFile) {
       return
     }
 
-    window.open(selectedFile.downloadUrl, '_blank', 'noopener,noreferrer')
+    const token = localStorage.getItem('token')
+
+    if (!token) {
+      navigate('/signin', { replace: true })
+      return
+    }
+
+    try {
+      setIsFileLoading(true)
+      setError('')
+
+      await downloadBookFile(selectedFile.id, token)
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 401) {
+        localStorage.removeItem('token')
+        navigate('/signin', { replace: true })
+        return
+      }
+
+      setError(err instanceof Error ? err.message : 'Не удалось скачать файл')
+    } finally {
+      setIsFileLoading(false)
+    }
   }
 
   const handleFavoriteClick = async () => {
@@ -152,11 +188,7 @@ export const BookPage = () => {
           <div className={styles.layout}>
             <div className={styles.coverColumn}>
               {book.coverUrl ? (
-                <img
-                  className={styles.cover}
-                  src={book.coverUrl}
-                  alt={book.title}
-                />
+                <img className={styles.cover} src={book.coverUrl} alt={book.title} />
               ) : (
                 <div className={styles.coverPlaceholder} />
               )}
@@ -173,10 +205,7 @@ export const BookPage = () => {
                     onClick={handleFavoriteClick}
                     disabled={isFavoriteLoading}
                   >
-                    <Icon
-                      name={book.isFavorited ? 'FavoriteActive' : 'Favorite'}
-                      size={18}
-                    />
+                    <Icon name={book.isFavorited ? 'FavoriteActive' : 'Favorite'} size={18} />
                   </button>
                 </div>
 
@@ -196,9 +225,7 @@ export const BookPage = () => {
 
                 <div className={styles.metaItem}>
                   <dt className={styles.metaLabel}>Год</dt>
-                  <dd className={styles.metaValue}>
-                    {book.publishedYear ?? 'Не указан'}
-                  </dd>
+                  <dd className={styles.metaValue}>{book.publishedYear ?? 'Не указан'}</dd>
                 </div>
               </dl>
 
@@ -236,7 +263,7 @@ export const BookPage = () => {
                         type="button"
                         className={styles.primaryButton}
                         onClick={handleRead}
-                        disabled={!selectedFile?.readUrl}
+                        disabled={!selectedFile}
                       >
                         Читать
                       </button>
@@ -245,7 +272,7 @@ export const BookPage = () => {
                         type="button"
                         className={styles.secondaryButton}
                         onClick={handleDownload}
-                        disabled={!selectedFile?.downloadUrl}
+                        disabled={!selectedFile || isFileLoading}
                       >
                         Скачать
                       </button>
