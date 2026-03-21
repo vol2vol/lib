@@ -44,7 +44,7 @@ export const Header = ({
       case 'back':
         return (
           <HeaderActionButton
-            iconName="BackButtun"
+            iconName="BackButton"
             onClick={onBackClick}
             ariaLabel="Назад"
           />

@@ -87,9 +87,15 @@ export const SignUpPage = () => {
   return (
     <main className={styles.signUpPage}>
       <section className={styles.content}>
-        <button className={styles.back} onClick={() => navigate('/library')}>
-          <Icon name="BackButtun" size={20} />
+        <button
+          className={styles.back}
+          type="button"
+          onClick={() => navigate('/library')}
+          aria-label="Назад"
+        >
+          <Icon name="BackButton" className={styles.backIcon} />
         </button>
+
         <Icon name="Logo" className={styles.logo} />
 
         <p className={styles.subtitle}>Чтобы присоединиться, зарегистрируйтесь</p>
@@ -197,9 +203,9 @@ export const SignUpPage = () => {
             </Link>
           </div>
 
-        <button className={styles.submit} type="submit" disabled={isLoading}>
-            {isLoading ? '...' : <Icon name="ForwardButton" size={20} />}
-        </button>
+          <button className={styles.submit} type="submit" disabled={isLoading}>
+            {isLoading ? '...' : <Icon name="ForwardButton" className={styles.submitIcon} />}
+          </button>
         </form>
       </section>
     </main>
