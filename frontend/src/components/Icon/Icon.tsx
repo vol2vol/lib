@@ -6,15 +6,22 @@ type IconProps = {
   className?: string
 }
 
-export const Icon = ({ name, size = 24, className }: IconProps) => {
+export const Icon = ({ name, size, className }: IconProps) => {
   const src = `/src/assets/icons/${name}.svg`
+
+  const inlineStyle =
+    size !== undefined
+      ? {
+          width: typeof size === 'number' ? `${size}px` : size,
+          height: typeof size === 'number' ? `${size}px` : size,
+        }
+      : undefined
 
   return (
     <img
       src={src}
       alt={name}
-      width={size}
-      height={size}
+      style={inlineStyle}
       className={`${styles.icon} ${className ?? ''}`}
     />
   )

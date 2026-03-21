@@ -82,9 +82,9 @@ export const ProfilePage = () => {
   return (
     <main className={styles.profilePage}>
       <Header
-        showBackButton
-        showSearch={false}
-        showExit
+        leftVariant="back"
+        centerVariant="logo"
+        rightVariant="exit"
         onBackClick={() => navigate(-1)}
         onExitClick={handleLogout}
       />

@@ -1,63 +1,112 @@
-import { Icon } from '@components/Icon'
-import { ProfileButton } from '@components/ProfileButton'
-import { ExitButton } from '@components/ExitButton'
 import { SearchBar } from '@components/SearchBar'
+import { HeaderLogo } from '@components/HeaderLogo'
+import { HeaderActionButton } from '@components/HeaderActionButton'
 import styles from './Header.module.css'
 
+type HeaderLeftVariant = 'logo' | 'back' | 'none'
+type HeaderCenterVariant = 'search' | 'logo' | 'title' | 'none'
+type HeaderRightVariant = 'profile' | 'exit' | 'settings' | 'none'
+
 type HeaderProps = {
+  leftVariant?: HeaderLeftVariant
+  centerVariant?: HeaderCenterVariant
+  rightVariant?: HeaderRightVariant
+  title?: string
   searchValue?: string
   onSearchChange?: (value: string) => void
-  onProfileClick?: () => void
   onBackClick?: () => void
+  onProfileClick?: () => void
   onExitClick?: () => void
-  showBackButton?: boolean
-  showSearch?: boolean
-  showExit?: boolean
+  onSettingsClick?: () => void
 }
 
 export const Header = ({
+  leftVariant = 'none',
+  centerVariant = 'none',
+  rightVariant = 'none',
+  title = '',
   searchValue = '',
   onSearchChange,
-  onProfileClick,
   onBackClick,
+  onProfileClick,
   onExitClick,
-  showBackButton = false,
-  showSearch = true,
-  showExit = false,
+  onSettingsClick,
 }: HeaderProps) => {
-  return (
-    <header className={styles.header}>
-      <div className={styles.left}>
-        {showBackButton ? (
-          <button
-            type="button"
-            className={styles.iconButton}
+  const headerClassName = [
+    styles.header,
+    centerVariant === 'search' ? styles.headerSearch : styles.headerFixedCenter,
+  ].join(' ')
+
+  const renderLeft = () => {
+    switch (leftVariant) {
+      case 'logo':
+        return <HeaderLogo />
+      case 'back':
+        return (
+          <HeaderActionButton
+            iconName="BackButtun"
             onClick={onBackClick}
-          >
-            <Icon name="BackButtun" size={28} />
-          </button>
-        ) : (
-          <Icon name="Logo" className={styles.logo} />
-        )}
-      </div>
+            ariaLabel="Назад"
+          />
+        )
+      default:
+        return null
+    }
+  }
 
-      <div className={styles.center}>
-        {showSearch ? (
+  const renderCenter = () => {
+    switch (centerVariant) {
+      case 'search':
+        return (
           <div className={styles.searchWrap}>
-            <SearchBar value={searchValue} onChange={onSearchChange!} />
+            <SearchBar value={searchValue} onChange={onSearchChange ?? (() => {})} />
           </div>
-        ) : (
-          <Icon name="Logo" className={styles.logo} />
-        )}
-      </div>
+        )
+      case 'logo':
+        return <HeaderLogo />
+      case 'title':
+        return <h1 className={styles.title}>{title}</h1>
+      default:
+        return null
+    }
+  }
 
-      <div className={styles.right}>
-        {showExit ? (
-          <ExitButton onClick={onExitClick} />
-        ) : (
-          <ProfileButton onClick={onProfileClick} />
-        )}
-      </div>
+  const renderRight = () => {
+    switch (rightVariant) {
+      case 'profile':
+        return (
+          <HeaderActionButton
+            iconName="Avatar"
+            onClick={onProfileClick}
+            ariaLabel="Профиль"
+          />
+        )
+      case 'exit':
+        return (
+          <HeaderActionButton
+            iconName="Exit"
+            onClick={onExitClick}
+            ariaLabel="Выход"
+          />
+        )
+      case 'settings':
+        return (
+          <HeaderActionButton
+            iconName="Settings"
+            onClick={onSettingsClick}
+            ariaLabel="Настройки"
+          />
+        )
+      default:
+        return null
+    }
+  }
+
+  return (
+    <header className={headerClassName}>
+      <div className={styles.left}>{renderLeft()}</div>
+      <div className={styles.center}>{renderCenter()}</div>
+      <div className={styles.right}>{renderRight()}</div>
     </header>
   )
 }

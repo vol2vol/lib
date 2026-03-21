@@ -174,8 +174,9 @@ export const BookPage = () => {
   return (
     <main className={styles.bookPage}>
       <Header
-        showBackButton
-        showSearch={false}
+        leftVariant="back"
+        centerVariant="logo"
+        rightVariant="profile"
         onBackClick={handleBack}
         onProfileClick={() => navigate('/profile')}
       />

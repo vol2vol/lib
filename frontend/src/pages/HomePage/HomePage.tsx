@@ -54,6 +54,9 @@ export const HomePage = () => {
   return (
     <main className={styles.homePage}>
       <Header
+        leftVariant="logo"
+        centerVariant="search"
+        rightVariant="profile"
         searchValue={search}
         onSearchChange={setSearch}
         onProfileClick={() => navigate('/profile')}
