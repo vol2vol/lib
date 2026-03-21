@@ -1,4 +1,4 @@
-import { useMemo, type WheelEvent } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { GenreCard } from '@components/GenreCard'
 import type { Genre } from 'models/library'
 import styles from './GenreList.module.css'
@@ -9,6 +9,8 @@ type GenreListProps = {
 }
 
 export const GenreList = ({ genres, onGenreClick }: GenreListProps) => {
+  const viewportRef = useRef<HTMLDivElement | null>(null)
+
   const columns = useMemo(() => {
     const result: Genre[][] = []
 
@@ -19,19 +21,49 @@ export const GenreList = ({ genres, onGenreClick }: GenreListProps) => {
     return result
   }, [genres])
 
-  const handleWheel = (event: WheelEvent<HTMLDivElement>) => {
-    const element = event.currentTarget
+  useEffect(() => {
+    const element = viewportRef.current
 
-    if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+    if (!element) {
       return
     }
 
-    element.scrollLeft += event.deltaY
-    event.preventDefault()
-  }
+    const handleWheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+        return
+      }
+
+      const maxScrollLeft = element.scrollWidth - element.clientWidth
+      const canScrollHorizontally = maxScrollLeft > 0
+
+      if (!canScrollHorizontally) {
+        return
+      }
+
+      const isScrollingDown = event.deltaY > 0
+      const isAtStart = element.scrollLeft <= 0
+      const isAtEnd = element.scrollLeft >= maxScrollLeft
+
+      if ((!isScrollingDown && isAtStart) || (isScrollingDown && isAtEnd)) {
+        return
+      }
+
+      event.preventDefault()
+      element.scrollBy({
+        left: event.deltaY,
+        behavior: 'auto',
+      })
+    }
+
+    element.addEventListener('wheel', handleWheel, { passive: false })
+
+    return () => {
+      element.removeEventListener('wheel', handleWheel)
+    }
+  }, [])
 
   return (
-    <div className={styles.viewport} onWheel={handleWheel}>
+    <div ref={viewportRef} className={styles.viewport}>
       <div className={styles.track}>
         {columns.map((column, index) => (
           <div key={index} className={styles.column}>
