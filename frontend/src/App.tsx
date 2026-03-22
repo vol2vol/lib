@@ -7,6 +7,7 @@ import { ProfilePage } from '@pages/ProfilePage'
 import { GenrePage } from '@pages/GenrePage'
 import { BookPage } from '@pages/BookPage'
 import { RenderPage } from '@pages/RenderPage'
+import { AdminPage } from '@pages/AdminPage'
 
 export const App = () => {
   return (
@@ -19,6 +20,7 @@ export const App = () => {
       <Route path="/library/books/:bookId" element={<BookPage />} />
       <Route path="/library/read/:fileId" element={<RenderPage />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/admin" element={<AdminPage />} />
     </Routes>
   )
 }
