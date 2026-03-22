@@ -9,7 +9,7 @@ type PaginationProps = {
   onPerPageChange: (value: number) => void
 }
 
-const PER_PAGE_OPTIONS = [15, 30, 60]
+const PER_PAGE_OPTIONS = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
 
 const getVisiblePages = (currentPage: number, lastPage: number) => {
   if (lastPage <= 1) {

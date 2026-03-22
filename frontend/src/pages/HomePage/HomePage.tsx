@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getAuthors, getBooks, getGenres } from '@api/library'
+import { getAuthors, getBooks, getGenres, getPublishers } from '@api/library'
 import { BookList } from '@components/BookList'
 import { FiltersPanel } from '@components/FiltersPanel'
 import { GenreList } from '@components/GenreList'
 import { Header } from '@components/Header'
 import { Pagination } from '@components/Pagination'
-import type { Author, Book, Genre, GetBooksParams } from '@models/library'
+import type { Author, Book, Genre, GetBooksParams, Publisher } from '@models/library'
 import styles from './HomePage.module.css'
 
 const DEFAULT_PER_PAGE = 15
 
 type AppliedFilters = Pick<
   GetBooksParams,
-  'search' | 'author_id' | 'genre_id' | 'year_from' | 'year_to'
+  'search' | 'author_ids' | 'genre_ids' | 'publisher_id' | 'year_from' | 'year_to'
 >
 
 export const HomePage = () => {
@@ -21,11 +21,13 @@ export const HomePage = () => {
 
   const [genres, setGenres] = useState<Genre[]>([])
   const [authors, setAuthors] = useState<Author[]>([])
+  const [publishers, setPublishers] = useState<Publisher[]>([])
   const [books, setBooks] = useState<Book[]>([])
 
   const [search, setSearch] = useState('')
-  const [draftAuthorId, setDraftAuthorId] = useState('')
-  const [draftGenreId, setDraftGenreId] = useState('')
+  const [draftAuthorIds, setDraftAuthorIds] = useState<number[]>([])
+  const [draftGenreIds, setDraftGenreIds] = useState<number[]>([])
+  const [draftPublisherId, setDraftPublisherId] = useState<number | null>(null)
   const [draftYearFrom, setDraftYearFrom] = useState('')
   const [draftYearTo, setDraftYearTo] = useState('')
   const [isFilterOpen, setIsFilterOpen] = useState(false)
@@ -49,10 +51,15 @@ export const HomePage = () => {
         setIsLookupsLoading(true)
         setLookupError('')
 
-        const [genresData, authorsData] = await Promise.all([getGenres(), getAuthors()])
+        const [genresData, authorsData, publishersData] = await Promise.all([
+          getGenres(),
+          getAuthors(),
+          getPublishers(),
+        ])
 
         setGenres(genresData)
         setAuthors(authorsData)
+        setPublishers(publishersData)
       } catch (err) {
         setLookupError(err instanceof Error ? err.message : 'Произошла ошибка при загрузке фильтров')
       } finally {
@@ -73,8 +80,9 @@ export const HomePage = () => {
           page,
           per_page: perPage,
           search: appliedFilters.search,
-          author_id: appliedFilters.author_id,
-          genre_id: appliedFilters.genre_id,
+          author_ids: appliedFilters.author_ids,
+          genre_ids: appliedFilters.genre_ids,
+          publisher_id: appliedFilters.publisher_id,
           year_from: appliedFilters.year_from,
           year_to: appliedFilters.year_to,
         })
@@ -113,11 +121,7 @@ export const HomePage = () => {
     const nextYearFrom = draftYearFrom ? Number(draftYearFrom) : undefined
     const nextYearTo = draftYearTo ? Number(draftYearTo) : undefined
 
-    if (
-      nextYearFrom !== undefined &&
-      nextYearTo !== undefined &&
-      nextYearFrom > nextYearTo
-    ) {
+    if (nextYearFrom !== undefined && nextYearTo !== undefined && nextYearFrom > nextYearTo) {
       setValidationError('Поле "Год от" не может быть больше поля "Год до"')
       return
     }
@@ -126,8 +130,9 @@ export const HomePage = () => {
     setPage(1)
     setAppliedFilters({
       search: normalizedSearch || undefined,
-      author_id: draftAuthorId ? Number(draftAuthorId) : undefined,
-      genre_id: draftGenreId ? Number(draftGenreId) : undefined,
+      author_ids: draftAuthorIds.length > 0 ? draftAuthorIds : undefined,
+      genre_ids: draftGenreIds.length > 0 ? draftGenreIds : undefined,
+      publisher_id: draftPublisherId ?? undefined,
       year_from: nextYearFrom,
       year_to: nextYearTo,
     })
@@ -140,8 +145,9 @@ export const HomePage = () => {
 
   const handleClearDraftFilters = () => {
     setSearch('')
-    setDraftAuthorId('')
-    setDraftGenreId('')
+    setDraftAuthorIds([])
+    setDraftGenreIds([])
+    setDraftPublisherId(null)
     setDraftYearFrom('')
     setDraftYearTo('')
     setValidationError('')
@@ -151,8 +157,9 @@ export const HomePage = () => {
   const error = validationError || booksError || lookupError
   const hasAppliedFilters =
     Boolean(appliedFilters.search) ||
-    Boolean(appliedFilters.author_id) ||
-    Boolean(appliedFilters.genre_id) ||
+    Boolean(appliedFilters.author_ids?.length) ||
+    Boolean(appliedFilters.genre_ids?.length) ||
+    Boolean(appliedFilters.publisher_id) ||
     Boolean(appliedFilters.year_from) ||
     Boolean(appliedFilters.year_to)
 
@@ -178,16 +185,22 @@ export const HomePage = () => {
             <FiltersPanel
               authors={authors}
               genres={genres}
-              authorId={draftAuthorId}
-              genreId={draftGenreId}
+              publishers={publishers}
+              authorIds={draftAuthorIds}
+              genreIds={draftGenreIds}
+              publisherId={draftPublisherId}
               yearFrom={draftYearFrom}
               yearTo={draftYearTo}
               onAuthorChange={(value) => {
-                setDraftAuthorId(value)
+                setDraftAuthorIds(value)
                 setValidationError('')
               }}
               onGenreChange={(value) => {
-                setDraftGenreId(value)
+                setDraftGenreIds(value)
+                setValidationError('')
+              }}
+              onPublisherChange={(value) => {
+                setDraftPublisherId(value)
                 setValidationError('')
               }}
               onYearFromChange={(value) => {

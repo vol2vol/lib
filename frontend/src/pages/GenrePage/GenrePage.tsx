@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getBooks, getGenres } from '@api/library'
-import { BookCard } from '@components/BookCard'
+import { BookList } from '@components/BookList'
 import { Header } from '@components/Header'
 import { Pagination } from '@components/Pagination'
 import type { Book, Genre } from '@models/library'
@@ -130,37 +130,34 @@ export const GenrePage = () => {
       />
 
       <section className={styles.container}>
-        <div className={styles.heading}>
-          <h1 className={styles.title}>{genre?.name ?? 'Жанр'}</h1>
+        <section className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h1 className={styles.sectionTitle}>{genre?.name ?? 'Жанр'}</h1>
 
-          <Pagination
-            currentPage={page}
-            lastPage={lastPage}
-            perPage={perPage}
-            total={total}
-            onPageChange={setPage}
-            onPerPageChange={handlePerPageChange}
-          />
-        </div>
+            <Pagination
+              currentPage={page}
+              lastPage={lastPage}
+              perPage={perPage}
+              total={total}
+              onPageChange={setPage}
+              onPerPageChange={handlePerPageChange}
+            />
+          </div>
 
-        {isLoading ? <p className={styles.state}>Загрузка...</p> : null}
-        {error ? <p className={styles.error}>{error}</p> : null}
+          {isLoading ? <p className={styles.state}>Загрузка...</p> : null}
+          {error ? <p className={styles.error}>{error}</p> : null}
 
-        {!isLoading && !error ? (
-          books.length > 0 ? (
-            <div className={styles.grid}>
-              {books.map((book) => (
-                <BookCard
-                  key={book.id}
-                  book={book}
-                  onClick={() => navigate(`/library/books/${book.id}`)}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className={styles.state}>В этом жанре книги не найдены</p>
-          )
-        ) : null}
+          {!isLoading && !error ? (
+            books.length > 0 ? (
+              <BookList
+                books={books}
+                onBookClick={(book) => navigate(`/library/books/${book.id}`)}
+              />
+            ) : (
+              <p className={styles.state}>В этом жанре книги не найдены</p>
+            )
+          ) : null}
+        </section>
       </section>
     </main>
   )

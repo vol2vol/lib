@@ -11,12 +11,15 @@ import type {
   AuthorDto,
   Genre,
   GenreDto,
+  Publisher,
+  PublisherDto,
   BookFormPayload,
   GetBooksParams,
+  GetFavoritesParams,
   FavoritesResponseDto,
 } from '@models/library'
 
-const createQueryString = (params?: GetBooksParams) => {
+const createQueryString = (params?: GetBooksParams | GetFavoritesParams) => {
   if (!params) {
     return ''
   }
@@ -24,9 +27,33 @@ const createQueryString = (params?: GetBooksParams) => {
   const searchParams = new URLSearchParams()
 
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== '') {
-      searchParams.set(key, String(value))
+    if (value === undefined || value === null) {
+      return
     }
+
+    if (typeof value === 'string') {
+      const normalized = value.trim()
+
+      if (!normalized) {
+        return
+      }
+
+      searchParams.set(key, normalized)
+      return
+    }
+
+    if (Array.isArray(value)) {
+      value.forEach((item) => {
+        if (item === undefined || item === null) {
+          return
+        }
+
+        searchParams.append(`${key}[]`, String(item))
+      })
+      return
+    }
+
+    searchParams.set(key, String(value))
   })
 
   const query = searchParams.toString()
@@ -62,6 +89,11 @@ const mapAuthor = (author: AuthorDto, index: number): Author => ({
 const mapGenre = (genre: GenreDto, index: number): Genre => ({
   id: genre.genre_id ?? index,
   name: genre.genre_name ?? `Жанр ${index + 1}`,
+})
+
+const mapPublisher = (publisher: PublisherDto, index: number): Publisher => ({
+  id: publisher.publisher_id ?? index,
+  name: publisher.publisher_name ?? `Издательство ${index + 1}`,
 })
 
 const getGenreName = (genres?: BookDto['genres']) => {
@@ -185,6 +217,15 @@ export const getAuthors = async (): Promise<Author[]> => {
   return data.map(mapAuthor)
 }
 
+export const getPublishers = async (): Promise<Publisher[]> => {
+  const response = await fetch(buildUrl('/publishers'), {
+    headers: createHeaders(),
+  })
+
+  const data = await parseResponse<PublisherDto[]>(response)
+  return data.map(mapPublisher)
+}
+
 export const getAdminGenres = async (token: string): Promise<Genre[]> => {
   const response = await fetch(buildUrl('/admin/genres'), {
     headers: createHeaders(token),
@@ -262,8 +303,11 @@ export const getBookById = async (bookId: number, token?: string): Promise<Book>
   return mapBook(data.data, 0)
 }
 
-export const getFavorites = async (token: string): Promise<BooksListResult> => {
-  const response = await fetch(buildUrl('/favorites'), {
+export const getFavorites = async (
+  token: string,
+  params?: GetFavoritesParams
+): Promise<BooksListResult> => {
+  const response = await fetch(buildUrl(`/favorites${createQueryString(params)}`), {
     headers: createHeaders(token),
   })
 
@@ -280,6 +324,11 @@ export const getFavorites = async (token: string): Promise<BooksListResult> => {
     prevPageUrl: data.data?.prev_page_url ?? null,
     message: null,
   }
+}
+
+export const getAllFavorites = async (token: string): Promise<Book[]> => {
+  const response = await getFavorites(token, { all: true })
+  return response.items
 }
 
 export const addToFavorites = async (bookId: number, token: string): Promise<void> => {
@@ -355,7 +404,6 @@ export const createBook = async (
   formData.append('book_title', payload.book_title)
   formData.append('description', payload.description ?? '')
 
-  // Отправляем только author и genres как строки
   formData.append('author', payload.author)
 
   if (payload.published_year !== undefined && payload.published_year !== null) {
@@ -402,8 +450,6 @@ export const updateBook = async (
   formData.append('book_title', payload.book_title)
   formData.append('description', payload.description ?? '')
 
-  // Отправляем author и genres как строки, но также отправляем author_ids[] и genre_ids[]
-  // для совместимости с бэкендом
   formData.append('author', payload.author)
   formData.append('author_ids[]', payload.author)
 

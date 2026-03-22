@@ -1,15 +1,19 @@
-import type { Author, Genre } from '@models/library'
+import { MultiSelect } from '@components/MultiSelect'
+import type { Author, Genre, Publisher } from '@models/library'
 import styles from './FiltersPanel.module.css'
 
 type FiltersPanelProps = {
   authors: Author[]
   genres: Genre[]
-  authorId: string
-  genreId: string
+  publishers: Publisher[]
+  authorIds: number[]
+  genreIds: number[]
+  publisherId: number | null
   yearFrom: string
   yearTo: string
-  onAuthorChange: (value: string) => void
-  onGenreChange: (value: string) => void
+  onAuthorChange: (value: number[]) => void
+  onGenreChange: (value: number[]) => void
+  onPublisherChange: (value: number | null) => void
   onYearFromChange: (value: string) => void
   onYearToChange: (value: string) => void
   onClear: () => void
@@ -20,12 +24,15 @@ const normalizeYearValue = (value: string) => value.replace(/\D+/g, '').slice(0,
 export const FiltersPanel = ({
   authors,
   genres,
-  authorId,
-  genreId,
+  publishers,
+  authorIds,
+  genreIds,
+  publisherId,
   yearFrom,
   yearTo,
   onAuthorChange,
   onGenreChange,
+  onPublisherChange,
   onYearFromChange,
   onYearToChange,
   onClear,
@@ -35,34 +42,42 @@ export const FiltersPanel = ({
       <div className={styles.grid}>
         <label className={styles.field}>
           <span className={styles.label}>Автор</span>
-          <select
-            className={styles.select}
-            value={authorId}
-            onChange={(event) => onAuthorChange(event.target.value)}
-          >
-            <option value="">Все авторы</option>
-            {authors.map((author) => (
-              <option key={author.id} value={author.id}>
-                {author.fullName}
-              </option>
-            ))}
-          </select>
+          <MultiSelect
+            items={authors.map((author) => ({
+              id: author.id,
+              name: author.fullName,
+            }))}
+            selectedIds={authorIds}
+            onSelectionChange={onAuthorChange}
+            placeholder="Все авторы"
+          />
         </label>
 
         <label className={styles.field}>
           <span className={styles.label}>Жанр</span>
-          <select
-            className={styles.select}
-            value={genreId}
-            onChange={(event) => onGenreChange(event.target.value)}
-          >
-            <option value="">Все жанры</option>
-            {genres.map((genre) => (
-              <option key={genre.id} value={genre.id}>
-                {genre.name}
-              </option>
-            ))}
-          </select>
+          <MultiSelect
+            items={genres.map((genre) => ({
+              id: genre.id,
+              name: genre.name,
+            }))}
+            selectedIds={genreIds}
+            onSelectionChange={onGenreChange}
+            placeholder="Все жанры"
+          />
+        </label>
+
+        <label className={styles.field}>
+          <span className={styles.label}>Издательство</span>
+          <MultiSelect
+            items={publishers.map((publisher) => ({
+              id: publisher.id,
+              name: publisher.name,
+            }))}
+            selectedIds={publisherId !== null ? [publisherId] : []}
+            onSelectionChange={(value) => onPublisherChange(value[0] ?? null)}
+            placeholder="Все издательства"
+            multiple={false}
+          />
         </label>
 
         <div className={styles.field}>

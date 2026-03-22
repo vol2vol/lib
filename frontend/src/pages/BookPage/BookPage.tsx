@@ -45,7 +45,7 @@ export const BookPage = () => {
 
         if (token) {
           try {
-            const favoritesData = await getFavorites(token)
+            const favoritesData = await getFavorites(token, { all: true })
             isFavorited = favoritesData.items.some((item) => item.id === parsedBookId)
           } catch {
             isFavorited = Boolean(data.isFavorited)
