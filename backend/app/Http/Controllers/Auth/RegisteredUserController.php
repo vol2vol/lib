@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
@@ -40,17 +37,17 @@ class RegisteredUserController extends Controller
                 'access_token' => $token,
                 'token_type' => "Bearer $token",
                 'user' => $user
-            ], 201);
+            ], 201, [], JSON_UNESCAPED_UNICODE);
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'errors' => $e->errors()
-            ], 422);
+            ], 422, [], JSON_UNESCAPED_UNICODE);
 
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ], 500);
+            ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
 }

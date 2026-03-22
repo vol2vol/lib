@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BookFile;
 use Illuminate\Support\Facades\Storage;
 
+
 class FileController extends Controller
 {
     /**
@@ -42,7 +43,7 @@ class FileController extends Controller
             ], 401, [], JSON_UNESCAPED_UNICODE);
         }
 
-        $bookFile = BookFile::with('book')->find($fileId);
+        $bookFile = BookFile::with('book')->findOrFail($fileId);
 
         if (!$bookFile) {
             return response()->json([
@@ -81,7 +82,7 @@ class FileController extends Controller
             ], 401, [], JSON_UNESCAPED_UNICODE);
         }
 
-        $bookFile = BookFile::with('book')->find($fileId);
+        $bookFile = BookFile::with('book')->findOrFail($fileId);
 
         if (!$bookFile) {
             return response()->json([
