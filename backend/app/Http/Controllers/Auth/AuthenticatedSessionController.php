@@ -23,7 +23,7 @@ class AuthenticatedSessionController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Неверный логин или пароль'
-            ], 401);
+            ], 401, [], JSON_UNESCAPED_UNICODE);
         }
 
         $user = $request->user();
@@ -44,6 +44,6 @@ class AuthenticatedSessionController extends Controller
 
         return response()->json([
             'message' => 'Вы успешно вышли из системы'
-        ]);
+        ], 200, [], JSON_UNESCAPED_UNICODE);
     }
 }

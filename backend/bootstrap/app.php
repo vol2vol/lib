@@ -24,7 +24,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
 
-        //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
@@ -36,7 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 return response()->json([
                     'success' => false,
                     'message' => 'Требуется авторизация'
-                ], 401);
+                ], 401, [], JSON_UNESCAPED_UNICODE);
             }
         });
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
