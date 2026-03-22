@@ -15,8 +15,10 @@ class BookController extends Controller
             'page' => 'sometimes|integer|min:1',
             'per_page' => 'sometimes|integer|min:1|max:100',
             'search' => 'sometimes|string|min:2|max:100',
+            'genre_id' => 'sometimes|integer|exists:genres,genre_id',
             'genre_ids' => 'sometimes|array',
             'genre_ids.*' => 'integer|exists:genres,genre_id',
+            'author_id' => 'sometimes|integer|exists:authors,author_id',
             'author_ids' => 'sometimes|array',
             'author_ids.*' => 'integer|exists:authors,author_id',
             'publisher_id' => 'sometimes|integer|exists:publishers,publisher_id',
@@ -47,27 +49,45 @@ class BookController extends Controller
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('book_title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('description', 'like', "%{$search}%");
             });
             $activeFilters['поиск'] = $search;
         }
 
+        $genreIds = [];
+        if ($request->has('genre_id')) {
+            $genreIds = [$request->genre_id];
+        }
         if ($request->has('genre_ids') && is_array($request->genre_ids)) {
-            foreach ($request->genre_ids as $genreId) {
+            $genreIds = array_merge($genreIds, $request->genre_ids);
+        }
+        $genreIds = array_unique($genreIds);
+
+        if (!empty($genreIds)) {
+            foreach ($genreIds as $genreId) {
                 $query->whereHas('genres', function($q) use ($genreId) {
                     $q->where('book_genres.genre_id', $genreId);
                 });
             }
-            $activeFilters['жанры'] = implode(', ', $request->genre_ids);
+            $activeFilters['жанры'] = implode(', ', $genreIds);
         }
 
+        $authorIds = [];
+        if ($request->has('author_id')) {
+            $authorIds = [$request->author_id];
+        }
         if ($request->has('author_ids') && is_array($request->author_ids)) {
-            foreach ($request->author_ids as $authorId) {
+            $authorIds = array_merge($authorIds, $request->author_ids);
+        }
+        $authorIds = array_unique($authorIds);
+
+        if (!empty($authorIds)) {
+            foreach ($authorIds as $authorId) {
                 $query->whereHas('authors', function($q) use ($authorId) {
                     $q->where('book_authors.author_id', $authorId);
                 });
             }
-            $activeFilters['авторы'] = implode(', ', $request->author_ids);
+            $activeFilters['авторы'] = implode(', ', $authorIds);
         }
 
         if ($request->has('publisher_id')) {
@@ -119,7 +139,6 @@ class BookController extends Controller
             JSON_UNESCAPED_UNICODE
         );
     }
-
     public function show($id)
     {
         if (!is_numeric($id) || $id <= 0) {
@@ -159,7 +178,13 @@ class BookController extends Controller
 
         $parts = [];
         foreach ($filters as $key => $value) {
-            $parts[] = "{$key}: {$value}";
+            $displayKey = $key;
+            if ($key === 'жанры') {
+                $displayKey = 'жанр';
+            } elseif ($key === 'авторы') {
+                $displayKey = 'автор';
+            }
+            $parts[] = "{$displayKey}: {$value}";
         }
 
         return 'с параметрами ' . implode(', ', $parts);

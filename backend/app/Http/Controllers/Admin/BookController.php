@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Models\Genre;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -51,6 +53,32 @@ class BookController extends Controller
                 ], 422, [], JSON_UNESCAPED_UNICODE);
             }
 
+            if ($request->has('genre_ids') && !empty($request->genre_ids)) {
+                $existingGenres = Genre::whereIn('genre_id', $request->genre_ids)->count();
+                if ($existingGenres !== count($request->genre_ids)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Ошибка валидации параметров',
+                        'errors' => [
+                            'genre_ids' => ['Один или несколько жанров не существуют']
+                        ]
+                    ], 422, [], JSON_UNESCAPED_UNICODE);
+                }
+            }
+
+            if ($request->has('author_ids') && !empty($request->author_ids)) {
+                $existingAuthors = Author::whereIn('author_id', $request->author_ids)->count();
+                if ($existingAuthors !== count($request->author_ids)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Ошибка валидации параметров',
+                        'errors' => [
+                            'author_ids' => ['Один или несколько авторов не существуют']
+                        ]
+                    ], 422, [], JSON_UNESCAPED_UNICODE);
+                }
+            }
+
             $query = Book::with([
                 'genres:genre_id,genre_name',
                 'authors:author_id,last_name,first_name,middle_name',
@@ -62,7 +90,7 @@ class BookController extends Controller
                 $search = $request->search;
                 $query->where(function($q) use ($search) {
                     $q->where('book_title', 'like', "%{$search}%")
-                      ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('description', 'like', "%{$search}%");
                 });
             }
 
@@ -110,6 +138,17 @@ class BookController extends Controller
                 ], 404, [], JSON_UNESCAPED_UNICODE);
             }
 
+            if ($books->total() === 0) {
+                $filterMessage = $this->getFilterMessage($request);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => $filterMessage ? "По запросу {$filterMessage} ничего не найдено" : "В библиотеке пока нет книг",
+                    'data' => [],
+                    'total' => 0
+                ], 200, [], JSON_UNESCAPED_UNICODE);
+            }
+
             return response()->json([
                 'success' => true,
                 'data' => $this->formatBooksList($books),
@@ -132,6 +171,37 @@ class BookController extends Controller
                 'debug' => config('app.debug') ? $e->getMessage() : null
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
+    }
+
+
+    private function getFilterMessage(Request $request): string
+    {
+        $filters = [];
+
+        if ($request->has('search')) {
+            $filters[] = "поиск: {$request->search}";
+        }
+        if ($request->has('genre_ids')) {
+            $filters[] = "жанры: " . implode(', ', $request->genre_ids);
+        }
+        if ($request->has('author_ids')) {
+            $filters[] = "авторы: " . implode(', ', $request->author_ids);
+        }
+        if ($request->has('publisher_id')) {
+            $filters[] = "издательство: {$request->publisher_id}";
+        }
+        if ($request->has('year_from')) {
+            $filters[] = "год от: {$request->year_from}";
+        }
+        if ($request->has('year_to')) {
+            $filters[] = "год до: {$request->year_to}";
+        }
+
+        if (empty($filters)) {
+            return '';
+        }
+
+        return 'с параметрами ' . implode(', ', $filters);
     }
 
     public function store(Request $request)
