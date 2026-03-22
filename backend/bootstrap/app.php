@@ -9,11 +9,7 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
-use Illuminate\Session\TokenMismatchException;
-use Illuminate\Http\Exceptions\ThrottleRequestsException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -68,9 +64,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (ModelNotFoundException $e, Request $request) {
             if ($request->is('api/*') || $request->expectsJson()) {
                 $model = class_basename($e->getModel());
+                $names = config('models.names', []);
+                $name = $names[$model] ?? $model;
+
                 return response()->json([
                     'success' => false,
-                    'message' => "{$model} не найден(а)"
+                    'message' => "{$name} не найден(а)"
                 ], 404, [], JSON_UNESCAPED_UNICODE);
             }
         });
@@ -85,57 +84,13 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
-        $exceptions->render(function (TokenMismatchException $e, Request $request) {
-            if ($request->is('api/*') || $request->expectsJson()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'CSRF токен недействителен'
-                ], 419, [], JSON_UNESCAPED_UNICODE);
-            }
-        });
-
         $exceptions->render(function (ValidationException $e, Request $request) {
             if ($request->is('api/*') || $request->expectsJson()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Ошибка валидации данных',
+                    'message' => 'Ошибка валидации',
                     'errors' => $e->errors()
                 ], 422, [], JSON_UNESCAPED_UNICODE);
-            }
-        });
-
-        $exceptions->render(function (TooManyRequestsHttpException $e, Request $request) {
-            if ($request->is('api/*') || $request->expectsJson()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Слишком много запросов. Попробуйте позже.',
-                    'retry_after' => $e->getHeaders()['Retry-After'] ?? 60
-                ], 429, [], JSON_UNESCAPED_UNICODE);
-            }
-        });
-
-        $exceptions->render(function (QueryException $e, Request $request) {
-            if ($request->is('api/*') || $request->expectsJson()) {
-                \Log::error('Database error: ' . $e->getMessage(), [
-                    'sql' => $e->getSql(),
-                    'bindings' => $e->getBindings(),
-                    'url' => $request->fullUrl()
-                ]);
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Ошибка базы данных',
-                    'debug' => config('app.debug') ? $e->getMessage() : null
-                ], 500, [], JSON_UNESCAPED_UNICODE);
-            }
-        });
-
-        $exceptions->render(function (ThrottleRequestsException $e, Request $request) {
-            if ($request->is('api/*') || $request->expectsJson()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Слишком много попыток. Подождите немного.'
-                ], 429, [], JSON_UNESCAPED_UNICODE);
             }
         });
 
@@ -144,8 +99,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 \Log::error('Server Error: ' . $e->getMessage(), [
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
-                    'url' => $request->fullUrl(),
-                    'user_id' => auth()->id() ?? 'guest'
+                    'url' => $request->fullUrl()
                 ]);
 
                 return response()->json([
