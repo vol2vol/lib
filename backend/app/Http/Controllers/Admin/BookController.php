@@ -131,58 +131,23 @@ class BookController extends Controller
                 $book->genres()->attach($request->genre_ids);
             }
 
-            // ИСПРАВЛЕНО: правильная обработка файлов
-            // if ($request->hasFile('files.*')) {
-            //     $files = $request->file('files.*');
-            //     foreach ($files as $index => $file) {
-            //         $formatId = $request->input("files.{$index}.format_id");
-
-            //         $filename = time() . '_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
-            //         $filePath = $file->storeAs('books', $filename, 'local');
-
-            //         $book->files()->create([
-            //             'format_id' => $formatId,
-            //             'file_path' => $filePath,
-            //             'file_size_bytes' => $file->getSize(),
-            //         ]);
-            //     }
-            // }
-
-            if ($request->has('files')) {
+            if ($request->has('files') && is_array($request->input('files'))) {
                 foreach ($request->input('files') as $index => $fileData) {
                     $file = $request->file("files.{$index}.file");
                     $formatId = $request->input("files.{$index}.format_id");
 
-                    $filename = time() . '_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
-                    $filePath = $file->storeAs('books', $filename, 'local');
+                    if ($file && $formatId) {
+                        $filename = time() . '_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
+                        $filePath = $file->storeAs('books', $filename, 'local');
 
-                    $book->files()->create([
-                        'format_id' => $formatId,
-                        'file_path' => $filePath,
-                        'file_size_bytes' => $file->getSize(),
-                    ]);
+                        $book->files()->create([
+                            'format_id' => $formatId,
+                            'file_path' => $filePath,
+                            'file_size_bytes' => $file->getSize(),
+                        ]);
+                    }
                 }
             }
-
-            // if ($request->has('files') && is_array($request->input('files'))) {
-            //     foreach ($request->input('files') as $index => $fileData) {
-            //         // Получаем файл через точечную нотацию
-            //         $file = $request->file("files.{$index}.file");
-                    
-            //         if ($file && $file instanceof \Illuminate\Http\UploadedFile) {
-            //             $formatId = $request->input("files.{$index}.format_id");
-                        
-            //             $filename = time() . '_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
-            //             $filePath = $file->storeAs('books', $filename, 'local');
-
-            //             $book->files()->create([
-            //                 'format_id' => $formatId,
-            //                 'file_path' => $filePath,
-            //                 'file_size_bytes' => $file->getSize(),
-            //             ]);
-            //         }
-            //     }
-            // }
 
             return response()->json([
                 'success' => true,
@@ -296,35 +261,39 @@ class BookController extends Controller
                 $book->genres()->sync($request->genre_ids);
             }
 
-            // if ($request->hasFile('files')) {
-            //     $files = $request->file('files');
-            //     foreach ($files as $index => $file) {
-            //         $formatId = $request->input("files.{$index}.format_id");
-
-            //         $filename = time() . '_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
-            //         $filePath = $file->storeAs('books', $filename, 'local');
-
-            //         $book->files()->create([
-            //             'format_id' => $formatId,
-            //             'file_path' => $filePath,
-            //             'file_size_bytes' => $file->getSize(),
-            //         ]);
-            //     }
-            // }
-
-            if ($request->has('files')) {
+            if ($request->has('files') && is_array($request->input('files'))) {
                 foreach ($request->input('files') as $index => $fileData) {
                     $file = $request->file("files.{$index}.file");
                     $formatId = $request->input("files.{$index}.format_id");
 
-                    $filename = time() . '_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
-                    $filePath = $file->storeAs('books', $filename, 'local');
+                    if (!$file || !$formatId) {
+                        continue;
+                    }
 
-                    $book->files()->create([
-                        'format_id' => $formatId,
-                        'file_path' => $filePath,
-                        'file_size_bytes' => $file->getSize(),
-                    ]);
+                    $existingFile = $book->files()->where('format_id', $formatId)->first();
+
+                    if ($existingFile) {
+                        if (Storage::disk('local')->exists($existingFile->file_path)) {
+                            Storage::disk('local')->delete($existingFile->file_path);
+                        }
+
+                        $filename = time() . '_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
+                        $filePath = $file->storeAs('books', $filename, 'local');
+
+                        $existingFile->update([
+                            'file_path' => $filePath,
+                            'file_size_bytes' => $file->getSize(),
+                        ]);
+                    } else {
+                        $filename = time() . '_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
+                        $filePath = $file->storeAs('books', $filename, 'local');
+
+                        $book->files()->create([
+                            'format_id' => $formatId,
+                            'file_path' => $filePath,
+                            'file_size_bytes' => $file->getSize(),
+                        ]);
+                    }
                 }
             }
 

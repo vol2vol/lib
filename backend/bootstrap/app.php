@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -36,6 +37,15 @@ return Application::configure(basePath: dirname(__DIR__))
                     'success' => false,
                     'message' => 'Требуется авторизация'
                 ], 401);
+            }
+        });
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+            if ($request->is('api/*') || $request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Маршрут не найден',
+                    'path' => $request->path()
+                ], 404, [], JSON_UNESCAPED_UNICODE);
             }
         });
     })->create();
