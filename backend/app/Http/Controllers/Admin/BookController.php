@@ -138,12 +138,28 @@ class BookController extends Controller
                 ], 404, [], JSON_UNESCAPED_UNICODE);
             }
 
+
             if ($books->total() === 0) {
                 $filterMessage = $this->getFilterMessage($request);
 
+                if (empty($filterMessage)) {
+                    return response()->json([
+                        'success' => true,
+                        'data' => [],
+                        'pagination' => [
+                            'current_page' => 1,
+                            'last_page' => 1,
+                            'per_page' => $perPage,
+                            'total' => 0,
+                            'next_page_url' => null,
+                            'prev_page_url' => null,
+                        ]
+                    ], 200, [], JSON_UNESCAPED_UNICODE);
+                }
+
                 return response()->json([
                     'success' => true,
-                    'message' => $filterMessage ? "По запросу {$filterMessage} ничего не найдено" : "В библиотеке пока нет книг",
+                    'message' => "По запросу {$filterMessage} ничего не найдено",
                     'data' => [],
                     'total' => 0
                 ], 200, [], JSON_UNESCAPED_UNICODE);
