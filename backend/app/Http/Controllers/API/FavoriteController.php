@@ -21,8 +21,19 @@ class FavoriteController extends Controller
             $user = auth()->user();
 
             $perPage = $request->per_page ?? 15;
+            $favorites;
 
-            $favorites = $user->favoriteBooks()
+            if ($request->boolean('all')) {
+                $favorites = $user->favoriteBooks()
+                ->with([
+                    'genres:genre_id,genre_name',
+                    'authors:author_id,last_name,first_name,middle_name',
+                    'publisher:publisher_id,publisher_name',
+                    'files' => fn($q) => $q->with('format:format_id,format_name')
+                ])
+                ->paginate($user->favoriteBooks()->count());
+            } else {
+                $favorites = $user->favoriteBooks()
                 ->with([
                     'genres:genre_id,genre_name',
                     'authors:author_id,last_name,first_name,middle_name',
@@ -30,6 +41,7 @@ class FavoriteController extends Controller
                     'files' => fn($q) => $q->with('format:format_id,format_name')
                 ])
                 ->paginate($perPage);
+            }
 
             $favorites->getCollection()->transform(function ($book) {
                 return [
