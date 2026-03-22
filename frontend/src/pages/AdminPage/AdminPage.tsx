@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useCallback } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getCurrentUser } from '@api/auth'
 import {
@@ -71,29 +70,29 @@ export const AdminPage = () => {
         return
       }
 
+      // Если пользователь не админ — отправляем в профиль
       if (currentUser.roleId !== 1) {
-        setError('У вас нет прав администратора.')
-        setIsLoading(false)
+        navigate('/profile', { replace: true })
         return
       }
 
-      // Загружаем админ-данные только для админов
       const [genresData, booksData] = await Promise.all([
         getAdminGenres(token),
         getBooks(),
       ])
 
-      console.log('Genres:', genresData)
-      console.log('Books:', booksData)
-
       setUser(currentUser)
       setGenres(genresData)
       setBooks(booksData.items)
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Произошла ошибка при загрузке данных'
-      
-      // Только для ошибок авторизации удаляем токен и редиректим
-      if (errorMessage.includes('401') || errorMessage.includes('Unauthorized') || errorMessage.includes('токен')) {
+      const errorMessage =
+        err instanceof Error ? err.message : 'Произошла ошибка при загрузке данных'
+
+      if (
+        errorMessage.includes('401') ||
+        errorMessage.includes('Unauthorized') ||
+        errorMessage.includes('токен')
+      ) {
         localStorage.removeItem('token')
         navigate('/signin', { replace: true })
       } else {
@@ -102,7 +101,7 @@ export const AdminPage = () => {
     } finally {
       setIsLoading(false)
     }
-    }, [navigate, token])
+  }, [navigate, token])
 
   useEffect(() => {
     void loadData()
@@ -116,18 +115,31 @@ export const AdminPage = () => {
     }
 
     return books.filter((book) =>
-      [book.title, book.author, book.genre, book.publisher].join(' ').toLowerCase().includes(query)
+      [book.title, book.author, book.genre, book.publisher]
+        .join(' ')
+        .toLowerCase()
+        .includes(query),
     )
   }, [books, search])
 
-  const ensureAuthRedirect = () => {
+  const ensureAdminAccess = () => {
     if (!token) {
       navigate('/signin', { replace: true })
+      return false
     }
+
+    if (user?.roleId !== 1) {
+      navigate('/profile', { replace: true })
+      return false
+    }
+
+    return true
   }
 
   const handleSelectBook = (book: Book) => {
-    ensureAuthRedirect()
+    if (!ensureAdminAccess()) {
+      return
+    }
 
     setSelectedBook(book)
     setForm({
@@ -145,6 +157,10 @@ export const AdminPage = () => {
   }
 
   const handleCreateNew = () => {
+    if (!ensureAdminAccess()) {
+      return
+    }
+
     setSelectedBook(null)
     setForm(initialFormState)
     setSuccessMessage('')
@@ -152,7 +168,9 @@ export const AdminPage = () => {
   }
 
   const handleDelete = async (bookId: number) => {
-    ensureAuthRedirect()
+    if (!ensureAdminAccess()) {
+      return
+    }
 
     if (!token) {
       return
@@ -179,7 +197,10 @@ export const AdminPage = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    ensureAuthRedirect()
+
+    if (!ensureAdminAccess()) {
+      return
+    }
 
     if (!token) {
       return
@@ -239,7 +260,7 @@ export const AdminPage = () => {
         centerVariant="title"
         title="Админ-панель"
         rightVariant="none"
-        onBackClick={() => navigate('/library')}
+        onBackClick={() => navigate('/profile')}
       />
 
       <section className={styles.container}>
@@ -337,7 +358,9 @@ export const AdminPage = () => {
                 <textarea
                   className={styles.textarea}
                   value={form.description}
-                  onChange={(event) => setForm((prev) => ({ ...prev, description: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((prev) => ({ ...prev, description: event.target.value }))
+                  }
                 />
               </label>
 
@@ -356,7 +379,9 @@ export const AdminPage = () => {
                 <input
                   className={styles.input}
                   value={form.publisher}
-                  onChange={(event) => setForm((prev) => ({ ...prev, publisher: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((prev) => ({ ...prev, publisher: event.target.value }))
+                  }
                 />
               </label>
 
@@ -366,7 +391,9 @@ export const AdminPage = () => {
                   className={styles.input}
                   type="number"
                   value={form.publishedYear}
-                  onChange={(event) => setForm((prev) => ({ ...prev, publishedYear: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((prev) => ({ ...prev, publishedYear: event.target.value }))
+                  }
                 />
               </label>
 
@@ -378,7 +405,10 @@ export const AdminPage = () => {
                     multiple
                     value={form.genres}
                     onChange={(event) => {
-                      const selected = Array.from(event.target.selectedOptions, option => option.value)
+                      const selected = Array.from(
+                        event.target.selectedOptions,
+                        (option) => option.value,
+                      )
                       setForm((prev) => ({ ...prev, genres: selected }))
                     }}
                   >
@@ -388,6 +418,7 @@ export const AdminPage = () => {
                       </option>
                     ))}
                   </select>
+
                   <div className={styles.selectedGenres}>
                     {form.genres.map((genre) => (
                       <div key={genre} className={styles.genreTag}>
@@ -395,13 +426,19 @@ export const AdminPage = () => {
                         <button
                           type="button"
                           className={styles.genreTagRemove}
-                          onClick={() => setForm((prev) => ({ ...prev, genres: prev.genres.filter(g => g !== genre) }))}
+                          onClick={() =>
+                            setForm((prev) => ({
+                              ...prev,
+                              genres: prev.genres.filter((g) => g !== genre),
+                            }))
+                          }
                         >
                           ×
                         </button>
                       </div>
                     ))}
                   </div>
+
                   <input
                     type="text"
                     className={styles.input}
@@ -410,8 +447,12 @@ export const AdminPage = () => {
                       if (event.key === 'Enter') {
                         event.preventDefault()
                         const value = (event.target as HTMLInputElement).value.trim()
+
                         if (value && !form.genres.includes(value)) {
-                          setForm((prev) => ({ ...prev, genres: [...prev.genres, value] }))
+                          setForm((prev) => ({
+                            ...prev,
+                            genres: [...prev.genres, value],
+                          }))
                           ;(event.target as HTMLInputElement).value = ''
                         }
                       }

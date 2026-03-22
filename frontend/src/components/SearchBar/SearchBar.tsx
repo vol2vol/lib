@@ -16,8 +16,13 @@ export const SearchBar = ({
   onFilterClick,
   placeholder = 'Поиск',
 }: SearchBarProps) => {
+  const className = [
+    styles.searchBar,
+    onFilterClick ? styles.withFilter : styles.withoutFilter,
+  ].join(' ')
+
   return (
-    <div className={styles.searchBar}>
+    <div className={className}>
       <button
         type="button"
         className={styles.searchButton}
@@ -32,19 +37,26 @@ export const SearchBar = ({
           type="text"
           value={value}
           onChange={(event) => onChange(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              onSearchClick?.()
+            }
+          }}
           className={styles.input}
           placeholder={placeholder}
         />
       </div>
 
-      <button
-        type="button"
-        className={styles.filterButton}
-        onClick={onFilterClick}
-        aria-label="Фильтр"
-      >
-        <Icon name="Filter" className={styles.icon} />
-      </button>
+      {onFilterClick ? (
+        <button
+          type="button"
+          className={styles.filterButton}
+          onClick={onFilterClick}
+          aria-label="Фильтр"
+        >
+          <Icon name="Filter" className={styles.icon} />
+        </button>
+      ) : null}
     </div>
   )
 }

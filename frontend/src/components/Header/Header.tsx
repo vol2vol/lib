@@ -14,6 +14,8 @@ type HeaderProps = {
   title?: string
   searchValue?: string
   onSearchChange?: (value: string) => void
+  onSearchClick?: () => void
+  onFilterClick?: () => void
   onBackClick?: () => void
   onProfileClick?: () => void
   onExitClick?: () => void
@@ -27,6 +29,8 @@ export const Header = ({
   title = '',
   searchValue = '',
   onSearchChange,
+  onSearchClick,
+  onFilterClick,
   onBackClick,
   onProfileClick,
   onExitClick,
@@ -59,7 +63,12 @@ export const Header = ({
       case 'search':
         return (
           <div className={styles.searchWrap}>
-            <SearchBar value={searchValue} onChange={onSearchChange ?? (() => {})} />
+            <SearchBar
+              value={searchValue}
+              onChange={onSearchChange ?? (() => {})}
+              onSearchClick={onSearchClick}
+              onFilterClick={onFilterClick}
+            />
           </div>
         )
       case 'logo':

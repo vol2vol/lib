@@ -49,9 +49,7 @@ export const SignInPage = () => {
         localStorage.setItem('token', token)
       }
 
-      // Админы идут в админ-панель, остальные на главный экран
-      const isAdmin = data.user?.roleId === 1
-      navigate(isAdmin ? '/admin' : '/library')
+      navigate('/library')
     } catch (err) {
       if (err instanceof ApiError) {
         if (err.fieldErrors) {

@@ -49,6 +49,21 @@ const normalizeUrl = (url?: string | null) => {
   return url.startsWith('/') ? url : `/${url}`
 }
 
+const mapAuthor = (author: AuthorDto, index: number): Author => ({
+  id: author.author_id ?? index,
+  lastName: author.last_name ?? '',
+  firstName: author.first_name ?? '',
+  middleName: author.middle_name ?? null,
+  fullName:
+    [author.last_name, author.first_name, author.middle_name].filter(Boolean).join(' ') ||
+    `Автор ${index + 1}`,
+})
+
+const mapGenre = (genre: GenreDto, index: number): Genre => ({
+  id: genre.genre_id ?? index,
+  name: genre.genre_name ?? `Жанр ${index + 1}`,
+})
+
 const getGenreName = (genres?: BookDto['genres']) => {
   if (!Array.isArray(genres) || genres.length === 0) {
     return 'Без жанра'
@@ -72,19 +87,6 @@ const getAuthorName = (authors?: BookDto['authors']) => {
   )
 }
 
-const mapAuthor = (author: AuthorDto, index: number): Author => ({
-  id: author.author_id ?? index,
-  lastName: author.last_name ?? '',
-  firstName: author.first_name ?? '',
-  middleName: author.middle_name ?? null,
-  fullName: [author.last_name, author.first_name, author.middle_name].filter(Boolean).join(' ') || `Автор ${index + 1}`,
-})
-
-const mapGenre = (genre: GenreDto, index: number): Genre => ({
-  id: genre.genre_id ?? index,
-  name: genre.genre_name ?? `Жанр ${index + 1}`,
-})
-
 const mapBookFile = (file: BookFileDto, index: number): BookFile => ({
   id: file.file_id ?? index,
   formatId: file.format_id ?? null,
@@ -101,6 +103,8 @@ const mapBook = (book: BookDto, index: number): Book => ({
   description: book.description ?? '',
   genre: getGenreName(book.genres),
   author: getAuthorName(book.authors),
+  genres: Array.isArray(book.genres) ? book.genres.map(mapGenre) : [],
+  authors: Array.isArray(book.authors) ? book.authors.map(mapAuthor) : [],
   publisher:
     typeof book.publisher === 'string'
       ? book.publisher
@@ -172,13 +176,22 @@ export const getGenres = async (): Promise<Genre[]> => {
   return data.map(mapGenre)
 }
 
+export const getAuthors = async (): Promise<Author[]> => {
+  const response = await fetch(buildUrl('/authors'), {
+    headers: createHeaders(),
+  })
+
+  const data = await parseResponse<AuthorDto[]>(response)
+  return data.map(mapAuthor)
+}
+
 export const getAdminGenres = async (token: string): Promise<Genre[]> => {
   const response = await fetch(buildUrl('/admin/genres'), {
     headers: createHeaders(token),
   })
 
   const data = await parseResponse<{ data: GenreDto[] } | GenreDto[]>(response)
-  const genres = Array.isArray(data) ? data : (Array.isArray(data.data) ? data.data : [])
+  const genres = Array.isArray(data) ? data : Array.isArray(data.data) ? data.data : []
   return genres.map(mapGenre)
 }
 
@@ -188,7 +201,7 @@ export const getAdminAuthors = async (token: string): Promise<Author[]> => {
   })
 
   const data = await parseResponse<{ data: AuthorDto[] } | AuthorDto[]>(response)
-  const authors = Array.isArray(data) ? data : (Array.isArray(data.data) ? data.data : [])
+  const authors = Array.isArray(data) ? data : Array.isArray(data.data) ? data.data : []
   return authors.map(mapAuthor)
 }
 
@@ -210,6 +223,29 @@ export const getBooks = async (params?: GetBooksParams): Promise<BooksListResult
     prevPageUrl: data.prev_page_url ?? null,
     message: data.message ?? null,
   }
+}
+
+export const getAllBooks = async (params?: Omit<GetBooksParams, 'page'>): Promise<Book[]> => {
+  const resultMap = new Map<number, Book>()
+  let currentPage = 1
+  let lastPage = 1
+
+  do {
+    const response = await getBooks({
+      ...params,
+      page: currentPage,
+      per_page: params?.per_page ?? 100,
+    })
+
+    response.items.forEach((item) => {
+      resultMap.set(item.id, item)
+    })
+
+    lastPage = response.lastPage
+    currentPage += 1
+  } while (currentPage <= lastPage)
+
+  return Array.from(resultMap.values())
 }
 
 export const getBookById = async (bookId: number, token?: string): Promise<Book> => {
@@ -318,7 +354,7 @@ export const createBook = async (
 
   formData.append('book_title', payload.book_title)
   formData.append('description', payload.description ?? '')
-  
+
   // Отправляем только author и genres как строки
   formData.append('author', payload.author)
 
@@ -326,7 +362,7 @@ export const createBook = async (
     formData.append('published_year', String(payload.published_year))
   }
 
-  payload.genres.forEach(genre => {
+  payload.genres.forEach((genre) => {
     formData.append('genres[]', genre)
   })
 
@@ -365,7 +401,7 @@ export const updateBook = async (
 
   formData.append('book_title', payload.book_title)
   formData.append('description', payload.description ?? '')
-  
+
   // Отправляем author и genres как строки, но также отправляем author_ids[] и genre_ids[]
   // для совместимости с бэкендом
   formData.append('author', payload.author)
@@ -375,7 +411,7 @@ export const updateBook = async (
     formData.append('published_year', String(payload.published_year))
   }
 
-  payload.genres.forEach(genre => {
+  payload.genres.forEach((genre) => {
     formData.append('genres[]', genre)
     formData.append('genre_ids[]', genre)
   })

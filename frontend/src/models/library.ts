@@ -106,6 +106,8 @@ export type Book = {
   description: string
   genre: string
   author: string
+  genres: Genre[]
+  authors: Author[]
   publisher: string
   publishedYear: number | null
   coverUrl: string | null

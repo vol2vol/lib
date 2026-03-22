@@ -33,6 +33,7 @@
   font-size: 18px;
   color: #d14343;
 }
+
 .userLogin {
   margin: 0 0 24px;
   font-size: 32px;
@@ -41,13 +42,41 @@
 }
 
 .adminButton {
-  display: inline-block;
-  margin-bottom: 1rem;
-  padding: 0.6rem 1rem;
-  font-size: 0.9rem;
+  min-width: 180px;
+  height: 52px;
+  margin-bottom: 24px;
+  padding: 0 20px;
   border: none;
-  border-radius: 8px;
-  background: #1d4ed8;
-  color: #fff;
+  border-radius: 12px;
+  background: var(--color-bg-primary);
+  color: #ffffff;
   cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.adminButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.adminButton:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 16px 32px;
+  }
+
+  .userLogin {
+    font-size: 28px;
+  }
+
+  .sectionTitle {
+    font-size: 28px;
+  }
+
+  .adminButton {
+    width: 100%;
+  }
 }
