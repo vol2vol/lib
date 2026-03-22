@@ -1,98 +1,75 @@
-.container {
+.root {
   position: relative;
   width: 100%;
 }
 
-.inputWrapper {
-  border: 1px solid #d2d6dc;
-  border-radius: 6px;
-  padding: 0.5rem;
-  background: #fff;
-  min-height: 40px;
+.control {
   display: flex;
-  align-items: flex-start;
-  cursor: text;
-}
-
-.selectedTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   width: 100%;
-  align-items: center;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 12px;
+  background: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
 }
 
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  background: #e0e7ff;
-  color: #3730a3;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
+.value {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.tagRemove {
-  background: none;
-  border: none;
-  color: #3730a3;
-  cursor: pointer;
-  font-size: 1.2rem;
-  padding: 0;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tagRemove:hover {
-  opacity: 0.7;
-}
-
-.input {
-  border: none;
-  outline: none;
-  padding: 0.25rem;
-  font-size: 0.9rem;
-  flex: 1;
-  min-width: 100px;
+.arrow {
+  flex-shrink: 0;
+  font-size: 12px;
 }
 
 .dropdown {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 8px);
   left: 0;
-  right: 0;
-  list-style: none;
-  margin: 0.25rem 0 0;
-  padding: 0.5rem 0;
-  background: #fff;
-  border: 1px solid #d2d6dc;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  max-height: 200px;
+  z-index: 20;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.actionButton {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.list {
+  max-height: 260px;
   overflow-y: auto;
+  padding: 8px 0;
 }
 
 .option {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
   cursor: pointer;
-  font-size: 0.9rem;
-  color: #333;
 }
 
 .option:hover {
-  background: #f3f4f6;
-}
-
-.option:active {
-  background: #e5e7eb;
+  background: rgba(0, 0, 0, 0.04);
 }

@@ -90,6 +90,11 @@ export type Genre = {
   name: string
 }
 
+export type Publisher = {
+  id: number
+  name: string
+}
+
 export type BookFile = {
   id: number
   formatId: number | null
@@ -106,6 +111,8 @@ export type Book = {
   description: string
   genre: string
   author: string
+  genres: Genre[]
+  authors: Author[]
   publisher: string
   publishedYear: number | null
   coverUrl: string | null
@@ -131,13 +138,19 @@ export type GetBooksParams = {
   search?: string
   genre_id?: number
   author_id?: number
+  genre_ids?: number[]
+  author_ids?: number[]
   publisher_id?: number
   year_from?: number
   year_to?: number
   sort?: 'book_title' | 'published_year' | 'created_at'
   order?: 'asc' | 'desc'
 }
-
+export type GetFavoritesParams = {
+  page?: number
+  per_page?: number
+  all?: boolean
+}
 export type BookFormPayload = {
   book_title: string
   description?: string

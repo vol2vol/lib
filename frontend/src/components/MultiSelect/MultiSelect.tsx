@@ -1,88 +1,123 @@
-import { useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import styles from './MultiSelect.module.css'
 
-export type MultiSelectItem = {
-  id: number | string
+type MultiSelectItem = {
+  id: number
   name: string
 }
 
 type MultiSelectProps = {
   items: MultiSelectItem[]
-  selectedIds: (number | string)[]
-  onSelectionChange: (ids: (number | string)[]) => void
+  selectedIds: number[]
+  onSelectionChange: (ids: number[]) => void
   placeholder?: string
+  multiple?: boolean
 }
 
 export const MultiSelect = ({
   items,
   selectedIds,
   onSelectionChange,
-  placeholder = 'Выберите или введите...',
+  placeholder = 'Выберите значения',
+  multiple = true,
 }: MultiSelectProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [inputValue, setInputValue] = useState('')
+  const rootRef = useRef<HTMLDivElement | null>(null)
+  const radioGroupName = useId()
 
-  const selected = items.filter((item) => selectedIds.includes(item.id))
-  const filtered = items.filter((item) =>
-    item.name.toLowerCase().includes(inputValue.toLowerCase()) && !selectedIds.includes(item.id)
-  )
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!rootRef.current) {
+        return
+      }
 
-  const handleToggleItem = (id: number | string) => {
-    if (selectedIds.includes(id)) {
-      onSelectionChange(selectedIds.filter((selected) => selected !== id))
-    } else {
-      onSelectionChange([...selectedIds, id])
+      if (!rootRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
     }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  const selectedLabels = useMemo(() => {
+    const selectedSet = new Set(selectedIds)
+
+    return items
+      .filter((item) => selectedSet.has(item.id))
+      .map((item) => item.name)
+  }, [items, selectedIds])
+
+  const toggleItem = (id: number) => {
+    if (multiple) {
+      if (selectedIds.includes(id)) {
+        onSelectionChange(selectedIds.filter((itemId) => itemId !== id))
+        return
+      }
+
+      onSelectionChange([...selectedIds, id])
+      return
+    }
+
+    if (selectedIds[0] === id) {
+      onSelectionChange([])
+      setIsOpen(false)
+      return
+    }
+
+    onSelectionChange([id])
+    setIsOpen(false)
   }
 
-  const handleRemoveSelected = (id: number | string) => {
-    onSelectionChange(selectedIds.filter((selected) => selected !== id))
+  const clearSelection = () => {
+    onSelectionChange([])
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.inputWrapper}>
-        <div className={styles.selectedTags}>
-          {selected.map((item) => (
-            <div key={item.id} className={styles.tag}>
-              <span>{item.name}</span>
-              <button
-                type="button"
-                className={styles.tagRemove}
-                onClick={() => handleRemoveSelected(item.id)}
-                aria-label={`Удалить ${item.name}`}
-              >
-                ×
-              </button>
-            </div>
-          ))}
-          <input
-            type="text"
-            className={styles.input}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onFocus={() => setIsOpen(true)}
-            onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-            placeholder={selected.length === 0 ? placeholder : ''}
-          />
-        </div>
-      </div>
+    <div className={styles.root} ref={rootRef}>
+      <button
+        type="button"
+        className={styles.control}
+        onClick={() => setIsOpen((current) => !current)}
+        aria-expanded={isOpen}
+      >
+        <span className={styles.value}>
+          {selectedLabels.length > 0 ? selectedLabels.join(', ') : placeholder}
+        </span>
+        <span className={styles.arrow}>{isOpen ? '▲' : '▼'}</span>
+      </button>
 
-      {isOpen && filtered.length > 0 && (
-        <ul className={styles.dropdown}>
-          {filtered.map((item) => (
-            <li key={item.id}>
-              <button
-                type="button"
-                className={styles.option}
-                onClick={() => handleToggleItem(item.id)}
-              >
-                {item.name}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+      {isOpen ? (
+        <div className={styles.dropdown}>
+          <div className={styles.actions}>
+            <button type="button" className={styles.actionButton} onClick={clearSelection}>
+              Очистить
+            </button>
+          </div>
+
+          <div className={styles.list}>
+            {items.map((item) => {
+              const checked = selectedIds.includes(item.id)
+
+              return (
+                <label key={item.id} className={styles.option}>
+                  <input
+                    type={multiple ? 'checkbox' : 'radio'}
+                    name={multiple ? undefined : radioGroupName}
+                    checked={checked}
+                    onChange={() => toggleItem(item.id)}
+                  />
+                  <span>{item.name}</span>
+                </label>
+              )
+            })}
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
+
+export type { MultiSelectItem }

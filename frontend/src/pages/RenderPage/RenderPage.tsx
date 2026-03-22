@@ -18,18 +18,16 @@ type Fb2Block =
   | { type: 'empty' }
   | { type: 'image'; src: string; alt: string }
 
-const FONT_SIZE_OPTIONS = [
-  { label: 32, value: 16 },
-  { label: 36, value: 18 },
-  { label: 40, value: 20 },
-  { label: 44, value: 22 },
-  { label: 48, value: 24 },
-  { label: 52, value: 26 },
-  { label: 56, value: 28 },
-]
+const FONT_SIZE_MIN = 12
+const FONT_SIZE_MAX = 40
+const FONT_SIZE_STEP = 1
 
 const READER_THEME_KEY = 'reader-theme'
 const READER_FONT_SIZE_KEY = 'reader-font-size'
+
+const clampFontSize = (value: number) => {
+  return Math.min(FONT_SIZE_MAX, Math.max(FONT_SIZE_MIN, Math.round(value)))
+}
 
 const getNodeTag = (element: Element) => {
   const tag = element.tagName.toLowerCase()
@@ -62,11 +60,11 @@ const getInitialTheme = (): ReaderTheme => {
 const getInitialFontSize = () => {
   const savedFontSize = Number(localStorage.getItem(READER_FONT_SIZE_KEY))
 
-  if (FONT_SIZE_OPTIONS.some((item) => item.value === savedFontSize)) {
-    return savedFontSize
+  if (Number.isFinite(savedFontSize) && savedFontSize > 0) {
+    return clampFontSize(savedFontSize)
   }
 
-  return 16
+  return 18
 }
 
 const getFileExtension = (fileName: string) => {
@@ -399,6 +397,8 @@ export const RenderPage = () => {
   const [draftFontSize, setDraftFontSize] = useState<number>(getInitialFontSize)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
+  const isTextSizeSupported = fileType === 'txt' || fileType === 'fb2'
+
   useEffect(() => {
     return () => {
       if (pdfUrl) {
@@ -496,6 +496,14 @@ export const RenderPage = () => {
     setIsSettingsOpen((prev) => !prev)
   }
 
+  const handleDraftFontSizeChange = (value: number) => {
+    if (!Number.isFinite(value)) {
+      return
+    }
+
+    setDraftFontSize(clampFontSize(value))
+  }
+
   const handleSaveSettings = () => {
     setTheme(draftTheme)
     setFontSize(draftFontSize)
@@ -511,63 +519,86 @@ export const RenderPage = () => {
 
   return (
     <main className={pageClassName}>
-        <Header
-            leftVariant="back"
-            centerVariant="logo"
-            rightVariant="settings"
-            onBackClick={() => navigate(-1)}
-            onSettingsClick={handleOpenSettings}
-        />
+      <Header
+        leftVariant="back"
+        centerVariant="logo"
+        rightVariant="settings"
+        onBackClick={() => navigate(-1)}
+        onSettingsClick={handleOpenSettings}
+      />
 
       <section className={styles.content}>
         {isSettingsOpen ? (
           <div className={styles.settingsPanel}>
-            <div className={styles.settingsTitle}>Settings</div>
+            <div className={styles.settingsTitle}>Настройки отображения</div>
 
-            <div className={styles.settingsRow}>
-              <div className={styles.settingsBox}>Text size</div>
+            {isTextSizeSupported ? (
+                <div className={styles.settingsSection}>
+                    <div className={styles.fontSizeHeader}>
+                    <div className={styles.settingsLabel}>Размер текста</div>
 
-              <select
-                className={styles.select}
-                value={draftFontSize}
-                onChange={(event) => setDraftFontSize(Number(event.target.value))}
-              >
-                {FONT_SIZE_OPTIONS.map((option) => (
-                  <option key={option.label} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+                    <div className={styles.numberInputWrap}>
+                        <input
+                        className={styles.numberInput}
+                        type="number"
+                        min={FONT_SIZE_MIN}
+                        max={FONT_SIZE_MAX}
+                        step={FONT_SIZE_STEP}
+                        value={draftFontSize}
+                        onChange={(event) => {
+                            if (Number.isNaN(event.target.valueAsNumber)) {
+                            return
+                            }
+
+                            handleDraftFontSizeChange(event.target.valueAsNumber)
+                        }}
+                        />
+                        <span className={styles.inputSuffix}>px</span>
+                    </div>
+                    </div>
+
+                    <div className={styles.fontSizeControls}>
+                    <input
+                        className={styles.range}
+                        type="range"
+                        min={FONT_SIZE_MIN}
+                        max={FONT_SIZE_MAX}
+                        step={FONT_SIZE_STEP}
+                        value={draftFontSize}
+                        onChange={(event) => handleDraftFontSizeChange(Number(event.target.value))}
+                    />
+                    </div>
+                </div>
+            ) : null}
+
+            <div className={styles.settingsSection}>
+              <div className={styles.settingsLabel}>Тема</div>
+
+              <div className={styles.themeButtons}>
+                <button
+                  type="button"
+                  className={`${styles.themeButton} ${
+                    draftTheme === 'light' ? styles.themeButtonActive : ''
+                  }`}
+                  onClick={() => setDraftTheme('light')}
+                >
+                  Светлая
+                </button>
+
+                <button
+                  type="button"
+                  className={`${styles.themeButton} ${
+                    draftTheme === 'dark' ? styles.themeButtonActive : ''
+                  }`}
+                  onClick={() => setDraftTheme('dark')}
+                >
+                  Тёмная
+                </button>
+              </div>
             </div>
 
-            <div className={styles.themeButtons}>
-              <button
-                type="button"
-                className={`${styles.themeButton} ${
-                  draftTheme === 'light' ? styles.themeButtonActive : ''
-                }`}
-                onClick={() => setDraftTheme('light')}
-              >
-                Bright Theme
-              </button>
-
-              <button
-                type="button"
-                className={`${styles.themeButton} ${
-                  draftTheme === 'dark' ? styles.themeButtonActive : ''
-                }`}
-                onClick={() => setDraftTheme('dark')}
-              >
-                Dark Theme
-              </button>
-            </div>
-
-            <button
-              type="button"
-              className={styles.saveButton}
-              onClick={handleSaveSettings}
-            >
-              Save settings
+            <button type="button" className={styles.saveButton} onClick={handleSaveSettings}>
+              Сохранить
             </button>
           </div>
         ) : null}
