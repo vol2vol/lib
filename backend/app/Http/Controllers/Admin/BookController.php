@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Models\Genre;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -31,6 +33,16 @@ class BookController extends Controller
             $validator = Validator::make($request->all(), [
                 'page' => 'sometimes|integer|min:1',
                 'per_page' => 'sometimes|integer|min:1|max:100',
+                'search' => 'sometimes|string|min:2|max:100',
+                'genre_ids' => 'sometimes|array',
+                'genre_ids.*' => 'integer|exists:genres,genre_id',
+                'author_ids' => 'sometimes|array',
+                'author_ids.*' => 'integer|exists:authors,author_id',
+                'publisher_id' => 'sometimes|integer|exists:publishers,publisher_id',
+                'year_from' => 'sometimes|integer|min:1000|max:' . date('Y'),
+                'year_to' => 'sometimes|integer|min:1000|max:' . date('Y'),
+                'sort' => 'sometimes|in:book_title,published_year,created_at',
+                'order' => 'sometimes|in:asc,desc',
             ]);
 
             if ($validator->fails()) {
@@ -41,16 +53,117 @@ class BookController extends Controller
                 ], 422, [], JSON_UNESCAPED_UNICODE);
             }
 
-            $perPage = $request->per_page ?? 20;
+            if ($request->has('genre_ids') && !empty($request->genre_ids)) {
+                $existingGenres = Genre::whereIn('genre_id', $request->genre_ids)->count();
+                if ($existingGenres !== count($request->genre_ids)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Ошибка валидации параметров',
+                        'errors' => [
+                            'genre_ids' => ['Один или несколько жанров не существуют']
+                        ]
+                    ], 422, [], JSON_UNESCAPED_UNICODE);
+                }
+            }
 
-            $books = Book::with([
+            if ($request->has('author_ids') && !empty($request->author_ids)) {
+                $existingAuthors = Author::whereIn('author_id', $request->author_ids)->count();
+                if ($existingAuthors !== count($request->author_ids)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Ошибка валидации параметров',
+                        'errors' => [
+                            'author_ids' => ['Один или несколько авторов не существуют']
+                        ]
+                    ], 422, [], JSON_UNESCAPED_UNICODE);
+                }
+            }
+
+            $query = Book::with([
                 'genres:genre_id,genre_name',
                 'authors:author_id,last_name,first_name,middle_name',
                 'publisher:publisher_id,publisher_name',
-                'files' => function($q) {
-                    $q->with('format:format_id,format_name');
+                'files' => fn($q) => $q->with('format:format_id,format_name')
+            ]);
+
+            if ($request->has('search')) {
+                $search = $request->search;
+                $query->where(function($q) use ($search) {
+                    $q->where('book_title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+                });
+            }
+
+            if ($request->has('genre_ids') && is_array($request->genre_ids)) {
+                foreach ($request->genre_ids as $genreId) {
+                    $query->whereHas('genres', function($q) use ($genreId) {
+                        $q->where('book_genres.genre_id', $genreId);
+                    });
                 }
-            ])->paginate($perPage);
+            }
+
+            if ($request->has('author_ids') && is_array($request->author_ids)) {
+                foreach ($request->author_ids as $authorId) {
+                    $query->whereHas('authors', function($q) use ($authorId) {
+                        $q->where('book_authors.author_id', $authorId);
+                    });
+                }
+            }
+
+            if ($request->has('publisher_id')) {
+                $query->where('publisher_id', $request->publisher_id);
+            }
+
+            if ($request->has('year_from')) {
+                $query->where('published_year', '>=', $request->year_from);
+            }
+            if ($request->has('year_to')) {
+                $query->where('published_year', '<=', $request->year_to);
+            }
+
+            $sortField = $request->sort ?? 'book_title';
+            $sortOrder = $request->order ?? 'asc';
+            $query->orderBy($sortField, $sortOrder);
+
+            $perPage = $request->per_page ?? 20;
+            $books = $query->paginate($perPage);
+
+            if ($request->has('page') && $request->page > $books->lastPage()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Запрошенная страница не существует',
+                    'errors' => [
+                        'page' => ["Страница {$request->page} не существует. Всего страниц: {$books->lastPage()}"]
+                    ]
+                ], 404, [], JSON_UNESCAPED_UNICODE);
+            }
+
+
+            if ($books->total() === 0) {
+                $filterMessage = $this->getFilterMessage($request);
+
+                if (empty($filterMessage)) {
+                    return response()->json([
+                        'success' => true,
+                        'data' => [],
+                        'pagination' => [
+                            'current_page' => 1,
+                            'last_page' => 1,
+                            'per_page' => $perPage,
+                            'total' => 0,
+                            'next_page_url' => null,
+                            'prev_page_url' => null,
+                        ]
+                    ], 200, [], JSON_UNESCAPED_UNICODE);
+                }
+
+                return response()->json([
+                    'success' => true,
+                    'message' => "По запросу {$filterMessage} ничего не найдено",
+                    'data' => [],
+                    'total' => 0
+                ], 200, [], JSON_UNESCAPED_UNICODE);
+            }
 
             return response()->json([
                 'success' => true,
@@ -75,6 +188,38 @@ class BookController extends Controller
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
+
+    private function getFilterMessage(Request $request): string
+    {
+        $filters = [];
+
+        if ($request->has('search')) {
+            $filters[] = "поиск: {$request->search}";
+        }
+        if ($request->has('genre_ids')) {
+            $filters[] = "жанры: " . implode(', ', $request->genre_ids);
+        }
+        if ($request->has('author_ids')) {
+            $filters[] = "авторы: " . implode(', ', $request->author_ids);
+        }
+        if ($request->has('publisher_id')) {
+            $filters[] = "издательство: {$request->publisher_id}";
+        }
+        if ($request->has('year_from')) {
+            $filters[] = "год от: {$request->year_from}";
+        }
+        if ($request->has('year_to')) {
+            $filters[] = "год до: {$request->year_to}";
+        }
+
+        if (empty($filters)) {
+            return '';
+        }
+
+        return 'с параметрами ' . implode(', ', $filters);
+    }
+
     public function store(Request $request)
     {
         try {
@@ -169,6 +314,7 @@ class BookController extends Controller
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
     public function show(string $id)
     {
         try {
@@ -313,6 +459,7 @@ class BookController extends Controller
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
     public function destroy(string $id)
     {
         try {
