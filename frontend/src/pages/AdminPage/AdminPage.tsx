@@ -5,12 +5,13 @@ import { getCurrentUser } from '@api/auth'
 import {
   getBooks,
   getAdminGenres,
+  getAdminAuthors,
   createBook,
   updateBook,
   deleteBook,
 } from '@api/library'
 import { Header } from '@components/Header'
-import type { Book, Genre } from '@models/library'
+import type { Book, Genre, Author } from '@models/library'
 import type { BookFormPayload } from '@models/library'
 import type { User } from '@models/auth'
 import styles from './AdminPage.module.css'
@@ -41,6 +42,7 @@ export const AdminPage = () => {
   const navigate = useNavigate()
 
   const [user, setUser] = useState<User | null>(null)
+  const [authors, setAuthors] = useState<Author[]>([])
   const [genres, setGenres] = useState<Genre[]>([])
   const [books, setBooks] = useState<Book[]>([])
   const [search, setSearch] = useState('')
@@ -78,17 +80,16 @@ export const AdminPage = () => {
       }
 
       // Загружаем админ-данные только для админов
-      const [genresData, booksData] = await Promise.all([
+      const [genresData, booksData, authorsData] = await Promise.all([
         getAdminGenres(token),
         getBooks(),
+        getAdminAuthors(token),
       ])
-
-      console.log('Genres:', genresData)
-      console.log('Books:', booksData)
 
       setUser(currentUser)
       setGenres(genresData)
       setBooks(booksData.items)
+      setAuthors(authorsData)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Произошла ошибка при загрузке данных'
       
@@ -265,10 +266,19 @@ export const AdminPage = () => {
 
         <div className={styles.grid}>
           <aside className={styles.sidebar}>
-            <h2>Жанры</h2>
+            <h2>Жанры ({genres.length})</h2>
             <ul className={styles.genreList}>
               {genres.map((genre) => (
                 <li key={genre.id}>{genre.name}</li>
+              ))}
+            </ul>
+          </aside>
+
+          <aside className={styles.sidebar}>
+            <h2>Авторы ({authors.length})</h2>
+            <ul className={styles.genreList}>
+              {authors.map((author) => (
+                <li key={author.id}>{author.firstName} {author.middleName} {author.lastName}</li>
               ))}
             </ul>
           </aside>

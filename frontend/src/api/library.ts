@@ -173,7 +173,7 @@ export const getGenres = async (): Promise<Genre[]> => {
 }
 
 export const getAdminGenres = async (token: string): Promise<Genre[]> => {
-  const response = await fetch(buildUrl('/admin/genres'), {
+  const response = await fetch(buildUrl('/genres'), {
     headers: createHeaders(token),
   })
 
@@ -183,7 +183,7 @@ export const getAdminGenres = async (token: string): Promise<Genre[]> => {
 }
 
 export const getAdminAuthors = async (token: string): Promise<Author[]> => {
-  const response = await fetch(buildUrl('/admin/authors'), {
+  const response = await fetch(buildUrl('/authors'), {
     headers: createHeaders(token),
   })
 

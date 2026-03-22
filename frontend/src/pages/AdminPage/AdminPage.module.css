@@ -68,7 +68,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 220px minmax(400px, 2fr) 320px;
+  grid-template-columns: 19% 19% 30% 30%;
   gap: 1rem;
 }
 
