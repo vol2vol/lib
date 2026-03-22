@@ -80,7 +80,6 @@ export const AdminPage = () => {
 
       // Загружаем админ-данные только для админов
       const [genresData, booksData, authorsData] = await Promise.all([
-      const [genresData, booksData] = await Promise.all([
         getAdminGenres(token),
         getBooks(),
         getAdminAuthors(token),
