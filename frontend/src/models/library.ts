@@ -77,7 +77,20 @@ export type FavoritesResponseDto = {
   data?: PaginatedResponseDto<BookDto>
 }
 
+export type Author = {
+  id: number
+  lastName: string
+  firstName: string
+  middleName: string | null
+  fullName: string
+}
+
 export type Genre = {
+  id: number
+  name: string
+}
+
+export type Publisher = {
   id: number
   name: string
 }
@@ -98,6 +111,8 @@ export type Book = {
   description: string
   genre: string
   author: string
+  genres: Genre[]
+  authors: Author[]
   publisher: string
   publishedYear: number | null
   coverUrl: string | null
@@ -123,9 +138,24 @@ export type GetBooksParams = {
   search?: string
   genre_id?: number
   author_id?: number
+  genre_ids?: number[]
+  author_ids?: number[]
   publisher_id?: number
   year_from?: number
   year_to?: number
   sort?: 'book_title' | 'published_year' | 'created_at'
   order?: 'asc' | 'desc'
+}
+export type GetFavoritesParams = {
+  page?: number
+  per_page?: number
+  all?: boolean
+}
+export type BookFormPayload = {
+  book_title: string
+  description?: string
+  published_year?: number
+  author: string
+  genres: string[]
+  publisher?: string
 }
