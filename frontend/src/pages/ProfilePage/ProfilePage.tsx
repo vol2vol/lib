@@ -108,7 +108,7 @@ export const ProfilePage = () => {
     return favorites.filter((book) => {
       const matchesSearch =
         query.length === 0 ||
-        [book.title, book.author, book.genre, book.publisher, book.description]
+        [book.title, book.author, book.genre, book.publisher.name, book.description]
           .join(' ')
           .toLowerCase()
           .includes(query)
@@ -122,7 +122,7 @@ export const ProfilePage = () => {
         book.genres.some((genre) => appliedGenreIds.includes(genre.id))
 
       const matchesPublisher =
-        selectedPublisherName.length === 0 || normalizeQuery(book.publisher) === selectedPublisherName
+        selectedPublisherName.length === 0 || normalizeQuery(book.publisher.name) === selectedPublisherName
 
       const matchesYearFrom =
         appliedYearFrom === undefined ||

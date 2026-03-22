@@ -160,12 +160,12 @@ export const BookCard = ({ book, onClick }: BookCardProps) => {
             className={`${styles.metaContent} ${isPublisherOverflowing && isHovered ? styles.marquee : ''}`}
             ref={publisherContentRef}
           >
-            <span>{book.publisher}</span>
+            <span>{book.publisher.name}</span>
             {isPublisherOverflowing && isHovered && (
               <span className={styles.marqueeSpacer} aria-hidden="true" />
             )}
             {isPublisherOverflowing && isHovered && (
-              <span aria-hidden="true">{book.publisher}</span>
+              <span aria-hidden="true">{book.publisher.name}</span>
             )}
           </div>
         </div>

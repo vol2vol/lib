@@ -228,7 +228,7 @@ export const BookPage = () => {
 
                 <div className={styles.metaItem}>
                   <dt className={styles.metaLabel}>Издательство</dt>
-                  <dd className={styles.metaValue}>{book.publisher}</dd>
+                  <dd className={styles.metaValue}>{book.publisher.name}</dd>
                 </div>
 
                 <div className={styles.metaItem}>
