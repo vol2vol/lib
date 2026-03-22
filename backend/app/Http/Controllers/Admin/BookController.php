@@ -31,6 +31,16 @@ class BookController extends Controller
             $validator = Validator::make($request->all(), [
                 'page' => 'sometimes|integer|min:1',
                 'per_page' => 'sometimes|integer|min:1|max:100',
+                'search' => 'sometimes|string|min:2|max:100',
+                'genre_ids' => 'sometimes|array',
+                'genre_ids.*' => 'integer|exists:genres,genre_id',
+                'author_ids' => 'sometimes|array',
+                'author_ids.*' => 'integer|exists:authors,author_id',
+                'publisher_id' => 'sometimes|integer|exists:publishers,publisher_id',
+                'year_from' => 'sometimes|integer|min:1000|max:' . date('Y'),
+                'year_to' => 'sometimes|integer|min:1000|max:' . date('Y'),
+                'sort' => 'sometimes|in:book_title,published_year,created_at',
+                'order' => 'sometimes|in:asc,desc',
             ]);
 
             if ($validator->fails()) {
@@ -41,16 +51,64 @@ class BookController extends Controller
                 ], 422, [], JSON_UNESCAPED_UNICODE);
             }
 
-            $perPage = $request->per_page ?? 20;
-
-            $books = Book::with([
+            $query = Book::with([
                 'genres:genre_id,genre_name',
                 'authors:author_id,last_name,first_name,middle_name',
                 'publisher:publisher_id,publisher_name',
-                'files' => function($q) {
-                    $q->with('format:format_id,format_name');
+                'files' => fn($q) => $q->with('format:format_id,format_name')
+            ]);
+
+            if ($request->has('search')) {
+                $search = $request->search;
+                $query->where(function($q) use ($search) {
+                    $q->where('book_title', 'like', "%{$search}%")
+                      ->orWhere('description', 'like', "%{$search}%");
+                });
+            }
+
+            if ($request->has('genre_ids') && is_array($request->genre_ids)) {
+                foreach ($request->genre_ids as $genreId) {
+                    $query->whereHas('genres', function($q) use ($genreId) {
+                        $q->where('book_genres.genre_id', $genreId);
+                    });
                 }
-            ])->paginate($perPage);
+            }
+
+            if ($request->has('author_ids') && is_array($request->author_ids)) {
+                foreach ($request->author_ids as $authorId) {
+                    $query->whereHas('authors', function($q) use ($authorId) {
+                        $q->where('book_authors.author_id', $authorId);
+                    });
+                }
+            }
+
+            if ($request->has('publisher_id')) {
+                $query->where('publisher_id', $request->publisher_id);
+            }
+
+            if ($request->has('year_from')) {
+                $query->where('published_year', '>=', $request->year_from);
+            }
+            if ($request->has('year_to')) {
+                $query->where('published_year', '<=', $request->year_to);
+            }
+
+            $sortField = $request->sort ?? 'book_title';
+            $sortOrder = $request->order ?? 'asc';
+            $query->orderBy($sortField, $sortOrder);
+
+            $perPage = $request->per_page ?? 20;
+            $books = $query->paginate($perPage);
+
+            if ($request->has('page') && $request->page > $books->lastPage()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Запрошенная страница не существует',
+                    'errors' => [
+                        'page' => ["Страница {$request->page} не существует. Всего страниц: {$books->lastPage()}"]
+                    ]
+                ], 404, [], JSON_UNESCAPED_UNICODE);
+            }
 
             return response()->json([
                 'success' => true,
@@ -75,6 +133,7 @@ class BookController extends Controller
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
     public function store(Request $request)
     {
         try {
@@ -169,6 +228,7 @@ class BookController extends Controller
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
     public function show(string $id)
     {
         try {
@@ -313,6 +373,7 @@ class BookController extends Controller
             ], 500, [], JSON_UNESCAPED_UNICODE);
         }
     }
+
     public function destroy(string $id)
     {
         try {

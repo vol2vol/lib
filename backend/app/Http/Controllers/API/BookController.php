@@ -15,8 +15,10 @@ class BookController extends Controller
             'page' => 'sometimes|integer|min:1',
             'per_page' => 'sometimes|integer|min:1|max:100',
             'search' => 'sometimes|string|min:2|max:100',
-            'genre_id' => 'sometimes|integer|exists:genres,genre_id',
-            'author_id' => 'sometimes|integer|exists:authors,author_id',
+            'genre_ids' => 'sometimes|array',
+            'genre_ids.*' => 'integer|exists:genres,genre_id',
+            'author_ids' => 'sometimes|array',
+            'author_ids.*' => 'integer|exists:authors,author_id',
             'publisher_id' => 'sometimes|integer|exists:publishers,publisher_id',
             'year_from' => 'sometimes|integer|min:1000|max:' . date('Y'),
             'year_to' => 'sometimes|integer|min:1000|max:' . date('Y'),
@@ -50,14 +52,22 @@ class BookController extends Controller
             $activeFilters['поиск'] = $search;
         }
 
-        if ($request->has('genre_id')) {
-            $query->whereHas('genres', fn($q) => $q->where('book_genres.genre_id', $request->genre_id));
-            $activeFilters['жанр'] = $request->genre_id;
+        if ($request->has('genre_ids') && is_array($request->genre_ids)) {
+            foreach ($request->genre_ids as $genreId) {
+                $query->whereHas('genres', function($q) use ($genreId) {
+                    $q->where('book_genres.genre_id', $genreId);
+                });
+            }
+            $activeFilters['жанры'] = implode(', ', $request->genre_ids);
         }
 
-        if ($request->has('author_id')) {
-            $query->whereHas('authors', fn($q) => $q->where('book_authors.author_id', $request->author_id));
-            $activeFilters['автор'] = $request->author_id;
+        if ($request->has('author_ids') && is_array($request->author_ids)) {
+            foreach ($request->author_ids as $authorId) {
+                $query->whereHas('authors', function($q) use ($authorId) {
+                    $q->where('book_authors.author_id', $authorId);
+                });
+            }
+            $activeFilters['авторы'] = implode(', ', $request->author_ids);
         }
 
         if ($request->has('publisher_id')) {
