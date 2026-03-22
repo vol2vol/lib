@@ -9,37 +9,6 @@
   color: #f3ead7;
 }
 
-.header {
-  display: grid;
-  grid-template-columns: 48px 1fr 48px;
-  align-items: center;
-  gap: 16px;
-  height: 80px;
-  padding: 0 24px;
-  background: var(--color-bg-primary);
-}
-
-.logoWrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.logo {
-  width: 130px;
-  height: auto;
-}
-
-.iconButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-}
-
 .content {
   position: relative;
   width: 100%;

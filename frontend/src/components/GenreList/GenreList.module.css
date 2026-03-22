@@ -4,13 +4,16 @@
   overflow-y: hidden;
   scrollbar-width: thin;
   scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
   padding-bottom: 8px;
+  direction: ltr;
 }
 
 .track {
   display: flex;
   gap: 16px;
   min-width: max-content;
+  direction: ltr;
 }
 
 .column {

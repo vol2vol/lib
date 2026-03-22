@@ -70,6 +70,9 @@ export const GenrePage = () => {
   return (
     <main className={styles.genrePage}>
       <Header
+        leftVariant="logo"
+        centerVariant="search"
+        rightVariant="profile"
         searchValue={search}
         onSearchChange={setSearch}
         onProfileClick={() => navigate('/profile')}

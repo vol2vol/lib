@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getBookFileForReading } from '@api/library'
 import { ApiError } from '@api/http'
-import { Icon } from '@components/Icon'
 import styles from './RenderPage.module.css'
+import { Header } from '@components/Header/Header'
 
 type ReaderTheme = 'light' | 'dark'
 type ReaderFileType = 'pdf' | 'txt' | 'fb2' | 'unknown'
@@ -511,29 +511,13 @@ export const RenderPage = () => {
 
   return (
     <main className={pageClassName}>
-      <header className={styles.header}>
-        <button
-          type="button"
-          className={styles.iconButton}
-          onClick={() => navigate(-1)}
-          aria-label="Назад"
-        >
-          <Icon name="BackButtun" size={28} />
-        </button>
-
-        <div className={styles.logoWrap}>
-          <Icon name="Logo" className={styles.logo} />
-        </div>
-
-        <button
-          type="button"
-          className={styles.iconButton}
-          onClick={handleOpenSettings}
-          aria-label="Настройки чтения"
-        >
-          <Icon name="Settings" size={28} />
-        </button>
-      </header>
+        <Header
+            leftVariant="back"
+            centerVariant="logo"
+            rightVariant="settings"
+            onBackClick={() => navigate(-1)}
+            onSettingsClick={handleOpenSettings}
+        />
 
       <section className={styles.content}>
         {isSettingsOpen ? (

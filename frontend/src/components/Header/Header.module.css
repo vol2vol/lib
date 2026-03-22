@@ -1,55 +1,77 @@
 .header {
+  --header-height: 80px;
+  --header-control-size: calc(var(--header-height) * 0.8);
+  --header-search-height: calc(var(--header-height) * 0.8);
+
   display: grid;
-  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 24px;
-  height: 80px;
+  height: var(--header-height);
   width: 100%;
   padding: 0 24px;
   background: var(--color-bg-primary);
 }
 
-.left {
+.searchWrap {
+  width: 100%;
+  min-width: 320px;
+  max-width: 900px;
+  height: var(--header-search-height);
+}
+.headerSearch {
+  grid-template-columns: auto 1fr auto;
+}
+
+.headerFixedCenter {
+  grid-template-columns: 1fr auto 1fr;
+}
+
+.left,
+.center,
+.right {
   display: flex;
   align-items: center;
+  min-width: 0;
+  height: 100%;
+}
+
+.left {
+  justify-content: flex-start;
 }
 
 .center {
-  width: 100%;
-  display: flex;
   justify-content: center;
 }
 
 .right {
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  width: 130px;
-  height: auto;
+  justify-content: flex-end;
 }
 
 .searchWrap {
-  width: 70%;
-  min-width: 420px;
+  width: 100%;
+  min-width: 320px;
   max-width: 900px;
+  height: var(--header-search-height);
 }
-.backButton {
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+.title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+  text-align: center;
 }
-.iconButton {
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+@media (max-width: 900px) {
+  .header {
+    gap: 16px;
+    padding: 0 16px;
+  }
+
+  .searchWrap {
+    min-width: 0;
+  }
+
+  .title {
+    font-size: 20px;
+  }
 }

@@ -174,8 +174,9 @@ export const BookPage = () => {
   return (
     <main className={styles.bookPage}>
       <Header
-        showBackButton
-        showSearch={false}
+        leftVariant="back"
+        centerVariant="logo"
+        rightVariant="profile"
         onBackClick={handleBack}
         onProfileClick={() => navigate('/profile')}
       />
@@ -197,19 +198,26 @@ export const BookPage = () => {
             <div className={styles.content}>
               <div className={styles.head}>
                 <div className={styles.titleRow}>
-                  <h1 className={styles.title}>{book.title}</h1>
+                  <div className={styles.titleBlock}>
+                    <h1 className={styles.title}>{book.title}</h1>
+                    <p className={styles.author}>{book.author}</p>
+                  </div>
 
                   <button
                     type="button"
                     className={styles.favoriteButton}
                     onClick={handleFavoriteClick}
                     disabled={isFavoriteLoading}
+                    aria-label={
+                      book.isFavorited ? 'Убрать из избранного' : 'Добавить в избранное'
+                    }
                   >
-                    <Icon name={book.isFavorited ? 'FavoriteActive' : 'Favorite'} size={18} />
+                    <Icon
+                      name={book.isFavorited ? 'FavoriteActive' : 'Favorite'}
+                      className={styles.favoriteIcon}
+                    />
                   </button>
                 </div>
-
-                <p className={styles.author}>{book.author}</p>
               </div>
 
               <dl className={styles.metaList}>
@@ -274,12 +282,12 @@ export const BookPage = () => {
                         onClick={handleDownload}
                         disabled={!selectedFile || isFileLoading}
                       >
-                        Скачать
+                        {isFileLoading ? 'Загрузка...' : 'Скачать'}
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <p className={styles.empty}>Файлы для чтения пока не добавлены.</p>
+                  <p className={styles.empty}>Для этой книги пока нет доступных файлов.</p>
                 )}
               </section>
             </div>

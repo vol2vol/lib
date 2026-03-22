@@ -72,9 +72,15 @@ export const SignInPage = () => {
   return (
     <main className={styles.signInPage}>
       <section className={styles.content}>
-      <button className={styles.back} onClick={() => navigate('/library')}>
-        <Icon name="BackButtun" size={20} />
-      </button>
+        <button
+          className={styles.back}
+          type="button"
+          onClick={() => navigate('/library')}
+          aria-label="Назад"
+        >
+          <Icon name="BackButton" className={styles.backIcon} />
+        </button>
+
         <Icon name="Logo" className={styles.logo} />
 
         <p className={styles.subtitle}>Чтобы войти, введите данные аккаунта</p>
@@ -146,7 +152,7 @@ export const SignInPage = () => {
           </div>
 
           <button className={styles.submit} type="submit" disabled={isLoading}>
-            {isLoading ? '...' : <Icon name="ForwardButton" size={20} />}
+            {isLoading ? '...' : <Icon name="ForwardButton" className={styles.submitIcon} />}
           </button>
         </form>
       </section>
