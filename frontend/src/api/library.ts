@@ -7,10 +7,13 @@ import type {
   BookFileDto,
   BookListResponseDto,
   BooksListResult,
-  FavoritesResponseDto,
+  Author,
+  AuthorDto,
   Genre,
   GenreDto,
+  BookFormPayload,
   GetBooksParams,
+  FavoritesResponseDto,
 } from '@models/library'
 
 const createQueryString = (params?: GetBooksParams) => {
@@ -68,6 +71,14 @@ const getAuthorName = (authors?: BookDto['authors']) => {
       .join(', ') || 'Автор неизвестен'
   )
 }
+
+const mapAuthor = (author: AuthorDto, index: number): Author => ({
+  id: author.author_id ?? index,
+  lastName: author.last_name ?? '',
+  firstName: author.first_name ?? '',
+  middleName: author.middle_name ?? null,
+  fullName: [author.last_name, author.first_name, author.middle_name].filter(Boolean).join(' ') || `Автор ${index + 1}`,
+})
 
 const mapGenre = (genre: GenreDto, index: number): Genre => ({
   id: genre.genre_id ?? index,
@@ -159,6 +170,26 @@ export const getGenres = async (): Promise<Genre[]> => {
 
   const data = await parseResponse<GenreDto[]>(response)
   return data.map(mapGenre)
+}
+
+export const getAdminGenres = async (token: string): Promise<Genre[]> => {
+  const response = await fetch(buildUrl('/admin/genres'), {
+    headers: createHeaders(token),
+  })
+
+  const data = await parseResponse<{ data: GenreDto[] } | GenreDto[]>(response)
+  const genres = Array.isArray(data) ? data : (Array.isArray(data.data) ? data.data : [])
+  return genres.map(mapGenre)
+}
+
+export const getAdminAuthors = async (token: string): Promise<Author[]> => {
+  const response = await fetch(buildUrl('/admin/authors'), {
+    headers: createHeaders(token),
+  })
+
+  const data = await parseResponse<{ data: AuthorDto[] } | AuthorDto[]>(response)
+  const authors = Array.isArray(data) ? data : (Array.isArray(data.data) ? data.data : [])
+  return authors.map(mapAuthor)
 }
 
 export const getBooks = async (params?: GetBooksParams): Promise<BooksListResult> => {
@@ -267,4 +298,117 @@ export const downloadBookFile = async (fileId: number, token: string): Promise<v
   link.remove()
 
   URL.revokeObjectURL(blobUrl)
+}
+
+const mapBookFromDetailsResponse = (data: BookDetailsResponseDto): Book => {
+  if (!data.data) {
+    throw new Error(data.message || 'Книга не найдена')
+  }
+
+  return mapBook(data.data, 0)
+}
+
+export const createBook = async (
+  payload: BookFormPayload,
+  token: string,
+  coverFile?: File,
+  files?: File[]
+): Promise<Book> => {
+  const formData = new FormData()
+
+  formData.append('book_title', payload.book_title)
+  formData.append('description', payload.description ?? '')
+  
+  // Отправляем только author и genres как строки
+  formData.append('author', payload.author)
+
+  if (payload.published_year !== undefined && payload.published_year !== null) {
+    formData.append('published_year', String(payload.published_year))
+  }
+
+  payload.genres.forEach(genre => {
+    formData.append('genres[]', genre)
+  })
+
+  if (payload.publisher) {
+    formData.append('publisher', payload.publisher)
+  }
+
+  if (coverFile) {
+    formData.append('cover', coverFile)
+  }
+
+  if (files && files.length > 0) {
+    files.forEach((file) => {
+      formData.append('files[]', file)
+    })
+  }
+
+  const response = await fetch(buildUrl('/admin/books'), {
+    method: 'POST',
+    headers: createHeaders(token),
+    body: formData,
+  })
+
+  const data = await parseResponse<BookDetailsResponseDto>(response)
+  return mapBookFromDetailsResponse(data)
+}
+
+export const updateBook = async (
+  bookId: number,
+  payload: BookFormPayload,
+  token: string,
+  coverFile?: File,
+  files?: File[]
+): Promise<Book> => {
+  const formData = new FormData()
+
+  formData.append('book_title', payload.book_title)
+  formData.append('description', payload.description ?? '')
+  
+  // Отправляем author и genres как строки, но также отправляем author_ids[] и genre_ids[]
+  // для совместимости с бэкендом
+  formData.append('author', payload.author)
+  formData.append('author_ids[]', payload.author)
+
+  if (payload.published_year !== undefined && payload.published_year !== null) {
+    formData.append('published_year', String(payload.published_year))
+  }
+
+  payload.genres.forEach(genre => {
+    formData.append('genres[]', genre)
+    formData.append('genre_ids[]', genre)
+  })
+
+  if (payload.publisher) {
+    formData.append('publisher', payload.publisher)
+  }
+
+  if (coverFile) {
+    formData.append('cover', coverFile)
+  }
+
+  if (files && files.length > 0) {
+    files.forEach((file) => {
+      formData.append('files[]', file)
+    })
+  }
+
+  const response = await fetch(buildUrl(`/admin/books/${bookId}`), {
+    method: 'POST',
+    headers: createHeaders(token, { Accept: 'application/json' }),
+    body: formData,
+  })
+
+  const data = await parseResponse<BookDetailsResponseDto>(response)
+  return mapBookFromDetailsResponse(data)
+}
+
+export const deleteBook = async (bookId: number, token: string): Promise<void> => {
+  const response = await fetch(buildUrl(`/admin/books/${bookId}`), {
+    method: 'DELETE',
+    headers: createHeaders(token),
+  })
+
+  await parseResponse<void>(response)
 }

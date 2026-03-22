@@ -91,6 +91,11 @@ export const ProfilePage = () => {
 
       <section className={styles.container}>
         {user ? <h2 className={styles.userLogin}>{user.login}</h2> : null}
+        {user?.roleId === 1 ? (
+          <button className={styles.adminButton} type="button" onClick={() => navigate('/admin')}>
+            Открыть админ-панель
+          </button>
+        ) : null}
 
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Избранное</h2>
