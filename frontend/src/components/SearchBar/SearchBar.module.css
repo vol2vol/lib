@@ -27,7 +27,7 @@
 }
 
 .searchButton {
-  background: transparent;
+  background: var(--color-surface);
 }
 
 .filterButton {
