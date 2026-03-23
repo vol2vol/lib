@@ -1282,6 +1282,7 @@ export const AdminPage = () => {
           // Для других вкладок просто применяем поиск
           setPage(1)
         }}
+        onBackClick={() => navigate(-1)}
         onFilterClick={() => setIsFilterOpen((current) => !current)}
         onProfileClick={() => navigate('/profile')}
       />
