@@ -577,7 +577,6 @@ export const createBook = async (
   })
 
   if (payload.publisher) {
-    console.log(1);
     formData.append('publisher_id', payload.publisher)
   }
 
@@ -684,4 +683,92 @@ export const deleteBook = async (bookId: number, token: string): Promise<void> =
   })
 
   await parseResponse<void>(response)
+}
+
+// Интерфейсы для ответов с пагинацией
+export interface PaginatedResponse<T> {
+  items: T[]
+  total: number
+  page: number
+  per_page: number
+  lastPage: number
+}
+
+// Методы для получения данных с пагинацией
+export const getAdminGenresPaginated = async (
+  token: string,
+  params: {
+    page?: number
+    per_page?: number
+    search?: string
+  } = {}
+): Promise<PaginatedResponse<Genre>> => {
+  const queryParams = new URLSearchParams()
+  if (params.page) queryParams.append('page', params.page.toString())
+  if (params.per_page) queryParams.append('per_page', params.per_page.toString())
+  if (params.search) queryParams.append('search', params.search)
+  
+  const response = await fetch(buildUrl(`/admin/genres?${queryParams}`), {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  
+  if (!response.ok) {
+    throw new Error('Ошибка загрузки жанров')
+  }
+  
+  return response.json()
+}
+
+export const getAdminAuthorsPaginated = async (
+  token: string,
+  params: {
+    page?: number
+    per_page?: number
+    search?: string
+  } = {}
+): Promise<PaginatedResponse<Author>> => {
+  const queryParams = new URLSearchParams()
+  if (params.page) queryParams.append('page', params.page.toString())
+  if (params.per_page) queryParams.append('per_page', params.per_page.toString())
+  if (params.search) queryParams.append('search', params.search)
+  
+  const response = await fetch(buildUrl('/admin/authors?${queryParams}'), {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  
+  if (!response.ok) {
+    throw new Error('Ошибка загрузки авторов')
+  }
+  
+  return response.json()
+}
+
+export const getAdminPublishersPaginated = async (
+  token: string,
+  params: {
+    page?: number
+    per_page?: number
+    search?: string
+  } = {}
+): Promise<PaginatedResponse<Publisher>> => {
+  const queryParams = new URLSearchParams()
+  if (params.page) queryParams.append('page', params.page.toString())
+  if (params.per_page) queryParams.append('per_page', params.per_page.toString())
+  if (params.search) queryParams.append('search', params.search)
+  
+  const response = await fetch(buildUrl('/admin/publishers?${queryParams}'), {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  
+  if (!response.ok) {
+    throw new Error('Ошибка загрузки издательств')
+  }
+  
+  return response.json()
 }

@@ -1,3 +1,4 @@
+/* Admin.module.css */
 .adminPage {
   min-height: 100vh;
   background: #f8f9fb;
@@ -37,11 +38,62 @@
   color: #155724;
 }
 
-.controls {
+/* Tabs styles */
+.tabs {
   display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0;
+}
+
+.tab {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  color: #374151;
+  background: #f3f4f6;
+  border-radius: 8px 8px 0 0;
+}
+
+.activeTab {
+  color: var(--color-bg-primary);
+  border-bottom-color: var(--color-bg-primary);
+}
+
+.tabContent {
+  display: flex;
+  gap: 1.5rem;
   flex-wrap: wrap;
-  gap: 0.75rem;
+}
+
+.filtersBlock {
+  width: 100%;
   margin-bottom: 1rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
 }
 
 .searchLabel {
@@ -58,12 +110,13 @@
 }
 
 .newButton {
-  background: #0037d2;
+  background: var(--color-bg-primary);
   color: #fff;
   border: none;
   border-radius: 8px;
   padding: 0.65rem 1rem;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .grid {
@@ -76,13 +129,21 @@
 }
 
 .sidebar,
-.listSection,
-.formSection {
+.listSection
+{
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   padding: 1rem;
-  height: 100%;
+}
+
+.listSection {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  flex: 1;
+  min-width: 300px;
 }
 
 .genreList {
@@ -96,8 +157,9 @@
 
 .tableWrap {
   overflow-x: auto;
-  overflow-y: scroll;
-  height: 70%;
+  overflow-y: auto;
+  max-height: 500px;
+  margin-top: 1rem;
 }
 
 .table {
@@ -110,35 +172,59 @@
 .table th,
 .table td {
   border-bottom: 1px solid #e5e7eb;
-  padding: 0.5rem;
+  padding: 0.75rem 0.5rem;
 }
 
-.actionButton,
-.actionButtonDanger,
-.saveButton {
-  border: none;
-  border-radius: 6px;
-  padding: 0.45rem 0.7rem;
-  font-size: 0.8rem;
-  cursor: pointer;
+.table th:last-child,
+.table td:last-child {
+  width: 250px; /* Фиксированная ширина для столбца действий */
+  min-width: 250px;
+  max-width: 250px;
+  white-space: nowrap; /* Запрещаем перенос текста */
+}
+
+.table td:last-child {
+  display: flex;
+  gap: 0.5rem; /* Отступ между кнопками */
+  align-items: center;
+  flex-wrap: nowrap; /* Запрещаем перенос кнопок */
+}
+
+.table th {
+  background: #f9fafb;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+.table tbody tr:hover {
+  background: #f9fafb;
 }
 
 .actionButton {
-  background: #2563eb;
+  background: var(--color-accent);
   color: #fff;
-  margin-right: 0.4rem;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .actionButtonDanger {
   background: #dc2626;
   color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .form {
   display: grid;
   gap: 0.8rem;
-  height: 70%;
-  overflow-y: scroll;
+  padding-right: 0.5rem;
 }
 
 .label {
@@ -146,6 +232,8 @@
   flex-direction: column;
   gap: 0.3rem;
   font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
 }
 
 .input,
@@ -157,10 +245,21 @@
   padding: 0.5rem;
   font-size: 0.9rem;
   width: 100%;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus,
+.inputFile:focus {
+  outline: none;
+  border-color: #0037d2;
+  box-shadow: 0 0 0 2px rgba(0, 55, 210, 0.1);
 }
 
 .textarea {
   min-height: 100px;
+  resize: vertical;
 }
 
 .genresContainer {
@@ -173,6 +272,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+  margin-top: 0.5rem;
 }
 
 .genreTag {
@@ -205,7 +305,90 @@
 }
 
 .saveButton {
-  background: #059669;
+  background: var(--color-bg-primary);
   color: #fff;
-  padding: 0.65rem;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.saveButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.state {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+/* Убираем старую форму, так как теперь она в модалке */
+.formSection {
+  display: none;
+}
+
+/* Для модального окна форма становится компактнее */
+.modalForm {
+  display: grid;
+  gap: 1rem;
+}
+
+.modalForm .label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.modalForm .input,
+.modalForm .textarea,
+.modalForm .select {
+  padding: 0.6rem;
+  border: 1px solid #d2d6dc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.modalForm .saveButton {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tabContent {
+    flex-direction: column;
+  }
+  
+  .formSection {
+    position: static;
+  }
+  
+  .tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  
+  .tab {
+    white-space: nowrap;
+  }
+  
+  .controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .newButton {
+    width: 100%;
+  }
+  
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
