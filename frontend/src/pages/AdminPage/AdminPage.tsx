@@ -96,6 +96,9 @@ export const AdminPage = () => {
   const [error, setError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [isGenreSaving, setIsGenreSaving] = useState(false)
+  const [isAuthorSaving, setIsAuthorSaving] = useState(false)
+  const [isPublisherSaving, setIsPublisherSaving] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
@@ -412,7 +415,7 @@ export const AdminPage = () => {
     }
 
     try {
-      setIsSaving(true)
+      setIsGenreSaving(true)
       setError('')
       setSuccessMessage('')
       if (selectedGenre) {
@@ -429,7 +432,7 @@ export const AdminPage = () => {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
     } finally {
-      setIsSaving(false)
+      setIsGenreSaving(false)
     }
   }
 
@@ -461,7 +464,7 @@ export const AdminPage = () => {
     }
 
     try {
-      setIsSaving(true)
+      setIsAuthorSaving(true)
       setError('')
       setSuccessMessage('')
       if (selectedAuthor) {
@@ -478,7 +481,7 @@ export const AdminPage = () => {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
     } finally {
-      setIsSaving(false)
+      setIsAuthorSaving(false)
     }
   }
 
@@ -503,7 +506,7 @@ export const AdminPage = () => {
     }
 
     try {
-      setIsSaving(true)
+      setIsPublisherSaving(true)
       setError('')
       setSuccessMessage('')
       console.log(form.files)
@@ -521,7 +524,7 @@ export const AdminPage = () => {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
     } finally {
-      setIsSaving(false)
+      setIsPublisherSaving(false)
     }
   }
 
@@ -769,8 +772,8 @@ export const AdminPage = () => {
                   onChange={(event) => setGenreForm((prev) => ({ ...prev, name: event.target.value }))}
                 />
               </label>
-              <button className={styles.saveButton} type="submit" disabled={isSaving}>
-                {isSaving ? 'Сохранение...' : selectedGenre ? 'Сохранить' : 'Добавить'}
+              <button className={styles.saveButton} type="submit" disabled={isGenreSaving}>
+                {isGenreSaving ? 'Сохранение...' : selectedGenre ? 'Сохранить' : 'Добавить'}
               </button>
             </form>
           </section>
@@ -802,8 +805,8 @@ export const AdminPage = () => {
                   onChange={(event) => setAuthorForm((prev) => ({ ...prev, last_name: event.target.value }))}
                 />
               </label>
-              <button className={styles.saveButton} type="submit" disabled={isSaving}>
-                {isSaving ? 'Сохранение...' : selectedAuthor ? 'Сохранить' : 'Добавить'}
+              <button className={styles.saveButton} type="submit" disabled={isAuthorSaving}>
+                {isAuthorSaving ? 'Сохранение...' : selectedAuthor ? 'Сохранить' : 'Добавить'}
               </button>
             </form>
           </section>
@@ -819,8 +822,8 @@ export const AdminPage = () => {
                   onChange={(event) => setPublisherForm((prev) => ({ ...prev, name: event.target.value }))}
                 />
               </label>
-              <button className={styles.saveButton} type="submit" disabled={isSaving}>
-                {isSaving ? 'Сохранение...' : selectedPublisher ? 'Сохранить' : 'Добавить'}
+              <button className={styles.saveButton} type="submit" disabled={isPublisherSaving}>
+                {isPublisherSaving ? 'Сохранение...' : selectedPublisher ? 'Сохранить' : 'Добавить'}
               </button>
             </form>
           </section>
