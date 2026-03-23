@@ -2,23 +2,48 @@ import { useEffect, useMemo, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getCurrentUser } from '@api/auth'
 import {
-  getBooks,
+  getAllBooks,
   getAdminGenres,
   getAdminAuthors,
+  getAdminPublishers,
+  createPublisher,
+  updatePublisher,
+  deletePublisher,
   createBook,
   updateBook,
   deleteBook,
+  getBookById,
+  createAuthor,
+  updateAuthor,
+  deleteAuthor,
+  createGenre,
+  updateGenre,
+  deleteGenre,
 } from '@api/library'
 import { Header } from '@components/Header'
-import type { Book, Genre, Author } from '@models/library'
+import type { Book, Genre, Author, Publisher, PublisherFormPayload, AuthorFormPayload, GenreFormPayload } from '@models/library'
 import type { BookFormPayload } from '@models/library'
 import type { User } from '@models/auth'
 import styles from './AdminPage.module.css'
 
+type GenreFormState = {
+  name: string;
+}
+
+type AuthorFormState = {
+  first_name: string;
+  last_name: string;
+  middle_name: string | null;
+}
+
+type PublisherFormState = {
+  name: string;
+}
+
 type BookFormState = {
   title: string
   description: string
-  author: string
+  authors: string[]
   genres: string[]
   publisher: string
   publishedYear: string
@@ -26,10 +51,24 @@ type BookFormState = {
   files: File[]
 }
 
+const initialGenreFormState: GenreFormState = {
+  name: '',
+}
+
+const initialAuthorFormState: AuthorFormState = {
+  first_name: '',
+  middle_name: '',
+  last_name: '',
+}
+
+const initialPublisherFormState: PublisherFormState = {
+  name: '',
+}
+
 const initialFormState: BookFormState = {
   title: '',
   description: '',
-  author: '',
+  authors: [],
   genres: [],
   publisher: '',
   publishedYear: '',
@@ -43,14 +82,25 @@ export const AdminPage = () => {
   const [user, setUser] = useState<User | null>(null)
   const [authors, setAuthors] = useState<Author[]>([])
   const [genres, setGenres] = useState<Genre[]>([])
+  const [publishers, setPublishers] = useState<Publisher[]>([])
   const [books, setBooks] = useState<Book[]>([])
   const [search, setSearch] = useState('')
+  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null)
+  const [selectedAuthor, setSelectedAuthor] = useState<Author | null>(null)
+  const [selectedPublisher, setSelectedPublisher] = useState<Publisher | null>(null)
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
+  const [genreForm, setGenreForm] = useState<GenreFormState>(initialGenreFormState)
+  const [authorForm, setAuthorForm] = useState<AuthorFormState>(initialAuthorFormState)
+  const [publisherForm, setPublisherForm] = useState<PublisherFormState>(initialPublisherFormState)
   const [form, setForm] = useState<BookFormState>(initialFormState)
   const [error, setError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [isGenreSaving, setIsGenreSaving] = useState(false)
+  const [isAuthorSaving, setIsAuthorSaving] = useState(false)
+  const [isPublisherSaving, setIsPublisherSaving] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   const token = localStorage.getItem('token')
 
@@ -79,16 +129,18 @@ export const AdminPage = () => {
       }
 
       // Загружаем админ-данные только для админов
-      const [genresData, booksData, authorsData] = await Promise.all([
+      const [genresData, booksData, authorsData, publishersData] = await Promise.all([
         getAdminGenres(token),
-        getBooks(),
+        getAllBooks(),
         getAdminAuthors(token),
+        getAdminPublishers(token),
       ])
 
       setUser(currentUser)
       setGenres(genresData)
-      setBooks(booksData.items)
+      setBooks(booksData)
       setAuthors(authorsData)
+      setPublishers(publishersData)
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'Произошла ошибка при загрузке данных'
@@ -141,18 +193,22 @@ export const AdminPage = () => {
     return true
   }
 
-  const handleSelectBook = (book: Book) => {
+  const handleSelectBook = async (book: Book) => {
     if (!ensureAdminAccess()) {
+      return
+    }
+    
+    if (!token) {
       return
     }
 
     setSelectedBook(book)
     setForm({
       title: book.title,
-      description: book.description,
-      author: book.author,
-      genres: book.genre ? [book.genre] : [],
-      publisher: book.publisher,
+      description: (await getBookById(book.id, token)).description,
+      authors: book.authors.map((author) => author.id.toString()),
+      genres: book.genres.map((genre) => genre.id.toString()),
+      publisher: book.publisher.id.toString(),
       publishedYear: book.publishedYear ? String(book.publishedYear) : '',
       coverFile: null,
       files: [],
@@ -200,6 +256,278 @@ export const AdminPage = () => {
     }
   }
 
+  const handleSelectAuthor = (author: Author) => {
+    if (!ensureAdminAccess()) {
+      return
+    }
+    
+    if (!token) {
+      return
+    }
+
+    setSelectedAuthor(author)
+    setAuthorForm({
+      first_name: author.firstName,
+      middle_name: author.middleName,
+      last_name: author.lastName,
+
+    })
+    setSuccessMessage('')
+    setError('')
+  }
+
+  const handleDeleteAuthor = async (authorId: number) => {
+    if (!ensureAdminAccess()) {
+      return
+    }
+
+    if (!token) {
+      return
+    }
+
+    if (!window.confirm('Удалить автора?')) {
+      return
+    }
+
+    try {
+      setIsLoading(true)
+      setError('')
+      setSuccessMessage('')
+
+      await deleteAuthor(authorId, token)
+      setSuccessMessage('Автор успешно удален.')
+      await loadData()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Произошла ошибка при удалении')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSelectGenre = (genre: Genre) => {
+    if (!ensureAdminAccess()) {
+      return
+    }
+    
+    if (!token) {
+      return
+    }
+
+    setSelectedGenre(genre)
+    setGenreForm({
+      name: genre.name 
+    })
+    setSuccessMessage('')
+    setError('')
+  }
+
+  const handleDeleteGenre = async (genreId: number) => {
+    if (!ensureAdminAccess()) {
+      return
+    }
+
+    if (!token) {
+      return
+    }
+
+    if (!window.confirm('Удалить жанр?')) {
+      return
+    }
+
+    try {
+      setIsLoading(true)
+      setError('')
+      setSuccessMessage('')
+
+      await deleteGenre(genreId, token)
+      setSuccessMessage('Жанр успешно удален.')
+      await loadData()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Произошла ошибка при удалении')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSelectPublisher = (publisher: Genre) => {
+    if (!ensureAdminAccess()) {
+      return
+    }
+    
+    if (!token) {
+      return
+    }
+
+    setSelectedPublisher(publisher)
+    setPublisherForm({
+      name: publisher.name 
+    })
+    setSuccessMessage('')
+    setError('')
+  }
+
+  const handleDeletePublisher = async (publisherId: number) => {
+    if (!ensureAdminAccess()) {
+      return
+    }
+
+    if (!token) {
+      return
+    }
+
+    if (!window.confirm('Удалить издательство?')) {
+      return
+    }
+
+    try {
+      setIsLoading(true)
+      setError('')
+      setSuccessMessage('')
+
+      await deletePublisher(publisherId, token)
+      setSuccessMessage('Издательство успешно удалено.')
+      await loadData()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Произошла ошибка при удалении')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSubmitGenre = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (!ensureAdminAccess()) {
+      return
+    }
+
+    if (!token) {
+      return
+    }
+
+    if (!genreForm.name.trim()) {
+      setError('Название жанра обязательно')
+      return
+    }
+
+    const payload: GenreFormPayload = {
+      genre_name: genreForm.name.trim(),
+    }
+
+    try {
+      setIsGenreSaving(true)
+      setError('')
+      setSuccessMessage('')
+      if (selectedGenre) {
+        await updateGenre(selectedGenre.id, payload, token)
+        setSuccessMessage('Жанр успешно обновлено.')
+      } else {
+        await createGenre(payload, token)
+        setSuccessMessage('Жанр успешно обнавлен.')
+      }
+
+      setForm(initialFormState)
+      setSelectedBook(null)
+      await loadData()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
+    } finally {
+      setIsGenreSaving(false)
+    }
+  }
+
+  const handleSubmitAuthor = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (!ensureAdminAccess()) {
+      return
+    }
+
+    if (!token) {
+      return
+    }
+
+    if (!authorForm.first_name.trim()) {
+      setError('Имя обязательно')
+      return
+    }
+
+    if (!authorForm.last_name.trim()) {
+      setError('Фамилия обязательна')
+      return
+    }
+
+    const payload: AuthorFormPayload = {
+      first_name: authorForm.first_name.trim(),
+      middle_name: authorForm.middle_name ? authorForm.middle_name.trim() : null,
+      last_name: authorForm.last_name.trim(),
+    }
+
+    try {
+      setIsAuthorSaving(true)
+      setError('')
+      setSuccessMessage('')
+      if (selectedAuthor) {
+        await updateAuthor(selectedAuthor.id, payload, token)
+        setSuccessMessage('Автор успешно обновлен.')
+      } else {
+        await createAuthor(payload, token)
+        setSuccessMessage('Автор успешно добавлен.')
+      }
+
+      setForm(initialFormState)
+      setSelectedBook(null)
+      await loadData()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
+    } finally {
+      setIsAuthorSaving(false)
+    }
+  }
+
+  const handleSubmitPublisher = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (!ensureAdminAccess()) {
+      return
+    }
+
+    if (!token) {
+      return
+    }
+
+    if (!publisherForm.name.trim()) {
+      setError('Название издательства обязательно')
+      return
+    }
+
+    const payload: PublisherFormPayload = {
+      publisher_name: publisherForm.name.trim(),
+    }
+
+    try {
+      setIsPublisherSaving(true)
+      setError('')
+      setSuccessMessage('')
+      console.log(form.files)
+      if (selectedPublisher) {
+        await updatePublisher(selectedPublisher.id, payload, token)
+        setSuccessMessage('Издательство успешно обновлено.')
+      } else {
+        await createPublisher(payload, token)
+        setSuccessMessage('Издательство успешно добавлено.')
+      }
+
+      setForm(initialFormState)
+      setSelectedBook(null)
+      await loadData()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
+    } finally {
+      setIsPublisherSaving(false)
+    }
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -216,8 +544,8 @@ export const AdminPage = () => {
       return
     }
 
-    if (!form.author.trim()) {
-      setError('Укажите автора')
+    if (form.authors.length === 0) {
+      setError('Укажите хотя бы одного автора')
       return
     }
 
@@ -225,21 +553,21 @@ export const AdminPage = () => {
       setError('Выберите хотя бы один жанр')
       return
     }
-
+    console.log(form.publisher);
     const payload: BookFormPayload = {
       book_title: form.title.trim(),
       description: form.description.trim(),
       published_year: form.publishedYear ? Number(form.publishedYear) : undefined,
-      author: form.author.trim(),
+      authors: form.authors,
       genres: form.genres,
-      publisher: form.publisher.trim() || undefined,
+      publisher: form.publisher.trim(),
     }
 
     try {
       setIsSaving(true)
       setError('')
       setSuccessMessage('')
-
+      console.log(form.files)
       if (selectedBook) {
         await updateBook(selectedBook.id, payload, token, form.coverFile ?? undefined, form.files)
         setSuccessMessage('Книга успешно обновлена.')
@@ -262,50 +590,128 @@ export const AdminPage = () => {
     <main className={styles.adminPage}>
       <Header
         leftVariant="back"
-        centerVariant="title"
-        title="Админ-панель"
-        rightVariant="none"
+        centerVariant="search"
+        rightVariant="profile"
         onBackClick={() => navigate('/profile')}
+        onFilterClick={() => setIsFilterOpen((current) => !current)}
+        onProfileClick={() => navigate('/profile')}
       />
 
       <section className={styles.container}>
-        {user ? <p className={styles.userGreeting}>Вы вошли как: {user.login}</p> : null}
         {isLoading ? <p className={styles.status}>Загрузка...</p> : null}
         {error ? <p className={styles.error}>{error}</p> : null}
         {successMessage ? <p className={styles.success}>{successMessage}</p> : null}
 
-        <div className={styles.controls}>
-          <label className={styles.searchLabel}>
-            Найти книгу
-            <input
-              className={styles.searchInput}
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Название, автор, жанр, издательство"
-            />
-          </label>
-          <button className={styles.newButton} type="button" onClick={handleCreateNew}>
-            Добавить книгу
-          </button>
-        </div>
-
         <div className={styles.grid}>
           <aside className={styles.sidebar}>
             <h2>Жанры ({genres.length})</h2>
-            <ul className={styles.genreList}>
-              {genres.map((genre) => (
-                <li key={genre.id}>{genre.name}</li>
-              ))}
-            </ul>
+            <div className={styles.tableWrap}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Название</th>
+                    <th>Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {genres.map((genre) => (
+                    <tr key={genre.id}>
+                      <td>{genre.name}</td>
+                      <td>
+                        <button
+                          className={styles.actionButton}
+                          type="button"
+                          onClick={() => handleSelectGenre(genre)}
+                        >
+                          Редактировать
+                        </button>
+                        <button
+                          className={styles.actionButtonDanger}
+                          type="button"
+                          onClick={() => handleDeleteGenre(genre.id)}
+                        >
+                          Удалить
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </aside>
 
           <aside className={styles.sidebar}>
             <h2>Авторы ({authors.length})</h2>
-            <ul className={styles.genreList}>
-              {authors.map((author) => (
-                <li key={author.id}>{author.firstName} {author.middleName} {author.lastName}</li>
-              ))}
-            </ul>
+            <div className={styles.tableWrap}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>ФИО</th>
+                    <th>Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {authors.map((author) => (
+                    <tr key={author.id}>
+                      <td>{author.fullName}</td>
+                      <td>
+                        <button
+                          className={styles.actionButton}
+                          type="button"
+                          onClick={() => handleSelectAuthor(author)}
+                        >
+                          Редактировать
+                        </button>
+                        <button
+                          className={styles.actionButtonDanger}
+                          type="button"
+                          onClick={() => handleDeleteAuthor(author.id)}
+                        >
+                          Удалить
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </aside>
+
+          <aside className={styles.sidebar}>
+            <h2>Издательства ({publishers.length})</h2>
+            <div className={styles.tableWrap}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Название</th>
+                    <th>Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {publishers.map((publisher) => (
+                    <tr key={publisher.id}>
+                      <td>{publisher.name}</td>
+                      <td>
+                        <button
+                          className={styles.actionButton}
+                          type="button"
+                          onClick={() => handleSelectPublisher(publisher)}
+                        >
+                          Редактировать
+                        </button>
+                        <button
+                          className={styles.actionButtonDanger}
+                          type="button"
+                          onClick={() => handleDeletePublisher(publisher.id)}
+                        >
+                          Удалить
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </aside>
 
           <section className={styles.listSection}>
@@ -329,7 +735,7 @@ export const AdminPage = () => {
                       <td>{book.title}</td>
                       <td>{book.author}</td>
                       <td>{book.genre}</td>
-                      <td>{book.publisher}</td>
+                      <td>{book.publisher.name}</td>
                       <td>{book.publishedYear ?? ''}</td>
                       <td>{book.filesCount}</td>
                       <td>
@@ -356,6 +762,73 @@ export const AdminPage = () => {
           </section>
 
           <section className={styles.formSection}>
+            <h2>{selectedGenre ? 'Редактирование жанра' : 'Добавление жанра'}</h2>
+            <form className={styles.form} onSubmit={handleSubmitGenre}>
+              <label className={styles.label}>
+                Название
+                <input
+                  className={styles.input}
+                  value={genreForm.name}
+                  onChange={(event) => setGenreForm((prev) => ({ ...prev, name: event.target.value }))}
+                />
+              </label>
+              <button className={styles.saveButton} type="submit" disabled={isGenreSaving}>
+                {isGenreSaving ? 'Сохранение...' : selectedGenre ? 'Сохранить' : 'Добавить'}
+              </button>
+            </form>
+          </section>
+
+          <section className={styles.formSection}>
+            <h2>{selectedAuthor ? 'Редактирование автора' : 'Добавление автора'}</h2>
+            <form className={styles.form} onSubmit={handleSubmitAuthor}>
+              <label className={styles.label}>
+                Имя
+                <input
+                  className={styles.input}
+                  value={authorForm.first_name}
+                  onChange={(event) => setAuthorForm((prev) => ({ ...prev, first_name: event.target.value }))}
+                />
+              </label>
+              <label className={styles.label}>
+                Отчество
+                <input
+                  className={styles.input}
+                  value={authorForm.middle_name ? authorForm.middle_name : ''}
+                  onChange={(event) => setAuthorForm((prev) => ({ ...prev, middle_name: event.target.value }))}
+                />
+              </label>
+              <label className={styles.label}>
+                Фамилия
+                <input
+                  className={styles.input}
+                  value={authorForm.last_name}
+                  onChange={(event) => setAuthorForm((prev) => ({ ...prev, last_name: event.target.value }))}
+                />
+              </label>
+              <button className={styles.saveButton} type="submit" disabled={isAuthorSaving}>
+                {isAuthorSaving ? 'Сохранение...' : selectedAuthor ? 'Сохранить' : 'Добавить'}
+              </button>
+            </form>
+          </section>
+
+          <section className={styles.formSection}>
+            <h2>{selectedPublisher ? 'Редактирование издательства' : 'Добавление издательства'}</h2>
+            <form className={styles.form} onSubmit={handleSubmitPublisher}>
+              <label className={styles.label}>
+                Название
+                <input
+                  className={styles.input}
+                  value={publisherForm.name}
+                  onChange={(event) => setPublisherForm((prev) => ({ ...prev, name: event.target.value }))}
+                />
+              </label>
+              <button className={styles.saveButton} type="submit" disabled={isPublisherSaving}>
+                {isPublisherSaving ? 'Сохранение...' : selectedPublisher ? 'Сохранить' : 'Добавить'}
+              </button>
+            </form>
+          </section>
+
+          <section className={styles.formSection}>
             <h2>{selectedBook ? 'Редактирование книги' : 'Добавление книги'}</h2>
             <form className={styles.form} onSubmit={handleSubmit}>
               <label className={styles.label}>
@@ -379,24 +852,70 @@ export const AdminPage = () => {
               </label>
 
               <label className={styles.label}>
-                Автор
-                <input
-                  className={styles.input}
-                  value={form.author}
-                  onChange={(event) => setForm((prev) => ({ ...prev, author: event.target.value }))}
-                  placeholder="Введите имя автора"
-                />
+                Авторы
+                <div className={styles.genresContainer}>
+                  <select
+                    className={styles.select}
+                    multiple
+                    value={form.authors}
+                    onChange={(event) => {
+                      const selected = Array.from(
+                        event.target.selectedOptions,
+                        (option) => option.value,
+                      )
+                      setForm((prev) => ({ ...prev, authors: selected }))
+                    }}
+                  >
+                    {authors.map((author) => (
+                      <option key={author.id} value={author.id}>
+                        {author.fullName}
+                      </option>
+                    ))}
+                  </select>
+
+                  <div className={styles.selectedGenres}>
+                    {form.authors.map((author) => (
+                      <div key={author} className={styles.genreTag}>
+                        <span>{author}</span>
+                        <button
+                          type="button"
+                          className={styles.genreTagRemove}
+                          onClick={() =>
+                            setForm((prev) => ({
+                              ...prev,
+                              authors: prev.authors.filter((a) => a !== author),
+                            }))
+                          }
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </label>
 
               <label className={styles.label}>
                 Издательство
-                <input
-                  className={styles.input}
-                  value={form.publisher}
-                  onChange={(event) =>
-                    setForm((prev) => ({ ...prev, publisher: event.target.value }))
-                  }
-                />
+                <div className={styles.genresContainer}>
+                  <select
+                    className={styles.select}
+                    value={form.publisher}
+                    onChange={(event) => {
+                      const selected = Array.from(
+                        event.target.selectedOptions,
+                        (option) => option.value,
+                      )
+                      setForm((prev) => ({ ...prev, publisher: selected[0] }))
+                    }}
+                  >
+                    {publishers.map((publisher) => (
+                      <option key={publisher.id} value={publisher.id}>
+                        {publisher.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </label>
 
               <label className={styles.label}>
@@ -412,7 +931,7 @@ export const AdminPage = () => {
               </label>
 
               <label className={styles.label}>
-                Жанр(ы) - выбрать из списка или добавить свой
+                Жанры
                 <div className={styles.genresContainer}>
                   <select
                     className={styles.select}
@@ -427,7 +946,7 @@ export const AdminPage = () => {
                     }}
                   >
                     {genres.map((genre) => (
-                      <option key={genre.id} value={genre.name}>
+                      <option key={genre.id} value={genre.id}>
                         {genre.name}
                       </option>
                     ))}
@@ -452,26 +971,6 @@ export const AdminPage = () => {
                       </div>
                     ))}
                   </div>
-
-                  <input
-                    type="text"
-                    className={styles.input}
-                    placeholder="Введите свой жанр и нажмите Enter"
-                    onKeyPress={(event) => {
-                      if (event.key === 'Enter') {
-                        event.preventDefault()
-                        const value = (event.target as HTMLInputElement).value.trim()
-
-                        if (value && !form.genres.includes(value)) {
-                          setForm((prev) => ({
-                            ...prev,
-                            genres: [...prev.genres, value],
-                          }))
-                          ;(event.target as HTMLInputElement).value = ''
-                        }
-                      }
-                    }}
-                  />
                 </div>
               </label>
 

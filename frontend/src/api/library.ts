@@ -17,6 +17,9 @@ import type {
   GetBooksParams,
   GetFavoritesParams,
   FavoritesResponseDto,
+  PublisherFormPayload,
+  AuthorFormPayload,
+  GenreFormPayload,
 } from '@models/library'
 
 const createQueryString = (params?: GetBooksParams | GetFavoritesParams) => {
@@ -137,10 +140,7 @@ const mapBook = (book: BookDto, index: number): Book => ({
   author: getAuthorName(book.authors),
   genres: Array.isArray(book.genres) ? book.genres.map(mapGenre) : [],
   authors: Array.isArray(book.authors) ? book.authors.map(mapAuthor) : [],
-  publisher:
-    typeof book.publisher === 'string'
-      ? book.publisher
-      : book.publisher?.publisher_name ?? 'Издательство не указано',
+  publisher: [book.publisher].map(mapPublisher)[0],
   publishedYear: book.published_year ?? null,
   coverUrl: normalizeUrl(book.cover_url),
   isFavorited: Boolean(book.is_favorited),
@@ -244,6 +244,16 @@ export const getAdminAuthors = async (token: string): Promise<Author[]> => {
   const data = await parseResponse<{ data: AuthorDto[] } | AuthorDto[]>(response)
   const authors = Array.isArray(data) ? data : Array.isArray(data.data) ? data.data : []
   return authors.map(mapAuthor)
+}
+
+export const getAdminPublishers = async (token: string): Promise<Publisher[]> => {
+  const response = await fetch(buildUrl('/publishers'), {
+    headers: createHeaders(token),
+  })
+
+  const data = await parseResponse<{ data: PublisherDto[] } | PublisherDto[]>(response)
+  const publishers = Array.isArray(data) ? data : Array.isArray(data.data) ? data.data : []
+  return publishers.map(mapPublisher)
 }
 
 export const getBooks = async (params?: GetBooksParams): Promise<BooksListResult> => {
@@ -393,6 +403,156 @@ const mapBookFromDetailsResponse = (data: BookDetailsResponseDto): Book => {
   return mapBook(data.data, 0)
 }
 
+export const createGenre = async (
+  payload: GenreFormPayload,
+  token: string
+): Promise<Genre> => {
+  const formData = new FormData()
+
+  formData.append('genre_name', payload.genre_name)
+
+  const response = await fetch(buildUrl('/admin/genres'), {
+    method: 'POST',
+    headers: createHeaders(token),
+    body: formData,
+  })
+
+  const data = await parseResponse<GenreDto>(response)
+  return mapGenre(data, 0)
+}
+
+export const updateGenre = async (
+  genreId: number,
+  payload: GenreFormPayload,
+  token: string
+): Promise<Genre> => {
+  const formData = new FormData()
+
+  formData.append('genre_name', payload.genre_name)
+
+  const response = await fetch(buildUrl(`/admin/genres/${genreId}`), {
+    method: 'PUT',
+    headers: createHeaders(token),
+    body: formData,
+  })
+
+  const data = await parseResponse<GenreDto>(response)
+  return mapGenre(data, 0)
+}
+
+export const deleteGenre = async (
+  genreId: number,
+  token: string
+): Promise<void> => {
+
+  await fetch(buildUrl(`/admin/genres/${genreId}`), {
+    method: 'DELETE',
+    headers: createHeaders(token)
+  })
+}
+
+export const createAuthor = async (
+  payload: AuthorFormPayload,
+  token: string
+): Promise<Author> => {
+  const formData = new FormData()
+
+  formData.append('first_name', payload.first_name)
+  formData.append('middle_name', payload.middle_name ? payload.middle_name : '')
+  formData.append('last_name', payload.last_name)
+
+  const response = await fetch(buildUrl('/admin/authors'), {
+    method: 'POST',
+    headers: createHeaders(token),
+    body: formData,
+  })
+
+  const data = await parseResponse<AuthorDto>(response)
+  return mapAuthor(data, 0)
+}
+
+export const updateAuthor = async (
+  authorId: number,
+  payload: AuthorFormPayload,
+  token: string
+): Promise<Author> => {
+  const formData = new FormData()
+
+  formData.append('first_name', payload.first_name)
+  formData.append('middle_name', payload.middle_name ? payload.middle_name : '')
+  formData.append('last_name', payload.last_name)
+
+  const response = await fetch(buildUrl(`/admin/authors/${authorId}`), {
+    method: 'PUT',
+    headers: createHeaders(token),
+    body: formData,
+  })
+
+  const data = await parseResponse<AuthorDto>(response)
+  return mapAuthor(data, 0)
+}
+
+export const deleteAuthor = async (
+  authorId: number,
+  token: string
+): Promise<void> => {
+
+
+  await fetch(buildUrl(`/admin/authors/${authorId}`), {
+    method: 'DELETE',
+    headers: createHeaders(token)
+  })
+}
+
+export const createPublisher = async (
+  payload: PublisherFormPayload,
+  token: string
+): Promise<Publisher> => {
+  const formData = new FormData()
+
+  formData.append('publisher_name', payload.publisher_name)
+
+  const response = await fetch(buildUrl('/admin/publishers'), {
+    method: 'POST',
+    headers: createHeaders(token),
+    body: formData,
+  })
+
+  const data = await parseResponse<PublisherDto>(response)
+  return mapPublisher(data, 0)
+}
+
+export const updatePublisher = async (
+  publisherId: number,
+  payload: PublisherFormPayload,
+  token: string
+): Promise<Publisher> => {
+  const formData = new FormData()
+
+  formData.append('publisher_name', payload.publisher_name)
+
+  const response = await fetch(buildUrl(`/admin/publishers/${publisherId}`), {
+    method: 'PUT',
+    headers: createHeaders(token),
+    body: formData,
+  })
+
+  const data = await parseResponse<PublisherDto>(response)
+  return mapPublisher(data, 0)
+}
+
+export const deletePublisher = async (
+  publisherId: number,
+  token: string
+): Promise<void> => {
+
+
+  await fetch(buildUrl(`/admin/publishers/${publisherId}`), {
+    method: 'DELETE',
+    headers: createHeaders(token)
+  })
+}
+
 export const createBook = async (
   payload: BookFormPayload,
   token: string,
@@ -404,18 +564,21 @@ export const createBook = async (
   formData.append('book_title', payload.book_title)
   formData.append('description', payload.description ?? '')
 
-  formData.append('author', payload.author)
+  payload.authors.forEach((author) => {
+    formData.append('author_ids[]', author)
+  })
 
   if (payload.published_year !== undefined && payload.published_year !== null) {
     formData.append('published_year', String(payload.published_year))
   }
 
   payload.genres.forEach((genre) => {
-    formData.append('genres[]', genre)
+    formData.append('genre_ids[]', genre)
   })
 
   if (payload.publisher) {
-    formData.append('publisher', payload.publisher)
+    console.log(1);
+    formData.append('publisher_id', payload.publisher)
   }
 
   if (coverFile) {
@@ -423,8 +586,21 @@ export const createBook = async (
   }
 
   if (files && files.length > 0) {
+    var i = 0;
     files.forEach((file) => {
-      formData.append('files[]', file)
+      var file_name_split = file.name.split('.')
+      var format_name = file_name_split[file_name_split.length - 1]
+      var format_id = ''
+      if (format_name == 'pdf') {
+        format_id = '1'
+      } else if (format_name == 'txt') {
+        format_id = '2'
+      } else {
+        format_id = '3'
+      }
+      formData.append(`files[${i}][file]`, file)
+      formData.append(`files[${i}][format_id]`, format_id)
+      i+=1;
     })
   }
 
@@ -450,8 +626,10 @@ export const updateBook = async (
   formData.append('book_title', payload.book_title)
   formData.append('description', payload.description ?? '')
 
-  formData.append('author', payload.author)
-  formData.append('author_ids[]', payload.author)
+  payload.authors.forEach((author) => {
+    formData.append('authors[]', author)
+    formData.append('author_ids[]', author)
+  })
 
   if (payload.published_year !== undefined && payload.published_year !== null) {
     formData.append('published_year', String(payload.published_year))
@@ -471,13 +649,26 @@ export const updateBook = async (
   }
 
   if (files && files.length > 0) {
+    var i = 0;
     files.forEach((file) => {
-      formData.append('files[]', file)
+      var file_name_split = file.name.split('.')
+      var format_name = file_name_split[file_name_split.length - 1]
+      var format_id = ''
+      if (format_name == 'pdf') {
+        format_id = '1'
+      } else if (format_name == 'txt') {
+        format_id = '2'
+      } else {
+        format_id = '3'
+      }
+      formData.append(`files[${i}][file]`, file)
+      formData.append(`files[${i}][format_id]`, format_id)
+      i+=1;
     })
   }
 
   const response = await fetch(buildUrl(`/admin/books/${bookId}`), {
-    method: 'POST',
+    method: 'PUT',
     headers: createHeaders(token, { Accept: 'application/json' }),
     body: formData,
   })

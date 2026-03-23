@@ -40,9 +40,9 @@ export type BookDto = {
   published_year?: number
   cover_url?: string
   is_favorited?: boolean
-  genres?: GenreDto[]
-  authors?: AuthorDto[]
-  publisher?: PublisherDto | string
+  genres: GenreDto[]
+  authors: AuthorDto[]
+  publisher: PublisherDto
   files_count?: number
   files?: BookFileDto[]
 }
@@ -113,7 +113,7 @@ export type Book = {
   author: string
   genres: Genre[]
   authors: Author[]
-  publisher: string
+  publisher: Publisher
   publishedYear: number | null
   coverUrl: string | null
   isFavorited: boolean
@@ -151,11 +151,26 @@ export type GetFavoritesParams = {
   per_page?: number
   all?: boolean
 }
+
+export type GenreFormPayload = {
+  genre_name: string
+}
+
+export type AuthorFormPayload = {
+  first_name: string
+  middle_name: string | null
+  last_name: string
+}
+
+export type PublisherFormPayload = {
+  publisher_name: string
+}
+
 export type BookFormPayload = {
   book_title: string
   description?: string
   published_year?: number
-  author: string
+  authors: string[]
   genres: string[]
-  publisher?: string
+  publisher: string
 }
