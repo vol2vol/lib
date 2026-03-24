@@ -2,21 +2,21 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use App\Models\Format;
 
 class FormatSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        DB::table('formats')->insert([
-            [
-                'format_id' => 1,
-                'format_name' => 'PDF'
-            ],
-        ]);
+        $formats = [
+            ['format_name' => 'PDF'],
+            ['format_name' => 'TXT'],
+            ['format_name' => 'FB2']
+        ];
+
+        foreach ($formats as $format) {
+            Format::firstOrCreate($format);
+        }
     }
 }

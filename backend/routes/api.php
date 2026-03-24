@@ -7,13 +7,13 @@ use App\Http\Controllers\API\AuthorController;
 use App\Http\Controllers\API\PublisherController;
 use App\Http\Controllers\API\FormatController;
 use App\Http\Controllers\API\BookController;
+use App\Http\Controllers\API\FileController;
+use App\Http\Controllers\API\FavoriteController;
 
-//TODO не работает
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';
 
-// ПУБЛИЧНЫЕ МАРШРУТЫ (без авторизации)
+// ПУБЛИЧНЫЕ МАРШРУТЫ (работают без авторизации)
 
 // Жанры
 Route::get('/genres', [GenreController::class, 'index']);
@@ -34,3 +34,19 @@ Route::get('/formats/{id}', [FormatController::class, 'show']);
 // КНИГИ
 Route::get('/books', [BookController::class, 'index']);
 Route::get('/books/{id}', [BookController::class, 'show']);
+
+Route::get('/covers/{filename}', [FileController::class, 'getCover']);
+
+// Приватные маршруты
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::get('/books/file/{fileId}/read', [FileController::class, 'readFile']);
+    Route::get('/books/file/{fileId}/download', [FileController::class, 'downloadFile']);
+
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/favorites/{book}', [FavoriteController::class, 'store']);
+    Route::delete('/favorites/{book}', [FavoriteController::class, 'remove']);
+});
+

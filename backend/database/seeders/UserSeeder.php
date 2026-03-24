@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Role;
+
 
 class UserSeeder extends Seeder
 {
@@ -13,19 +16,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            [
-                'user_id' => 1,
-                'login' => 'admin',
-                'password' => Hash::make('password'),
-                'role_id' => 1,
-            ],
-            [
-                'user_id' => 2,
-                'login' => 'user',
-                'password' => Hash::make('password'),
-                'role_id' => 2,
-            ],
-        ]);
+        $users = [
+            ['login' => 'admin', 'password' => Hash::make('password'), 'role_id' => Role::where('role_name', 'admin')->get()->first()['role_id']],
+            ['login' => 'user', 'password' => Hash::make('password'), 'role_id' => Role::where('role_name', 'user')->get()->first()['role_id']]
+        ];
+
+        foreach ($users as $user) {
+            DB::table('users')->insertOrIgnore($user);
+        };
     }
 }
