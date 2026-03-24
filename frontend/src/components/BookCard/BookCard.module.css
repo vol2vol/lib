@@ -1,0 +1,110 @@
+.bookCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.interactive {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.interactive:hover {
+  transform: translateY(-2px);
+}
+
+.interactive:focus-visible {
+  outline: 2px solid var(--color-bg-primary);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+.cover,
+.coverPlaceholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  border: 1px solid #cfcfcf;
+  overflow: hidden;
+  display: block;
+}
+
+.cover {
+  object-fit: cover;
+  background: #d9d9d9;
+}
+
+.coverPlaceholder {
+  background: linear-gradient(180deg, #ececec 0%, #d9d9d9 100%);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.titleContainer {
+  overflow: hidden;
+  width: 100%;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 500;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.metaContainer {
+  overflow: hidden;
+  width: 100%;
+}
+
+.metaContent {
+  display: inline-flex;
+  white-space: nowrap;
+  color: #444444;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.marqueeSpacer {
+  margin: 0 50px;
+}
+
+/* Анимация бегущей строки */
+.marquee {
+  animation: marquee 15s linear infinite;
+}
+
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.author {
+  font-weight: 500;
+}
+
+.genre {
+  font-style: italic;
+}
+
+.meta {
+  margin: 0;
+  color: #444444;
+  font-size: 14px;
+  line-height: 1.3;
+}

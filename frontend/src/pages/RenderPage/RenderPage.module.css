@@ -1,0 +1,277 @@
+.page {
+  min-height: 100vh;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.pageDark {
+  background: #231f18;
+  color: #f3ead7;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 18px 16px 32px;
+}
+
+.settingsPanel {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: min(360px, calc(100vw - 32px));
+  padding: 18px 16px 16px;
+  border-radius: 16px;
+  background: var(--color-bg-primary);
+  color: #000;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.settingsPanel,
+.settingsPanel * {
+  color: #000;
+}
+
+.settingsTitle {
+  margin: 0 0 18px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.settingsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.settingsLabel {
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.fontSizeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fontSizeControls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.range {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--color-accent);
+}
+
+.numberInputWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  background: var(--color-surface);
+}
+
+.numberInput {
+  width: 64px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: #000;
+  text-align: center;
+  font-size: 16px;
+  outline: none;
+}
+
+.numberInput::-webkit-outer-spin-button,
+.numberInput::-webkit-inner-spin-button {
+  margin: 0;
+}
+
+.inputSuffix {
+  color: #000;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.themeButtons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.themeButton {
+  min-width: 110px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  background: var(--color-surface);
+  color: #000;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.themeButtonActive {
+  outline: 2px solid var(--color-accent);
+}
+
+.saveButton {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  background: var(--color-surface);
+  color: #000;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.state,
+.error {
+  margin: 0;
+  padding: 40px 0;
+  text-align: center;
+  font-size: 20px;
+}
+
+.error {
+  color: #b42318;
+}
+
+.readerSurface {
+  min-height: calc(100vh - 130px);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.pageDark .readerSurface {
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.textReader {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 8px 20px 48px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.textReader a {
+  color: inherit;
+}
+
+.paragraph {
+  margin: 0 0 18px;
+  text-indent: 2em;
+}
+
+.title {
+  margin: 0;
+  text-align: center;
+  text-indent: 0;
+}
+
+.titleLevel1 {
+  margin-bottom: 24px;
+  font-size: 1.5em;
+  line-height: 1.2;
+}
+
+.titleLevel2 {
+  margin: 28px 0 16px;
+  font-size: 1.25em;
+  line-height: 1.2;
+}
+
+.titleLevel3 {
+  margin: 24px 0 14px;
+  font-size: 1.1em;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: 18px 0;
+  text-align: center;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+.epigraph {
+  width: min(540px, 100%);
+  margin: 0 0 16px auto;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.textAuthor {
+  width: min(540px, 100%);
+  margin: -6px 0 20px auto;
+  text-align: right;
+  font-style: italic;
+}
+
+.poem {
+  margin: 24px 0;
+  line-height: 1.7;
+  white-space: normal;
+}
+
+.image {
+  display: block;
+  max-width: 100%;
+  margin: 24px auto;
+}
+
+.emptyLine {
+  height: 18px;
+}
+
+.pdfWrap {
+  height: calc(100vh - 130px);
+  background: #fff;
+}
+
+.pdfFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.pageDark .pdfWrap {
+  background: #2f2a22;
+}
+
+@media (max-width: 900px) {
+  .settingsPanel {
+    width: min(340px, calc(100vw - 24px));
+  }
+
+  .textReader {
+    padding: 8px 8px 32px;
+  }
+}
+
+@media (max-width: 600px) {
+  .themeButtons {
+    flex-direction: column;
+  }
+
+  .themeButton {
+    width: 100%;
+  }
+}

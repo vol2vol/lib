@@ -13,8 +13,10 @@
       "@app/*": ["app/*"],
       "@pages/*": ["pages/*"],
       "@components/*": ["components/*"],
-      "@models/*": ["types/*"],
-      "@data/*": ["data/*"]
+      "@models/*": ["models/*"],
+      "@data/*": ["data/*"],
+      "@assets/*": ["assets/*"],
+      "@api/*": ["api/*"]
     },
 
     /* Bundler mode */

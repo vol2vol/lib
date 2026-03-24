@@ -1,0 +1,46 @@
+.viewport {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  padding-bottom: 8px;
+  direction: ltr;
+}
+
+.track {
+  display: flex;
+  gap: 16px;
+  min-width: max-content;
+  direction: ltr;
+}
+
+.column {
+  width: min(260px, calc((100vw - 64px) / 2));
+  min-width: 220px;
+  display: grid;
+  grid-template-rows: repeat(2, minmax(110px, 1fr));
+  gap: 12px;
+  scroll-snap-align: start;
+}
+
+@media (max-width: 900px) {
+  .column {
+    width: 220px;
+    min-width: 220px;
+  }
+}
+
+@media (max-width: 700px) {
+  .track {
+    gap: 12px;
+  }
+
+  .column {
+    width: 180px;
+    min-width: 180px;
+    grid-template-rows: repeat(2, minmax(88px, 1fr));
+    gap: 10px;
+  }
+}

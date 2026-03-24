@@ -1,0 +1,170 @@
+.profilePage {
+  min-height: 100vh;
+  background: #f6f3eb;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 24px 32px 40px;
+}
+
+.filtersBlock {
+  margin-bottom: 24px;
+}
+
+.hero {
+  margin-bottom: 32px;
+}
+
+.summaryCard {
+  display: grid;
+  grid-template-columns: minmax(260px, 420px) 1px minmax(180px, 240px);
+  align-items: stretch;
+  gap: 24px;
+  max-width: 760px;
+  padding: 28px;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+.summaryMain {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.userCaption {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.userLogin {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  line-height: 1.1;
+  word-break: break-word;
+}
+
+.userRole {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.3;
+  opacity: 0.8;
+}
+
+.adminButton {
+  min-width: 220px;
+  min-height: 52px;
+  margin-top: 8px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 14px;
+  background: var(--color-bg-primary);
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  font: inherit;
+}
+
+.adminButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.adminButton:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.summaryDivider {
+  width: 1px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.summaryStats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.statLabel {
+  font-size: 16px;
+  line-height: 1.3;
+  opacity: 0.7;
+}
+
+.statValue {
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.state,
+.error {
+  margin: 0;
+  font-size: 18px;
+}
+
+.error {
+  color: #d14343;
+}
+
+@media (max-width: 900px) {
+  .summaryCard {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: none;
+  }
+
+  .summaryDivider {
+    width: 100%;
+    height: 1px;
+  }
+
+  .summaryStats {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 16px 32px;
+  }
+
+  .summaryCard {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .adminButton {
+    width: 100%;
+  }
+}

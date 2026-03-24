@@ -1,0 +1,47 @@
+.genrePage {
+  min-height: 100vh;
+  background: #eeeeee;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 24px 32px 40px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: clamp(32px, 4vw, 64px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.state,
+.error {
+  margin: 0;
+  font-size: 24px;
+}
+
+.error {
+  color: #b42318;
+}
+
+@media (max-width: 700px) {
+  .container {
+    padding: 20px 16px 32px;
+  }
+}

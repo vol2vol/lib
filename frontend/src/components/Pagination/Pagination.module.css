@@ -1,0 +1,104 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.metaBlock {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.meta {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.selectWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.selectLabel {
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.select {
+  min-width: 84px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 12px;
+  background: #ffffff;
+  font: inherit;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pages {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pageItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 12px;
+  background: #ffffff;
+  cursor: pointer;
+  font: inherit;
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.buttonActive {
+  border-color: var(--color-bg-primary);
+  background: var(--color-bg-primary);
+  color: #ffffff;
+}
+
+.dots {
+  font-size: 18px;
+  line-height: 1;
+}
+
+@media (max-width: 700px) {
+  .wrapper {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .metaBlock,
+  .navigation {
+    width: 100%;
+  }
+
+  .navigation {
+    justify-content: space-between;
+  }
+}

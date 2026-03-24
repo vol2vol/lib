@@ -1,0 +1,15 @@
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--header-control-size);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
