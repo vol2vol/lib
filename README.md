@@ -23,8 +23,6 @@
    - запускаем Docker Desktop
    - в терминале в корне репозитория пишем команды:
 
-     wsl
-
      docker-compose up -d node
      
    - frontend доступен по адресу: http://localhost:5173
@@ -32,8 +30,6 @@
    - клонируем репозиторий, переходим в ветку backend
    - запускаем Docker Desktop
    - в терминале в корне репозитория пишем команды:
-
-     wsl
 
      docker-compose up -d laravel nginx
      
@@ -43,8 +39,6 @@
    - клонируем репозиторий, переходим в ветку dev
    - запускаем Docker Desktop
    - в терминале в корне репозитория пишем команды:
-
-     wsl
 
      docker-compose up -d
      
