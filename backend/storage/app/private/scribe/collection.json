@@ -1,0 +1,2094 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8000"
+        }
+    ],
+    "info": {
+        "name": "Laravel API Documentation",
+        "_postman_id": "18ace0bc-cfde-45f8-b641-06057541436a",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "Handle an incoming registration request.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Handle an incoming authentication request.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"login\":\"architecto\",\"password\":\"|]|{+-\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Destroy an authenticated session.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/admin\/books",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/books",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/books"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "POST api\/admin\/books",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/books",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/books"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/admin\/books\/{id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/books\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/books\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the book."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "PUT api\/admin\/books\/{id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/books\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/books\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the book."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "DELETE api\/admin\/books\/{id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/books\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/books\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the book."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/authors",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/authors"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a newly created resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/authors",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/authors"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/authors\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/authors\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the author."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/authors\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/authors\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the author."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/authors\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/authors\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the author."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/genres",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/genres"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a newly created resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/genres",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/genres"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/genres\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/genres\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the genre."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/genres\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/genres\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the genre."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/genres\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/genres\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the genre."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/publishers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/publishers"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a newly created resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/publishers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/publishers"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/publishers\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/publishers\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the publisher."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/publishers\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/publishers\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the publisher."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/publishers\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/publishers\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the publisher."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/formats",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/formats"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a newly created resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/formats",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/formats"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/formats\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/formats\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the format."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/formats\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/formats\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the format."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/formats\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/formats\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the format."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/genres",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/genres",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/genres"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[{\"genre_id\":1,\"genre_name\":\"\\u0420\\u043e\\u043c\\u0430\\u043d\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":2,\"genre_name\":\"\\u0424\\u0430\\u043d\\u0442\\u0430\\u0441\\u0442\\u0438\\u043a\\u0430\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":3,\"genre_name\":\"\\u0414\\u0435\\u0442\\u0435\\u043a\\u0442\\u0438\\u0432\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":4,\"genre_name\":\"\\u041d\\u0430\\u0443\\u0447\\u043d\\u0430\\u044f \\u0444\\u0430\\u043d\\u0442\\u0430\\u0441\\u0442\\u0438\\u043a\\u0430\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":5,\"genre_name\":\"\\u0424\\u044d\\u043d\\u0442\\u0435\\u0437\\u0438\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":6,\"genre_name\":\"\\u0422\\u0440\\u0438\\u043b\\u043b\\u0435\\u0440\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":7,\"genre_name\":\"\\u041f\\u0440\\u0438\\u043a\\u043b\\u044e\\u0447\\u0435\\u043d\\u0438\\u044f\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":8,\"genre_name\":\"\\u0418\\u0441\\u0442\\u043e\\u0440\\u0438\\u0447\\u0435\\u0441\\u043a\\u0438\\u0439 \\u0440\\u043e\\u043c\\u0430\\u043d\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":9,\"genre_name\":\"\\u041f\\u043e\\u044d\\u0437\\u0438\\u044f\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":10,\"genre_name\":\"\\u0414\\u0440\\u0430\\u043c\\u0430\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":11,\"genre_name\":\"\\u0411\\u0438\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u044f\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":12,\"genre_name\":\"\\u041c\\u0435\\u043c\\u0443\\u0430\\u0440\\u044b\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":13,\"genre_name\":\"\\u041a\\u043b\\u0430\\u0441\\u0441\\u0438\\u043a\\u0430\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":14,\"genre_name\":\"\\u0421\\u043e\\u0432\\u0440\\u0435\\u043c\\u0435\\u043d\\u043d\\u0430\\u044f \\u043f\\u0440\\u043e\\u0437\\u0430\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":15,\"genre_name\":\"\\u0423\\u0436\\u0430\\u0441\\u044b\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":16,\"genre_name\":\"\\u041c\\u0438\\u0441\\u0442\\u0438\\u043a\\u0430\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":17,\"genre_name\":\"\\u041f\\u0441\\u0438\\u0445\\u043e\\u043b\\u043e\\u0433\\u0438\\u044f\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":18,\"genre_name\":\"\\u0424\\u0438\\u043b\\u043e\\u0441\\u043e\\u0444\\u0438\\u044f\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":19,\"genre_name\":\"\\u0420\\u0435\\u043b\\u0438\\u0433\\u0438\\u044f\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":20,\"genre_name\":\"\\u0418\\u0441\\u043a\\u0443\\u0441\\u0441\\u0442\\u0432\\u043e\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":21,\"genre_name\":\"\\u041f\\u0443\\u0431\\u043b\\u0438\\u0446\\u0438\\u0441\\u0442\\u0438\\u043a\\u0430\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":22,\"genre_name\":\"\\u041d\\u0430\\u0443\\u043a\\u0430\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":23,\"genre_name\":\"\\u0422\\u0435\\u0445\\u043d\\u0438\\u043a\\u0430\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":24,\"genre_name\":\"\\u0421\\u043f\\u043e\\u0440\\u0442\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":25,\"genre_name\":\"\\u041a\\u0443\\u043b\\u0438\\u043d\\u0430\\u0440\\u0438\\u044f\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":26,\"genre_name\":\"\\u041f\\u0443\\u0442\\u0435\\u0448\\u0435\\u0441\\u0442\\u0432\\u0438\\u044f\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":27,\"genre_name\":\"\\u042e\\u043c\\u043e\\u0440\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":28,\"genre_name\":\"\\u0421\\u043a\\u0430\\u0437\\u043a\\u0438\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":29,\"genre_name\":\"\\u041c\\u043e\\u043b\\u043e\\u0434\\u0435\\u0436\\u043d\\u0430\\u044f \\u043f\\u0440\\u043e\\u0437\\u0430\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"genre_id\":30,\"genre_name\":\"\\u041b\\u044e\\u0431\\u043e\\u0432\\u043d\\u044b\\u0439 \\u0440\\u043e\\u043c\\u0430\\u043d\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"}]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/genres\/{id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/genres\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/genres\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the genre."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"genre_id\":1,\"genre_name\":\"\\u0420\\u043e\\u043c\\u0430\\u043d\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\",\"books\":[{\"book_id\":30,\"book_title\":\"Officiis vero exercitationem dicta velit ipsam.\",\"description\":\"Est exercitationem et quis fugiat ut. Dolore sint aut nulla ea quam. Placeat neque sunt sed culpa reprehenderit cum.\",\"published_year\":1935,\"publisher_id\":25,\"created_at\":\"2026-03-11T18:06:31.000000Z\",\"updated_at\":\"2026-03-11T18:06:31.000000Z\",\"cover_path\":\"covers\\\/c31c1cb3-c60a-301d-bf31-1a23f91f24c5.jpg\",\"pivot\":{\"genre_id\":1,\"book_id\":30}},{\"book_id\":31,\"book_title\":\"\\u0422\\u0435\\u0441\\u0442\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u0430\",\"description\":\"\\u041f\\u043e\\u0434\\u0440\\u043e\\u0431\\u043d\\u043e\\u0435 \\u043e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435 \\u0442\\u0435\\u0441\\u0442\\u043e\\u0432\\u043e\\u0439 \\u043a\\u043d\\u0438\\u0433\\u0438\",\"published_year\":2024,\"publisher_id\":1,\"created_at\":\"2026-03-11T18:49:14.000000Z\",\"updated_at\":\"2026-03-11T19:22:06.000000Z\",\"cover_path\":\"covers\\\/1773256926_cover_QwUoJdCeS5.png\",\"pivot\":{\"genre_id\":1,\"book_id\":31}},{\"book_id\":32,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u043054455445\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:51:46.000000Z\",\"updated_at\":\"2026-03-12T06:51:46.000000Z\",\"cover_path\":\"covers\\\/1773298306_cover_jqqZWMEygB.png\",\"pivot\":{\"genre_id\":1,\"book_id\":32}},{\"book_id\":33,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u043054455445\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a1\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:54:36.000000Z\",\"updated_at\":\"2026-03-12T06:54:36.000000Z\",\"cover_path\":\"covers\\\/1773298476_cover_NVmCpGIeUb.png\",\"pivot\":{\"genre_id\":1,\"book_id\":33}},{\"book_id\":34,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u043054455445\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:56:00.000000Z\",\"updated_at\":\"2026-03-12T06:56:00.000000Z\",\"cover_path\":\"covers\\\/1773298560_cover_MO9oaHhjUK.png\",\"pivot\":{\"genre_id\":1,\"book_id\":34}},{\"book_id\":35,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u04305445544115\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:57:11.000000Z\",\"updated_at\":\"2026-03-12T06:57:11.000000Z\",\"cover_path\":\"covers\\\/1773298631_cover_D7ag4pLOSn.png\",\"pivot\":{\"genre_id\":1,\"book_id\":35}},{\"book_id\":36,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u04305445544115\\u0446\\u04435\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T07:16:57.000000Z\",\"updated_at\":\"2026-03-12T07:16:57.000000Z\",\"cover_path\":\"covers\\\/1773299817_cover_wsJOsdldBF.png\",\"pivot\":{\"genre_id\":1,\"book_id\":36}},{\"book_id\":37,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u04305445544115\\u0446\\u0443511\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T07:22:31.000000Z\",\"updated_at\":\"2026-03-12T07:22:31.000000Z\",\"cover_path\":\"covers\\\/1773300151_cover_w8PJ8B9fuW.png\",\"pivot\":{\"genre_id\":1,\"book_id\":37}}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/authors",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/authors",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/authors"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[{\"author_id\":1,\"last_name\":\"\\u0422\\u043e\\u043b\\u0441\\u0442\\u043e\\u0439\",\"first_name\":\"\\u041b\\u0435\\u0432\",\"middle_name\":\"\\u041d\\u0438\\u043a\\u043e\\u043b\\u0430\\u0435\\u0432\\u0438\\u0447\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"author_id\":2,\"last_name\":\"\\u0414\\u043e\\u0441\\u0442\\u043e\\u0435\\u0432\\u0441\\u043a\\u0438\\u0439\",\"first_name\":\"\\u0424\\u0451\\u0434\\u043e\\u0440\",\"middle_name\":\"\\u041c\\u0438\\u0445\\u0430\\u0439\\u043b\\u043e\\u0432\\u0438\\u0447\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"author_id\":3,\"last_name\":\"Kertzmann\",\"first_name\":\"Brando\",\"middle_name\":null,\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":4,\"last_name\":\"Hilpert\",\"first_name\":\"Arlene\",\"middle_name\":null,\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":5,\"last_name\":\"Schiller\",\"first_name\":\"Hope\",\"middle_name\":\"\\u0412\\u043b\\u0430\\u0434\\u0438\\u043c\\u0438\\u0440\\u043e\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":6,\"last_name\":\"Auer\",\"first_name\":\"Dena\",\"middle_name\":\"\\u0414\\u043c\\u0438\\u0442\\u0440\\u0438\\u0435\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":7,\"last_name\":\"Hills\",\"first_name\":\"Marta\",\"middle_name\":\"\\u0421\\u0435\\u0440\\u0433\\u0435\\u0435\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":8,\"last_name\":\"Langworth\",\"first_name\":\"Jake\",\"middle_name\":\"\\u0412\\u043b\\u0430\\u0434\\u0438\\u043c\\u0438\\u0440\\u043e\\u0432\\u0438\\u0447\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":9,\"last_name\":\"Hintz\",\"first_name\":\"Lincoln\",\"middle_name\":\"\\u041d\\u0438\\u043a\\u043e\\u043b\\u0430\\u0435\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":10,\"last_name\":\"Wintheiser\",\"first_name\":\"Mireille\",\"middle_name\":\"\\u0414\\u043c\\u0438\\u0442\\u0440\\u0438\\u0435\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":11,\"last_name\":\"Lesch\",\"first_name\":\"Shirley\",\"middle_name\":\"\\u0418\\u0432\\u0430\\u043d\\u043e\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":12,\"last_name\":\"Gaylord\",\"first_name\":\"Ivah\",\"middle_name\":\"\\u0410\\u043b\\u0435\\u043a\\u0441\\u0430\\u043d\\u0434\\u0440\\u043e\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":13,\"last_name\":\"Kessler\",\"first_name\":\"Manuela\",\"middle_name\":\"\\u0411\\u043e\\u0440\\u0438\\u0441\\u043e\\u0432\\u0438\\u0447\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":14,\"last_name\":\"Sauer\",\"first_name\":\"Freddy\",\"middle_name\":\"\\u0418\\u0432\\u0430\\u043d\\u043e\\u0432\\u0438\\u0447\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":15,\"last_name\":\"Kshlerin\",\"first_name\":\"Jarred\",\"middle_name\":\"\\u041d\\u0438\\u043a\\u043e\\u043b\\u0430\\u0435\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":16,\"last_name\":\"Gerhold\",\"first_name\":\"Bart\",\"middle_name\":null,\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":17,\"last_name\":\"Reichel\",\"first_name\":\"Elisa\",\"middle_name\":\"\\u0412\\u043b\\u0430\\u0434\\u0438\\u043c\\u0438\\u0440\\u043e\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":18,\"last_name\":\"Walsh\",\"first_name\":\"Lionel\",\"middle_name\":null,\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":19,\"last_name\":\"Quitzon\",\"first_name\":\"Ofelia\",\"middle_name\":\"\\u0412\\u043b\\u0430\\u0434\\u0438\\u043c\\u0438\\u0440\\u043e\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":20,\"last_name\":\"Krajcik\",\"first_name\":\"Odessa\",\"middle_name\":\"\\u0410\\u043b\\u0435\\u043a\\u0441\\u0430\\u043d\\u0434\\u0440\\u043e\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":21,\"last_name\":\"Russel\",\"first_name\":\"Edgar\",\"middle_name\":\"\\u042e\\u0440\\u044c\\u0435\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":22,\"last_name\":\"Hansen\",\"first_name\":\"Ruthe\",\"middle_name\":null,\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":23,\"last_name\":\"Zulauf\",\"first_name\":\"Keaton\",\"middle_name\":\"\\u041e\\u043b\\u0435\\u0433\\u043e\\u0432\\u0438\\u0447\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":24,\"last_name\":\"West\",\"first_name\":\"Kariane\",\"middle_name\":\"\\u041c\\u0438\\u0445\\u0430\\u0439\\u043b\\u043e\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":25,\"last_name\":\"Stanton\",\"first_name\":\"Cale\",\"middle_name\":null,\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":26,\"last_name\":\"Turcotte\",\"first_name\":\"Vesta\",\"middle_name\":\"\\u042e\\u0440\\u044c\\u0435\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":27,\"last_name\":\"Hammes\",\"first_name\":\"Jodie\",\"middle_name\":null,\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":28,\"last_name\":\"Medhurst\",\"first_name\":\"Magnolia\",\"middle_name\":\"\\u0414\\u043c\\u0438\\u0442\\u0440\\u0438\\u0435\\u0432\\u043d\\u0430\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":29,\"last_name\":\"Gislason\",\"first_name\":\"Ricardo\",\"middle_name\":\"\\u0418\\u0432\\u0430\\u043d\\u043e\\u0432\\u0438\\u0447\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"author_id\":30,\"last_name\":\"Padberg\",\"first_name\":\"Lempi\",\"middle_name\":\"\\u0418\\u0432\\u0430\\u043d\\u043e\\u0432\\u0438\\u0447\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"}]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/authors\/{id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/authors\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/authors\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the author."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"author_id\":1,\"last_name\":\"\\u0422\\u043e\\u043b\\u0441\\u0442\\u043e\\u0439\",\"first_name\":\"\\u041b\\u0435\\u0432\",\"middle_name\":\"\\u041d\\u0438\\u043a\\u043e\\u043b\\u0430\\u0435\\u0432\\u0438\\u0447\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\",\"books\":[{\"book_id\":7,\"book_title\":\"Mollitia consequuntur repellat ut.\",\"description\":\"Iure consequatur eos aut. Quia aperiam possimus voluptate sapiente cum. Eum rerum corporis rerum.\",\"published_year\":1809,\"publisher_id\":4,\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\",\"cover_path\":\"covers\\\/3e62d501-8c4e-32f5-81b4-2ade417f96c0.jpg\",\"pivot\":{\"author_id\":1,\"book_id\":7}},{\"book_id\":31,\"book_title\":\"\\u0422\\u0435\\u0441\\u0442\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u0430\",\"description\":\"\\u041f\\u043e\\u0434\\u0440\\u043e\\u0431\\u043d\\u043e\\u0435 \\u043e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435 \\u0442\\u0435\\u0441\\u0442\\u043e\\u0432\\u043e\\u0439 \\u043a\\u043d\\u0438\\u0433\\u0438\",\"published_year\":2024,\"publisher_id\":1,\"created_at\":\"2026-03-11T18:49:14.000000Z\",\"updated_at\":\"2026-03-11T19:22:06.000000Z\",\"cover_path\":\"covers\\\/1773256926_cover_QwUoJdCeS5.png\",\"pivot\":{\"author_id\":1,\"book_id\":31}},{\"book_id\":32,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u043054455445\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:51:46.000000Z\",\"updated_at\":\"2026-03-12T06:51:46.000000Z\",\"cover_path\":\"covers\\\/1773298306_cover_jqqZWMEygB.png\",\"pivot\":{\"author_id\":1,\"book_id\":32}},{\"book_id\":33,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u043054455445\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a1\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:54:36.000000Z\",\"updated_at\":\"2026-03-12T06:54:36.000000Z\",\"cover_path\":\"covers\\\/1773298476_cover_NVmCpGIeUb.png\",\"pivot\":{\"author_id\":1,\"book_id\":33}},{\"book_id\":34,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u043054455445\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:56:00.000000Z\",\"updated_at\":\"2026-03-12T06:56:00.000000Z\",\"cover_path\":\"covers\\\/1773298560_cover_MO9oaHhjUK.png\",\"pivot\":{\"author_id\":1,\"book_id\":34}},{\"book_id\":35,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u04305445544115\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:57:11.000000Z\",\"updated_at\":\"2026-03-12T06:57:11.000000Z\",\"cover_path\":\"covers\\\/1773298631_cover_D7ag4pLOSn.png\",\"pivot\":{\"author_id\":1,\"book_id\":35}},{\"book_id\":36,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u04305445544115\\u0446\\u04435\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T07:16:57.000000Z\",\"updated_at\":\"2026-03-12T07:16:57.000000Z\",\"cover_path\":\"covers\\\/1773299817_cover_wsJOsdldBF.png\",\"pivot\":{\"author_id\":1,\"book_id\":36}},{\"book_id\":37,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u04305445544115\\u0446\\u0443511\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T07:22:31.000000Z\",\"updated_at\":\"2026-03-12T07:22:31.000000Z\",\"cover_path\":\"covers\\\/1773300151_cover_w8PJ8B9fuW.png\",\"pivot\":{\"author_id\":1,\"book_id\":37}}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/publishers",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/publishers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/publishers"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[{\"publisher_id\":1,\"publisher_name\":\"\\u042d\\u043a\\u0441\\u043c\\u043e\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":2,\"publisher_name\":\"\\u0410\\u0421\\u0422\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":3,\"publisher_name\":\"\\u041c\\u0418\\u0424\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":4,\"publisher_name\":\"Beer-Lowe\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":5,\"publisher_name\":\"Luettgen-Emmerich\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":6,\"publisher_name\":\"Anderson, Schuppe and Vandervort\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":7,\"publisher_name\":\"Prohaska-Waters\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":8,\"publisher_name\":\"Grady, Greenfelder and Dibbert\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":9,\"publisher_name\":\"Gleason, Runolfsson and Gulgowski\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":10,\"publisher_name\":\"Rice-Borer\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":11,\"publisher_name\":\"Fritsch Group\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":12,\"publisher_name\":\"Schumm, Haley and Breitenberg\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":13,\"publisher_name\":\"Gutkowski LLC\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":14,\"publisher_name\":\"Koelpin-Eichmann\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":15,\"publisher_name\":\"Watsica Group\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":16,\"publisher_name\":\"Reinger-Cartwright\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":17,\"publisher_name\":\"Cronin, Schumm and Sauer\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":18,\"publisher_name\":\"Simonis Inc\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":19,\"publisher_name\":\"Collins and Sons\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":20,\"publisher_name\":\"Koss PLC\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":21,\"publisher_name\":\"Stehr-Rowe\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":22,\"publisher_name\":\"Medhurst Group\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":23,\"publisher_name\":\"West, Denesik and Bogisich\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":24,\"publisher_name\":\"Armstrong Inc\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":25,\"publisher_name\":\"Ortiz Group\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":26,\"publisher_name\":\"Mosciski and Sons\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":27,\"publisher_name\":\"Spencer-Braun\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":28,\"publisher_name\":\"Durgan, Prosacco and Beer\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":29,\"publisher_name\":\"Breitenberg Group\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":30,\"publisher_name\":\"McCullough, West and King\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\"},{\"publisher_id\":31,\"publisher_name\":\"O'Reilly LLC\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":32,\"publisher_name\":\"Conn-VonRueden\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":33,\"publisher_name\":\"Kshlerin-Hermiston\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":34,\"publisher_name\":\"Medhurst LLC\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":35,\"publisher_name\":\"Adams and Sons\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":36,\"publisher_name\":\"Boyle, Jast and Howe\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":37,\"publisher_name\":\"Ankunding-Mosciski\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":38,\"publisher_name\":\"Fahey, Block and Dicki\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":39,\"publisher_name\":\"Morar, Beatty and Medhurst\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":40,\"publisher_name\":\"Swift Inc\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":41,\"publisher_name\":\"Balistreri, Feeney and Kling\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":42,\"publisher_name\":\"Luettgen PLC\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":43,\"publisher_name\":\"Walter-Wisoky\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":44,\"publisher_name\":\"Gusikowski-Corkery\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":45,\"publisher_name\":\"Kling PLC\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":46,\"publisher_name\":\"Gleichner-Macejkovic\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":47,\"publisher_name\":\"Russel, Kling and Marvin\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":48,\"publisher_name\":\"Beier-Ferry\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":49,\"publisher_name\":\"Lueilwitz, Flatley and Gutmann\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":50,\"publisher_name\":\"Harvey LLC\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":51,\"publisher_name\":\"Green, Hintz and Hettinger\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":52,\"publisher_name\":\"Murray Inc\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":53,\"publisher_name\":\"Bogan-Satterfield\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":54,\"publisher_name\":\"O'Hara, Morissette and Kilback\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":55,\"publisher_name\":\"Boyle, Quitzon and Block\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":56,\"publisher_name\":\"Bruen, Mertz and Marks\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":57,\"publisher_name\":\"Kuhic Group\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":58,\"publisher_name\":\"Weissnat-Cummings\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":59,\"publisher_name\":\"Krajcik, Wiegand and Roob\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"},{\"publisher_id\":60,\"publisher_name\":\"Dicki, Fadel and Littel\",\"created_at\":\"2026-03-11T18:06:30.000000Z\",\"updated_at\":\"2026-03-11T18:06:30.000000Z\"}]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/publishers\/{id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/publishers\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/publishers\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the publisher."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"publisher_id\":1,\"publisher_name\":\"\\u042d\\u043a\\u0441\\u043c\\u043e\",\"created_at\":\"2026-03-11T18:06:29.000000Z\",\"updated_at\":\"2026-03-11T18:06:29.000000Z\",\"books\":[{\"book_id\":31,\"book_title\":\"\\u0422\\u0435\\u0441\\u0442\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u0430\",\"description\":\"\\u041f\\u043e\\u0434\\u0440\\u043e\\u0431\\u043d\\u043e\\u0435 \\u043e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435 \\u0442\\u0435\\u0441\\u0442\\u043e\\u0432\\u043e\\u0439 \\u043a\\u043d\\u0438\\u0433\\u0438\",\"published_year\":2024,\"publisher_id\":1,\"created_at\":\"2026-03-11T18:49:14.000000Z\",\"updated_at\":\"2026-03-11T19:22:06.000000Z\",\"cover_path\":\"covers\\\/1773256926_cover_QwUoJdCeS5.png\"},{\"book_id\":32,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u043054455445\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:51:46.000000Z\",\"updated_at\":\"2026-03-12T06:51:46.000000Z\",\"cover_path\":\"covers\\\/1773298306_cover_jqqZWMEygB.png\"},{\"book_id\":33,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u043054455445\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a1\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:54:36.000000Z\",\"updated_at\":\"2026-03-12T06:54:36.000000Z\",\"cover_path\":\"covers\\\/1773298476_cover_NVmCpGIeUb.png\"},{\"book_id\":34,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u043054455445\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:56:00.000000Z\",\"updated_at\":\"2026-03-12T06:56:00.000000Z\",\"cover_path\":\"covers\\\/1773298560_cover_MO9oaHhjUK.png\"},{\"book_id\":35,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u04305445544115\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T06:57:11.000000Z\",\"updated_at\":\"2026-03-12T06:57:11.000000Z\",\"cover_path\":\"covers\\\/1773298631_cover_D7ag4pLOSn.png\"},{\"book_id\":36,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u04305445544115\\u0446\\u04435\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T07:16:57.000000Z\",\"updated_at\":\"2026-03-12T07:16:57.000000Z\",\"cover_path\":\"covers\\\/1773299817_cover_wsJOsdldBF.png\"},{\"book_id\":37,\"book_title\":\"\\u041d\\u043e\\u0432\\u0430\\u044f \\u043a\\u043d\\u0438\\u0433\\u04305445544115\\u0446\\u0443511\",\"description\":\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\\u0443\\u0443\\u043a\\u0443\\u043a12\",\"published_year\":2011,\"publisher_id\":1,\"created_at\":\"2026-03-12T07:22:31.000000Z\",\"updated_at\":\"2026-03-12T07:22:31.000000Z\",\"cover_path\":\"covers\\\/1773300151_cover_w8PJ8B9fuW.png\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/formats",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/formats",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/formats"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[{\"format_id\":1,\"format_name\":\"PDF\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"format_id\":2,\"format_name\":\"TXT\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"},{\"format_id\":3,\"format_name\":\"FB2\",\"created_at\":\"2026-03-11T18:06:28.000000Z\",\"updated_at\":\"2026-03-11T18:06:28.000000Z\"}]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/formats\/{id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/formats\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/formats\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the format."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 500,
+                            "body": "{\n    \"message\": \"Server Error\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/books",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/books",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/books"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"page\":16,\"per_page\":22,\"search\":\"g\",\"genre_id\":16,\"author_id\":16,\"publisher_id\":16,\"sort\":\"published_year\",\"order\":\"desc\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 422,
+                            "body": "{\"success\":false,\"message\":\"\u041e\u0448\u0438\u0431\u043a\u0430 \u0432\u0430\u043b\u0438\u0434\u0430\u0446\u0438\u0438 \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u043e\u0432\",\"errors\":{\"search\":[\"The search field must be at least 2 characters.\"]}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/books\/{id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/books\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/books\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the book."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"success\":true,\"data\":{\"book_id\":1,\"book_title\":\"Cumque deserunt fugiat animi eveniet doloremque.\",\"description\":\"Voluptas nesciunt provident velit in. Quo quaerat vero error dolorem. Aut numquam ut est ex similique. Velit rerum consequatur dolor ex quo voluptatem.\",\"published_year\":1925,\"cover_url\":\"\\\/api\\\/covers\\\/1e157b70-6214-328d-8fbc-f74443138dcd.jpg\",\"is_favorited\":false,\"genres\":[{\"genre_id\":3,\"genre_name\":\"\u0414\u0435\u0442\u0435\u043a\u0442\u0438\u0432\"}],\"authors\":[{\"author_id\":9,\"last_name\":\"Hintz\",\"first_name\":\"Lincoln\",\"middle_name\":\"\u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u043d\u0430\"},{\"author_id\":12,\"last_name\":\"Gaylord\",\"first_name\":\"Ivah\",\"middle_name\":\"\u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432\u043d\u0430\"},{\"author_id\":13,\"last_name\":\"Kessler\",\"first_name\":\"Manuela\",\"middle_name\":\"\u0411\u043e\u0440\u0438\u0441\u043e\u0432\u0438\u0447\"}],\"publisher\":{\"publisher_id\":26,\"publisher_name\":\"Mosciski and Sons\"},\"files\":[{\"file_id\":1,\"format_id\":1,\"format_name\":\"PDF\",\"file_size_bytes\":33200606,\"file_size_mb\":31.66,\"read_url\":\"\\\/api\\\/books\\\/file\\\/1\\\/read\",\"download_url\":\"\\\/api\\\/books\\\/file\\\/1\\\/download\"},{\"file_id\":2,\"format_id\":2,\"format_name\":\"TXT\",\"file_size_bytes\":7926391,\"file_size_mb\":7.56,\"read_url\":\"\\\/api\\\/books\\\/file\\\/2\\\/read\",\"download_url\":\"\\\/api\\\/books\\\/file\\\/2\\\/download\"},{\"file_id\":3,\"format_id\":3,\"format_name\":\"FB2\",\"file_size_bytes\":10524923,\"file_size_mb\":10.04,\"read_url\":\"\\\/api\\\/books\\\/file\\\/3\\\/read\",\"download_url\":\"\\\/api\\\/books\\\/file\\\/3\\\/download\"}]}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u043e\u0431\u043b\u043e\u0436\u043a\u0443 \u043a\u043d\u0438\u0433\u0438 (\u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e \u0432\u0441\u0435\u043c)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/covers\/:filename",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/covers\/:filename",
+                            "variable": [
+                                {
+                                    "id": "filename",
+                                    "key": "filename",
+                                    "value": "architecto",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 404,
+                            "body": "{\"success\":false,\"message\":\"\u041e\u0431\u043b\u043e\u0436\u043a\u0430 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "\u0427\u0438\u0442\u0430\u0442\u044c \u0444\u0430\u0439\u043b \u043a\u043d\u0438\u0433\u0438 \u0432 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435 (\u0442\u043e\u043b\u044c\u043a\u043e \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u043e\u0432\u0430\u043d\u043d\u044b\u0435)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/books\/file\/:fileId\/read",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/books\/file\/:fileId\/read",
+                            "variable": [
+                                {
+                                    "id": "fileId",
+                                    "key": "fileId",
+                                    "value": "architecto",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "\u0421\u043a\u0430\u0447\u0430\u0442\u044c \u0444\u0430\u0439\u043b \u043a\u043d\u0438\u0433\u0438 (\u0442\u043e\u043b\u044c\u043a\u043e \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u043e\u0432\u0430\u043d\u043d\u044b\u0435)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/books\/file\/:fileId\/download",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/books\/file\/:fileId\/download",
+                            "variable": [
+                                {
+                                    "id": "fileId",
+                                    "key": "fileId",
+                                    "value": "architecto",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/favorites",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/favorites",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/favorites"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "http:\/\/localhost:3000"
+                                },
+                                {
+                                    "key": "access-control-allow-credentials",
+                                    "value": "true"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "POST api\/favorites\/{book}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/favorites\/:book",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/favorites\/:book",
+                            "variable": [
+                                {
+                                    "id": "book",
+                                    "key": "book",
+                                    "value": "architecto",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "DELETE api\/favorites\/{book}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/favorites\/:book",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/favorites\/:book",
+                            "variable": [
+                                {
+                                    "id": "book",
+                                    "key": "book",
+                                    "value": "architecto",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}

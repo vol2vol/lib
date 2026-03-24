@@ -1,0 +1,2591 @@
+openapi: 3.0.3
+info:
+  title: 'Laravel API Documentation'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+tags:
+  -
+    name: Endpoints
+    description: ''
+paths:
+  /api/register:
+    post:
+      summary: 'Handle an incoming registration request.'
+      operationId: handleAnIncomingRegistrationRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/login:
+    post:
+      summary: 'Handle an incoming authentication request.'
+      operationId: handleAnIncomingAuthenticationRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  description: ''
+                  example: architecto
+                password:
+                  type: string
+                  description: ''
+                  example: '|]|{+-'
+              required:
+                - login
+                - password
+      security: []
+  /api/logout:
+    post:
+      summary: 'Destroy an authenticated session.'
+      operationId: destroyAnAuthenticatedSession
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/admin/books:
+    get:
+      summary: ''
+      operationId: getApiAdminBooks
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postApiAdminBooks
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  '/api/admin/books/{id}':
+    get:
+      summary: ''
+      operationId: getApiAdminBooksId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putApiAdminBooksId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiAdminBooksId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the book.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/admin/authors:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  '/api/admin/authors/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the author.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/admin/genres:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  '/api/admin/genres/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the genre.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/admin/publishers:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  '/api/admin/publishers/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the publisher.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/admin/formats:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  '/api/admin/formats/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the format.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/genres:
+    get:
+      summary: ''
+      operationId: getApiGenres
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    genre_id:
+                      type: integer
+                      example: 1
+                    genre_name:
+                      type: string
+                      example: Роман
+                    created_at:
+                      type: string
+                      example: '2026-03-11T18:06:28.000000Z'
+                    updated_at:
+                      type: string
+                      example: '2026-03-11T18:06:28.000000Z'
+                example:
+                  -
+                    genre_id: 1
+                    genre_name: Роман
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 2
+                    genre_name: Фантастика
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 3
+                    genre_name: Детектив
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 4
+                    genre_name: 'Научная фантастика'
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 5
+                    genre_name: Фэнтези
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 6
+                    genre_name: Триллер
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 7
+                    genre_name: Приключения
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 8
+                    genre_name: 'Исторический роман'
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 9
+                    genre_name: Поэзия
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 10
+                    genre_name: Драма
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 11
+                    genre_name: Биография
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 12
+                    genre_name: Мемуары
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 13
+                    genre_name: Классика
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 14
+                    genre_name: 'Современная проза'
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 15
+                    genre_name: Ужасы
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 16
+                    genre_name: Мистика
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 17
+                    genre_name: Психология
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 18
+                    genre_name: Философия
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 19
+                    genre_name: Религия
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 20
+                    genre_name: Искусство
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 21
+                    genre_name: Публицистика
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 22
+                    genre_name: Наука
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 23
+                    genre_name: Техника
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 24
+                    genre_name: Спорт
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 25
+                    genre_name: Кулинария
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 26
+                    genre_name: Путешествия
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 27
+                    genre_name: Юмор
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 28
+                    genre_name: Сказки
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 29
+                    genre_name: 'Молодежная проза'
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    genre_id: 30
+                    genre_name: 'Любовный роман'
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+      tags:
+        - Endpoints
+      security: []
+  '/api/genres/{id}':
+    get:
+      summary: ''
+      operationId: getApiGenresId
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  genre_id: 1
+                  genre_name: Роман
+                  created_at: '2026-03-11T18:06:28.000000Z'
+                  updated_at: '2026-03-11T18:06:28.000000Z'
+                  books:
+                    -
+                      book_id: 30
+                      book_title: 'Officiis vero exercitationem dicta velit ipsam.'
+                      description: 'Est exercitationem et quis fugiat ut. Dolore sint aut nulla ea quam. Placeat neque sunt sed culpa reprehenderit cum.'
+                      published_year: 1935
+                      publisher_id: 25
+                      created_at: '2026-03-11T18:06:31.000000Z'
+                      updated_at: '2026-03-11T18:06:31.000000Z'
+                      cover_path: covers/c31c1cb3-c60a-301d-bf31-1a23f91f24c5.jpg
+                      pivot:
+                        genre_id: 1
+                        book_id: 30
+                    -
+                      book_id: 31
+                      book_title: 'Тестовая книга'
+                      description: 'Подробное описание тестовой книги'
+                      published_year: 2024
+                      publisher_id: 1
+                      created_at: '2026-03-11T18:49:14.000000Z'
+                      updated_at: '2026-03-11T19:22:06.000000Z'
+                      cover_path: covers/1773256926_cover_QwUoJdCeS5.png
+                      pivot:
+                        genre_id: 1
+                        book_id: 31
+                    -
+                      book_id: 32
+                      book_title: 'Новая книга54455445'
+                      description: Описаниеуукук
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:51:46.000000Z'
+                      updated_at: '2026-03-12T06:51:46.000000Z'
+                      cover_path: covers/1773298306_cover_jqqZWMEygB.png
+                      pivot:
+                        genre_id: 1
+                        book_id: 32
+                    -
+                      book_id: 33
+                      book_title: 'Новая книга54455445'
+                      description: Описаниеуукук1
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:54:36.000000Z'
+                      updated_at: '2026-03-12T06:54:36.000000Z'
+                      cover_path: covers/1773298476_cover_NVmCpGIeUb.png
+                      pivot:
+                        genre_id: 1
+                        book_id: 33
+                    -
+                      book_id: 34
+                      book_title: 'Новая книга54455445'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:56:00.000000Z'
+                      updated_at: '2026-03-12T06:56:00.000000Z'
+                      cover_path: covers/1773298560_cover_MO9oaHhjUK.png
+                      pivot:
+                        genre_id: 1
+                        book_id: 34
+                    -
+                      book_id: 35
+                      book_title: 'Новая книга5445544115'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:57:11.000000Z'
+                      updated_at: '2026-03-12T06:57:11.000000Z'
+                      cover_path: covers/1773298631_cover_D7ag4pLOSn.png
+                      pivot:
+                        genre_id: 1
+                        book_id: 35
+                    -
+                      book_id: 36
+                      book_title: 'Новая книга5445544115цу5'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T07:16:57.000000Z'
+                      updated_at: '2026-03-12T07:16:57.000000Z'
+                      cover_path: covers/1773299817_cover_wsJOsdldBF.png
+                      pivot:
+                        genre_id: 1
+                        book_id: 36
+                    -
+                      book_id: 37
+                      book_title: 'Новая книга5445544115цу511'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T07:22:31.000000Z'
+                      updated_at: '2026-03-12T07:22:31.000000Z'
+                      cover_path: covers/1773300151_cover_w8PJ8B9fuW.png
+                      pivot:
+                        genre_id: 1
+                        book_id: 37
+                properties:
+                  genre_id:
+                    type: integer
+                    example: 1
+                  genre_name:
+                    type: string
+                    example: Роман
+                  created_at:
+                    type: string
+                    example: '2026-03-11T18:06:28.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2026-03-11T18:06:28.000000Z'
+                  books:
+                    type: array
+                    example:
+                      -
+                        book_id: 30
+                        book_title: 'Officiis vero exercitationem dicta velit ipsam.'
+                        description: 'Est exercitationem et quis fugiat ut. Dolore sint aut nulla ea quam. Placeat neque sunt sed culpa reprehenderit cum.'
+                        published_year: 1935
+                        publisher_id: 25
+                        created_at: '2026-03-11T18:06:31.000000Z'
+                        updated_at: '2026-03-11T18:06:31.000000Z'
+                        cover_path: covers/c31c1cb3-c60a-301d-bf31-1a23f91f24c5.jpg
+                        pivot:
+                          genre_id: 1
+                          book_id: 30
+                      -
+                        book_id: 31
+                        book_title: 'Тестовая книга'
+                        description: 'Подробное описание тестовой книги'
+                        published_year: 2024
+                        publisher_id: 1
+                        created_at: '2026-03-11T18:49:14.000000Z'
+                        updated_at: '2026-03-11T19:22:06.000000Z'
+                        cover_path: covers/1773256926_cover_QwUoJdCeS5.png
+                        pivot:
+                          genre_id: 1
+                          book_id: 31
+                      -
+                        book_id: 32
+                        book_title: 'Новая книга54455445'
+                        description: Описаниеуукук
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:51:46.000000Z'
+                        updated_at: '2026-03-12T06:51:46.000000Z'
+                        cover_path: covers/1773298306_cover_jqqZWMEygB.png
+                        pivot:
+                          genre_id: 1
+                          book_id: 32
+                      -
+                        book_id: 33
+                        book_title: 'Новая книга54455445'
+                        description: Описаниеуукук1
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:54:36.000000Z'
+                        updated_at: '2026-03-12T06:54:36.000000Z'
+                        cover_path: covers/1773298476_cover_NVmCpGIeUb.png
+                        pivot:
+                          genre_id: 1
+                          book_id: 33
+                      -
+                        book_id: 34
+                        book_title: 'Новая книга54455445'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:56:00.000000Z'
+                        updated_at: '2026-03-12T06:56:00.000000Z'
+                        cover_path: covers/1773298560_cover_MO9oaHhjUK.png
+                        pivot:
+                          genre_id: 1
+                          book_id: 34
+                      -
+                        book_id: 35
+                        book_title: 'Новая книга5445544115'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:57:11.000000Z'
+                        updated_at: '2026-03-12T06:57:11.000000Z'
+                        cover_path: covers/1773298631_cover_D7ag4pLOSn.png
+                        pivot:
+                          genre_id: 1
+                          book_id: 35
+                      -
+                        book_id: 36
+                        book_title: 'Новая книга5445544115цу5'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T07:16:57.000000Z'
+                        updated_at: '2026-03-12T07:16:57.000000Z'
+                        cover_path: covers/1773299817_cover_wsJOsdldBF.png
+                        pivot:
+                          genre_id: 1
+                          book_id: 36
+                      -
+                        book_id: 37
+                        book_title: 'Новая книга5445544115цу511'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T07:22:31.000000Z'
+                        updated_at: '2026-03-12T07:22:31.000000Z'
+                        cover_path: covers/1773300151_cover_w8PJ8B9fuW.png
+                        pivot:
+                          genre_id: 1
+                          book_id: 37
+                    items:
+                      type: object
+                      properties:
+                        book_id:
+                          type: integer
+                          example: 30
+                        book_title:
+                          type: string
+                          example: 'Officiis vero exercitationem dicta velit ipsam.'
+                        description:
+                          type: string
+                          example: 'Est exercitationem et quis fugiat ut. Dolore sint aut nulla ea quam. Placeat neque sunt sed culpa reprehenderit cum.'
+                        published_year:
+                          type: integer
+                          example: 1935
+                        publisher_id:
+                          type: integer
+                          example: 25
+                        created_at:
+                          type: string
+                          example: '2026-03-11T18:06:31.000000Z'
+                        updated_at:
+                          type: string
+                          example: '2026-03-11T18:06:31.000000Z'
+                        cover_path:
+                          type: string
+                          example: covers/c31c1cb3-c60a-301d-bf31-1a23f91f24c5.jpg
+                        pivot:
+                          type: object
+                          properties:
+                            genre_id:
+                              type: integer
+                              example: 1
+                            book_id:
+                              type: integer
+                              example: 30
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the genre.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/authors:
+    get:
+      summary: ''
+      operationId: getApiAuthors
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    author_id:
+                      type: integer
+                      example: 1
+                    last_name:
+                      type: string
+                      example: Толстой
+                    first_name:
+                      type: string
+                      example: Лев
+                    middle_name:
+                      type: string
+                      example: Николаевич
+                    created_at:
+                      type: string
+                      example: '2026-03-11T18:06:28.000000Z'
+                    updated_at:
+                      type: string
+                      example: '2026-03-11T18:06:28.000000Z'
+                example:
+                  -
+                    author_id: 1
+                    last_name: Толстой
+                    first_name: Лев
+                    middle_name: Николаевич
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    author_id: 2
+                    last_name: Достоевский
+                    first_name: Фёдор
+                    middle_name: Михайлович
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    author_id: 3
+                    last_name: Kertzmann
+                    first_name: Brando
+                    middle_name: null
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 4
+                    last_name: Hilpert
+                    first_name: Arlene
+                    middle_name: null
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 5
+                    last_name: Schiller
+                    first_name: Hope
+                    middle_name: Владимировна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 6
+                    last_name: Auer
+                    first_name: Dena
+                    middle_name: Дмитриевна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 7
+                    last_name: Hills
+                    first_name: Marta
+                    middle_name: Сергеевна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 8
+                    last_name: Langworth
+                    first_name: Jake
+                    middle_name: Владимирович
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 9
+                    last_name: Hintz
+                    first_name: Lincoln
+                    middle_name: Николаевна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 10
+                    last_name: Wintheiser
+                    first_name: Mireille
+                    middle_name: Дмитриевна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 11
+                    last_name: Lesch
+                    first_name: Shirley
+                    middle_name: Ивановна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 12
+                    last_name: Gaylord
+                    first_name: Ivah
+                    middle_name: Александровна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 13
+                    last_name: Kessler
+                    first_name: Manuela
+                    middle_name: Борисович
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 14
+                    last_name: Sauer
+                    first_name: Freddy
+                    middle_name: Иванович
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 15
+                    last_name: Kshlerin
+                    first_name: Jarred
+                    middle_name: Николаевна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 16
+                    last_name: Gerhold
+                    first_name: Bart
+                    middle_name: null
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 17
+                    last_name: Reichel
+                    first_name: Elisa
+                    middle_name: Владимировна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 18
+                    last_name: Walsh
+                    first_name: Lionel
+                    middle_name: null
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 19
+                    last_name: Quitzon
+                    first_name: Ofelia
+                    middle_name: Владимировна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 20
+                    last_name: Krajcik
+                    first_name: Odessa
+                    middle_name: Александровна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 21
+                    last_name: Russel
+                    first_name: Edgar
+                    middle_name: Юрьевна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 22
+                    last_name: Hansen
+                    first_name: Ruthe
+                    middle_name: null
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 23
+                    last_name: Zulauf
+                    first_name: Keaton
+                    middle_name: Олегович
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 24
+                    last_name: West
+                    first_name: Kariane
+                    middle_name: Михайловна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 25
+                    last_name: Stanton
+                    first_name: Cale
+                    middle_name: null
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 26
+                    last_name: Turcotte
+                    first_name: Vesta
+                    middle_name: Юрьевна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 27
+                    last_name: Hammes
+                    first_name: Jodie
+                    middle_name: null
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 28
+                    last_name: Medhurst
+                    first_name: Magnolia
+                    middle_name: Дмитриевна
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 29
+                    last_name: Gislason
+                    first_name: Ricardo
+                    middle_name: Иванович
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    author_id: 30
+                    last_name: Padberg
+                    first_name: Lempi
+                    middle_name: Иванович
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+      tags:
+        - Endpoints
+      security: []
+  '/api/authors/{id}':
+    get:
+      summary: ''
+      operationId: getApiAuthorsId
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  author_id: 1
+                  last_name: Толстой
+                  first_name: Лев
+                  middle_name: Николаевич
+                  created_at: '2026-03-11T18:06:28.000000Z'
+                  updated_at: '2026-03-11T18:06:28.000000Z'
+                  books:
+                    -
+                      book_id: 7
+                      book_title: 'Mollitia consequuntur repellat ut.'
+                      description: 'Iure consequatur eos aut. Quia aperiam possimus voluptate sapiente cum. Eum rerum corporis rerum.'
+                      published_year: 1809
+                      publisher_id: 4
+                      created_at: '2026-03-11T18:06:30.000000Z'
+                      updated_at: '2026-03-11T18:06:30.000000Z'
+                      cover_path: covers/3e62d501-8c4e-32f5-81b4-2ade417f96c0.jpg
+                      pivot:
+                        author_id: 1
+                        book_id: 7
+                    -
+                      book_id: 31
+                      book_title: 'Тестовая книга'
+                      description: 'Подробное описание тестовой книги'
+                      published_year: 2024
+                      publisher_id: 1
+                      created_at: '2026-03-11T18:49:14.000000Z'
+                      updated_at: '2026-03-11T19:22:06.000000Z'
+                      cover_path: covers/1773256926_cover_QwUoJdCeS5.png
+                      pivot:
+                        author_id: 1
+                        book_id: 31
+                    -
+                      book_id: 32
+                      book_title: 'Новая книга54455445'
+                      description: Описаниеуукук
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:51:46.000000Z'
+                      updated_at: '2026-03-12T06:51:46.000000Z'
+                      cover_path: covers/1773298306_cover_jqqZWMEygB.png
+                      pivot:
+                        author_id: 1
+                        book_id: 32
+                    -
+                      book_id: 33
+                      book_title: 'Новая книга54455445'
+                      description: Описаниеуукук1
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:54:36.000000Z'
+                      updated_at: '2026-03-12T06:54:36.000000Z'
+                      cover_path: covers/1773298476_cover_NVmCpGIeUb.png
+                      pivot:
+                        author_id: 1
+                        book_id: 33
+                    -
+                      book_id: 34
+                      book_title: 'Новая книга54455445'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:56:00.000000Z'
+                      updated_at: '2026-03-12T06:56:00.000000Z'
+                      cover_path: covers/1773298560_cover_MO9oaHhjUK.png
+                      pivot:
+                        author_id: 1
+                        book_id: 34
+                    -
+                      book_id: 35
+                      book_title: 'Новая книга5445544115'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:57:11.000000Z'
+                      updated_at: '2026-03-12T06:57:11.000000Z'
+                      cover_path: covers/1773298631_cover_D7ag4pLOSn.png
+                      pivot:
+                        author_id: 1
+                        book_id: 35
+                    -
+                      book_id: 36
+                      book_title: 'Новая книга5445544115цу5'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T07:16:57.000000Z'
+                      updated_at: '2026-03-12T07:16:57.000000Z'
+                      cover_path: covers/1773299817_cover_wsJOsdldBF.png
+                      pivot:
+                        author_id: 1
+                        book_id: 36
+                    -
+                      book_id: 37
+                      book_title: 'Новая книга5445544115цу511'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T07:22:31.000000Z'
+                      updated_at: '2026-03-12T07:22:31.000000Z'
+                      cover_path: covers/1773300151_cover_w8PJ8B9fuW.png
+                      pivot:
+                        author_id: 1
+                        book_id: 37
+                properties:
+                  author_id:
+                    type: integer
+                    example: 1
+                  last_name:
+                    type: string
+                    example: Толстой
+                  first_name:
+                    type: string
+                    example: Лев
+                  middle_name:
+                    type: string
+                    example: Николаевич
+                  created_at:
+                    type: string
+                    example: '2026-03-11T18:06:28.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2026-03-11T18:06:28.000000Z'
+                  books:
+                    type: array
+                    example:
+                      -
+                        book_id: 7
+                        book_title: 'Mollitia consequuntur repellat ut.'
+                        description: 'Iure consequatur eos aut. Quia aperiam possimus voluptate sapiente cum. Eum rerum corporis rerum.'
+                        published_year: 1809
+                        publisher_id: 4
+                        created_at: '2026-03-11T18:06:30.000000Z'
+                        updated_at: '2026-03-11T18:06:30.000000Z'
+                        cover_path: covers/3e62d501-8c4e-32f5-81b4-2ade417f96c0.jpg
+                        pivot:
+                          author_id: 1
+                          book_id: 7
+                      -
+                        book_id: 31
+                        book_title: 'Тестовая книга'
+                        description: 'Подробное описание тестовой книги'
+                        published_year: 2024
+                        publisher_id: 1
+                        created_at: '2026-03-11T18:49:14.000000Z'
+                        updated_at: '2026-03-11T19:22:06.000000Z'
+                        cover_path: covers/1773256926_cover_QwUoJdCeS5.png
+                        pivot:
+                          author_id: 1
+                          book_id: 31
+                      -
+                        book_id: 32
+                        book_title: 'Новая книга54455445'
+                        description: Описаниеуукук
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:51:46.000000Z'
+                        updated_at: '2026-03-12T06:51:46.000000Z'
+                        cover_path: covers/1773298306_cover_jqqZWMEygB.png
+                        pivot:
+                          author_id: 1
+                          book_id: 32
+                      -
+                        book_id: 33
+                        book_title: 'Новая книга54455445'
+                        description: Описаниеуукук1
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:54:36.000000Z'
+                        updated_at: '2026-03-12T06:54:36.000000Z'
+                        cover_path: covers/1773298476_cover_NVmCpGIeUb.png
+                        pivot:
+                          author_id: 1
+                          book_id: 33
+                      -
+                        book_id: 34
+                        book_title: 'Новая книга54455445'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:56:00.000000Z'
+                        updated_at: '2026-03-12T06:56:00.000000Z'
+                        cover_path: covers/1773298560_cover_MO9oaHhjUK.png
+                        pivot:
+                          author_id: 1
+                          book_id: 34
+                      -
+                        book_id: 35
+                        book_title: 'Новая книга5445544115'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:57:11.000000Z'
+                        updated_at: '2026-03-12T06:57:11.000000Z'
+                        cover_path: covers/1773298631_cover_D7ag4pLOSn.png
+                        pivot:
+                          author_id: 1
+                          book_id: 35
+                      -
+                        book_id: 36
+                        book_title: 'Новая книга5445544115цу5'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T07:16:57.000000Z'
+                        updated_at: '2026-03-12T07:16:57.000000Z'
+                        cover_path: covers/1773299817_cover_wsJOsdldBF.png
+                        pivot:
+                          author_id: 1
+                          book_id: 36
+                      -
+                        book_id: 37
+                        book_title: 'Новая книга5445544115цу511'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T07:22:31.000000Z'
+                        updated_at: '2026-03-12T07:22:31.000000Z'
+                        cover_path: covers/1773300151_cover_w8PJ8B9fuW.png
+                        pivot:
+                          author_id: 1
+                          book_id: 37
+                    items:
+                      type: object
+                      properties:
+                        book_id:
+                          type: integer
+                          example: 7
+                        book_title:
+                          type: string
+                          example: 'Mollitia consequuntur repellat ut.'
+                        description:
+                          type: string
+                          example: 'Iure consequatur eos aut. Quia aperiam possimus voluptate sapiente cum. Eum rerum corporis rerum.'
+                        published_year:
+                          type: integer
+                          example: 1809
+                        publisher_id:
+                          type: integer
+                          example: 4
+                        created_at:
+                          type: string
+                          example: '2026-03-11T18:06:30.000000Z'
+                        updated_at:
+                          type: string
+                          example: '2026-03-11T18:06:30.000000Z'
+                        cover_path:
+                          type: string
+                          example: covers/3e62d501-8c4e-32f5-81b4-2ade417f96c0.jpg
+                        pivot:
+                          type: object
+                          properties:
+                            author_id:
+                              type: integer
+                              example: 1
+                            book_id:
+                              type: integer
+                              example: 7
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the author.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/publishers:
+    get:
+      summary: ''
+      operationId: getApiPublishers
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    publisher_id:
+                      type: integer
+                      example: 1
+                    publisher_name:
+                      type: string
+                      example: Эксмо
+                    created_at:
+                      type: string
+                      example: '2026-03-11T18:06:29.000000Z'
+                    updated_at:
+                      type: string
+                      example: '2026-03-11T18:06:29.000000Z'
+                example:
+                  -
+                    publisher_id: 1
+                    publisher_name: Эксмо
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 2
+                    publisher_name: АСТ
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 3
+                    publisher_name: МИФ
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 4
+                    publisher_name: Beer-Lowe
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 5
+                    publisher_name: Luettgen-Emmerich
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 6
+                    publisher_name: 'Anderson, Schuppe and Vandervort'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 7
+                    publisher_name: Prohaska-Waters
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 8
+                    publisher_name: 'Grady, Greenfelder and Dibbert'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 9
+                    publisher_name: 'Gleason, Runolfsson and Gulgowski'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 10
+                    publisher_name: Rice-Borer
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 11
+                    publisher_name: 'Fritsch Group'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 12
+                    publisher_name: 'Schumm, Haley and Breitenberg'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 13
+                    publisher_name: 'Gutkowski LLC'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 14
+                    publisher_name: Koelpin-Eichmann
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 15
+                    publisher_name: 'Watsica Group'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 16
+                    publisher_name: Reinger-Cartwright
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 17
+                    publisher_name: 'Cronin, Schumm and Sauer'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 18
+                    publisher_name: 'Simonis Inc'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 19
+                    publisher_name: 'Collins and Sons'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 20
+                    publisher_name: 'Koss PLC'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 21
+                    publisher_name: Stehr-Rowe
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 22
+                    publisher_name: 'Medhurst Group'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 23
+                    publisher_name: 'West, Denesik and Bogisich'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 24
+                    publisher_name: 'Armstrong Inc'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 25
+                    publisher_name: 'Ortiz Group'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 26
+                    publisher_name: 'Mosciski and Sons'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 27
+                    publisher_name: Spencer-Braun
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 28
+                    publisher_name: 'Durgan, Prosacco and Beer'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 29
+                    publisher_name: 'Breitenberg Group'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 30
+                    publisher_name: 'McCullough, West and King'
+                    created_at: '2026-03-11T18:06:29.000000Z'
+                    updated_at: '2026-03-11T18:06:29.000000Z'
+                  -
+                    publisher_id: 31
+                    publisher_name: "O'Reilly LLC"
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 32
+                    publisher_name: Conn-VonRueden
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 33
+                    publisher_name: Kshlerin-Hermiston
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 34
+                    publisher_name: 'Medhurst LLC'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 35
+                    publisher_name: 'Adams and Sons'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 36
+                    publisher_name: 'Boyle, Jast and Howe'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 37
+                    publisher_name: Ankunding-Mosciski
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 38
+                    publisher_name: 'Fahey, Block and Dicki'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 39
+                    publisher_name: 'Morar, Beatty and Medhurst'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 40
+                    publisher_name: 'Swift Inc'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 41
+                    publisher_name: 'Balistreri, Feeney and Kling'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 42
+                    publisher_name: 'Luettgen PLC'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 43
+                    publisher_name: Walter-Wisoky
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 44
+                    publisher_name: Gusikowski-Corkery
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 45
+                    publisher_name: 'Kling PLC'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 46
+                    publisher_name: Gleichner-Macejkovic
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 47
+                    publisher_name: 'Russel, Kling and Marvin'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 48
+                    publisher_name: Beier-Ferry
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 49
+                    publisher_name: 'Lueilwitz, Flatley and Gutmann'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 50
+                    publisher_name: 'Harvey LLC'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 51
+                    publisher_name: 'Green, Hintz and Hettinger'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 52
+                    publisher_name: 'Murray Inc'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 53
+                    publisher_name: Bogan-Satterfield
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 54
+                    publisher_name: "O'Hara, Morissette and Kilback"
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 55
+                    publisher_name: 'Boyle, Quitzon and Block'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 56
+                    publisher_name: 'Bruen, Mertz and Marks'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 57
+                    publisher_name: 'Kuhic Group'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 58
+                    publisher_name: Weissnat-Cummings
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 59
+                    publisher_name: 'Krajcik, Wiegand and Roob'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+                  -
+                    publisher_id: 60
+                    publisher_name: 'Dicki, Fadel and Littel'
+                    created_at: '2026-03-11T18:06:30.000000Z'
+                    updated_at: '2026-03-11T18:06:30.000000Z'
+      tags:
+        - Endpoints
+      security: []
+  '/api/publishers/{id}':
+    get:
+      summary: ''
+      operationId: getApiPublishersId
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  publisher_id: 1
+                  publisher_name: Эксмо
+                  created_at: '2026-03-11T18:06:29.000000Z'
+                  updated_at: '2026-03-11T18:06:29.000000Z'
+                  books:
+                    -
+                      book_id: 31
+                      book_title: 'Тестовая книга'
+                      description: 'Подробное описание тестовой книги'
+                      published_year: 2024
+                      publisher_id: 1
+                      created_at: '2026-03-11T18:49:14.000000Z'
+                      updated_at: '2026-03-11T19:22:06.000000Z'
+                      cover_path: covers/1773256926_cover_QwUoJdCeS5.png
+                    -
+                      book_id: 32
+                      book_title: 'Новая книга54455445'
+                      description: Описаниеуукук
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:51:46.000000Z'
+                      updated_at: '2026-03-12T06:51:46.000000Z'
+                      cover_path: covers/1773298306_cover_jqqZWMEygB.png
+                    -
+                      book_id: 33
+                      book_title: 'Новая книга54455445'
+                      description: Описаниеуукук1
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:54:36.000000Z'
+                      updated_at: '2026-03-12T06:54:36.000000Z'
+                      cover_path: covers/1773298476_cover_NVmCpGIeUb.png
+                    -
+                      book_id: 34
+                      book_title: 'Новая книга54455445'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:56:00.000000Z'
+                      updated_at: '2026-03-12T06:56:00.000000Z'
+                      cover_path: covers/1773298560_cover_MO9oaHhjUK.png
+                    -
+                      book_id: 35
+                      book_title: 'Новая книга5445544115'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T06:57:11.000000Z'
+                      updated_at: '2026-03-12T06:57:11.000000Z'
+                      cover_path: covers/1773298631_cover_D7ag4pLOSn.png
+                    -
+                      book_id: 36
+                      book_title: 'Новая книга5445544115цу5'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T07:16:57.000000Z'
+                      updated_at: '2026-03-12T07:16:57.000000Z'
+                      cover_path: covers/1773299817_cover_wsJOsdldBF.png
+                    -
+                      book_id: 37
+                      book_title: 'Новая книга5445544115цу511'
+                      description: Описаниеуукук12
+                      published_year: 2011
+                      publisher_id: 1
+                      created_at: '2026-03-12T07:22:31.000000Z'
+                      updated_at: '2026-03-12T07:22:31.000000Z'
+                      cover_path: covers/1773300151_cover_w8PJ8B9fuW.png
+                properties:
+                  publisher_id:
+                    type: integer
+                    example: 1
+                  publisher_name:
+                    type: string
+                    example: Эксмо
+                  created_at:
+                    type: string
+                    example: '2026-03-11T18:06:29.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2026-03-11T18:06:29.000000Z'
+                  books:
+                    type: array
+                    example:
+                      -
+                        book_id: 31
+                        book_title: 'Тестовая книга'
+                        description: 'Подробное описание тестовой книги'
+                        published_year: 2024
+                        publisher_id: 1
+                        created_at: '2026-03-11T18:49:14.000000Z'
+                        updated_at: '2026-03-11T19:22:06.000000Z'
+                        cover_path: covers/1773256926_cover_QwUoJdCeS5.png
+                      -
+                        book_id: 32
+                        book_title: 'Новая книга54455445'
+                        description: Описаниеуукук
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:51:46.000000Z'
+                        updated_at: '2026-03-12T06:51:46.000000Z'
+                        cover_path: covers/1773298306_cover_jqqZWMEygB.png
+                      -
+                        book_id: 33
+                        book_title: 'Новая книга54455445'
+                        description: Описаниеуукук1
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:54:36.000000Z'
+                        updated_at: '2026-03-12T06:54:36.000000Z'
+                        cover_path: covers/1773298476_cover_NVmCpGIeUb.png
+                      -
+                        book_id: 34
+                        book_title: 'Новая книга54455445'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:56:00.000000Z'
+                        updated_at: '2026-03-12T06:56:00.000000Z'
+                        cover_path: covers/1773298560_cover_MO9oaHhjUK.png
+                      -
+                        book_id: 35
+                        book_title: 'Новая книга5445544115'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T06:57:11.000000Z'
+                        updated_at: '2026-03-12T06:57:11.000000Z'
+                        cover_path: covers/1773298631_cover_D7ag4pLOSn.png
+                      -
+                        book_id: 36
+                        book_title: 'Новая книга5445544115цу5'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T07:16:57.000000Z'
+                        updated_at: '2026-03-12T07:16:57.000000Z'
+                        cover_path: covers/1773299817_cover_wsJOsdldBF.png
+                      -
+                        book_id: 37
+                        book_title: 'Новая книга5445544115цу511'
+                        description: Описаниеуукук12
+                        published_year: 2011
+                        publisher_id: 1
+                        created_at: '2026-03-12T07:22:31.000000Z'
+                        updated_at: '2026-03-12T07:22:31.000000Z'
+                        cover_path: covers/1773300151_cover_w8PJ8B9fuW.png
+                    items:
+                      type: object
+                      properties:
+                        book_id:
+                          type: integer
+                          example: 31
+                        book_title:
+                          type: string
+                          example: 'Тестовая книга'
+                        description:
+                          type: string
+                          example: 'Подробное описание тестовой книги'
+                        published_year:
+                          type: integer
+                          example: 2024
+                        publisher_id:
+                          type: integer
+                          example: 1
+                        created_at:
+                          type: string
+                          example: '2026-03-11T18:49:14.000000Z'
+                        updated_at:
+                          type: string
+                          example: '2026-03-11T19:22:06.000000Z'
+                        cover_path:
+                          type: string
+                          example: covers/1773256926_cover_QwUoJdCeS5.png
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the publisher.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/formats:
+    get:
+      summary: ''
+      operationId: getApiFormats
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    format_id:
+                      type: integer
+                      example: 1
+                    format_name:
+                      type: string
+                      example: PDF
+                    created_at:
+                      type: string
+                      example: '2026-03-11T18:06:28.000000Z'
+                    updated_at:
+                      type: string
+                      example: '2026-03-11T18:06:28.000000Z'
+                example:
+                  -
+                    format_id: 1
+                    format_name: PDF
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    format_id: 2
+                    format_name: TXT
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+                  -
+                    format_id: 3
+                    format_name: FB2
+                    created_at: '2026-03-11T18:06:28.000000Z'
+                    updated_at: '2026-03-11T18:06:28.000000Z'
+      tags:
+        - Endpoints
+      security: []
+  '/api/formats/{id}':
+    get:
+      summary: ''
+      operationId: getApiFormatsId
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Server Error'
+                properties:
+                  message:
+                    type: string
+                    example: 'Server Error'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the format.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/books:
+    get:
+      summary: ''
+      operationId: getApiBooks
+      description: ''
+      parameters: []
+      responses:
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Ошибка валидации параметров'
+                  errors:
+                    search:
+                      - 'The search field must be at least 2 characters.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Ошибка валидации параметров'
+                  errors:
+                    type: object
+                    properties:
+                      search:
+                        type: array
+                        example:
+                          - 'The search field must be at least 2 characters.'
+                        items:
+                          type: string
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 16
+                per_page:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 100.'
+                  example: 22
+                search:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 100 characters.'
+                  example: g
+                genre_id:
+                  type: integer
+                  description: 'The <code>genre_id</code> of an existing record in the genres table.'
+                  example: 16
+                author_id:
+                  type: integer
+                  description: 'The <code>author_id</code> of an existing record in the authors table.'
+                  example: 16
+                publisher_id:
+                  type: integer
+                  description: 'The <code>publisher_id</code> of an existing record in the publishers table.'
+                  example: 16
+                year_from:
+                  type: string
+                  description: ''
+                  example: null
+                year_to:
+                  type: string
+                  description: ''
+                  example: null
+                sort:
+                  type: string
+                  description: ''
+                  example: published_year
+                  enum:
+                    - book_title
+                    - published_year
+                    - created_at
+                order:
+                  type: string
+                  description: ''
+                  example: desc
+                  enum:
+                    - asc
+                    - desc
+      security: []
+  '/api/books/{id}':
+    get:
+      summary: ''
+      operationId: getApiBooksId
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  data:
+                    book_id: 1
+                    book_title: 'Cumque deserunt fugiat animi eveniet doloremque.'
+                    description: 'Voluptas nesciunt provident velit in. Quo quaerat vero error dolorem. Aut numquam ut est ex similique. Velit rerum consequatur dolor ex quo voluptatem.'
+                    published_year: 1925
+                    cover_url: /api/covers/1e157b70-6214-328d-8fbc-f74443138dcd.jpg
+                    is_favorited: false
+                    genres:
+                      -
+                        genre_id: 3
+                        genre_name: Детектив
+                    authors:
+                      -
+                        author_id: 9
+                        last_name: Hintz
+                        first_name: Lincoln
+                        middle_name: Николаевна
+                      -
+                        author_id: 12
+                        last_name: Gaylord
+                        first_name: Ivah
+                        middle_name: Александровна
+                      -
+                        author_id: 13
+                        last_name: Kessler
+                        first_name: Manuela
+                        middle_name: Борисович
+                    publisher:
+                      publisher_id: 26
+                      publisher_name: 'Mosciski and Sons'
+                    files:
+                      -
+                        file_id: 1
+                        format_id: 1
+                        format_name: PDF
+                        file_size_bytes: 33200606
+                        file_size_mb: 31.66
+                        read_url: /api/books/file/1/read
+                        download_url: /api/books/file/1/download
+                      -
+                        file_id: 2
+                        format_id: 2
+                        format_name: TXT
+                        file_size_bytes: 7926391
+                        file_size_mb: 7.56
+                        read_url: /api/books/file/2/read
+                        download_url: /api/books/file/2/download
+                      -
+                        file_id: 3
+                        format_id: 3
+                        format_name: FB2
+                        file_size_bytes: 10524923
+                        file_size_mb: 10.04
+                        read_url: /api/books/file/3/read
+                        download_url: /api/books/file/3/download
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      book_id:
+                        type: integer
+                        example: 1
+                      book_title:
+                        type: string
+                        example: 'Cumque deserunt fugiat animi eveniet doloremque.'
+                      description:
+                        type: string
+                        example: 'Voluptas nesciunt provident velit in. Quo quaerat vero error dolorem. Aut numquam ut est ex similique. Velit rerum consequatur dolor ex quo voluptatem.'
+                      published_year:
+                        type: integer
+                        example: 1925
+                      cover_url:
+                        type: string
+                        example: /api/covers/1e157b70-6214-328d-8fbc-f74443138dcd.jpg
+                      is_favorited:
+                        type: boolean
+                        example: false
+                      genres:
+                        type: array
+                        example:
+                          -
+                            genre_id: 3
+                            genre_name: Детектив
+                        items:
+                          type: object
+                          properties:
+                            genre_id:
+                              type: integer
+                              example: 3
+                            genre_name:
+                              type: string
+                              example: Детектив
+                      authors:
+                        type: array
+                        example:
+                          -
+                            author_id: 9
+                            last_name: Hintz
+                            first_name: Lincoln
+                            middle_name: Николаевна
+                          -
+                            author_id: 12
+                            last_name: Gaylord
+                            first_name: Ivah
+                            middle_name: Александровна
+                          -
+                            author_id: 13
+                            last_name: Kessler
+                            first_name: Manuela
+                            middle_name: Борисович
+                        items:
+                          type: object
+                          properties:
+                            author_id:
+                              type: integer
+                              example: 9
+                            last_name:
+                              type: string
+                              example: Hintz
+                            first_name:
+                              type: string
+                              example: Lincoln
+                            middle_name:
+                              type: string
+                              example: Николаевна
+                      publisher:
+                        type: object
+                        properties:
+                          publisher_id:
+                            type: integer
+                            example: 26
+                          publisher_name:
+                            type: string
+                            example: 'Mosciski and Sons'
+                      files:
+                        type: array
+                        example:
+                          -
+                            file_id: 1
+                            format_id: 1
+                            format_name: PDF
+                            file_size_bytes: 33200606
+                            file_size_mb: 31.66
+                            read_url: /api/books/file/1/read
+                            download_url: /api/books/file/1/download
+                          -
+                            file_id: 2
+                            format_id: 2
+                            format_name: TXT
+                            file_size_bytes: 7926391
+                            file_size_mb: 7.56
+                            read_url: /api/books/file/2/read
+                            download_url: /api/books/file/2/download
+                          -
+                            file_id: 3
+                            format_id: 3
+                            format_name: FB2
+                            file_size_bytes: 10524923
+                            file_size_mb: 10.04
+                            read_url: /api/books/file/3/read
+                            download_url: /api/books/file/3/download
+                        items:
+                          type: object
+                          properties:
+                            file_id:
+                              type: integer
+                              example: 1
+                            format_id:
+                              type: integer
+                              example: 1
+                            format_name:
+                              type: string
+                              example: PDF
+                            file_size_bytes:
+                              type: integer
+                              example: 33200606
+                            file_size_mb:
+                              type: number
+                              example: 31.66
+                            read_url:
+                              type: string
+                              example: /api/books/file/1/read
+                            download_url:
+                              type: string
+                              example: /api/books/file/1/download
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the book.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/covers/{filename}':
+    get:
+      summary: 'Получить обложку книги (доступно всем)'
+      operationId: ''
+      description: ''
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Обложка не найдена'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Обложка не найдена'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: filename
+        description: ''
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+  '/api/books/file/{fileId}/read':
+    get:
+      summary: 'Читать файл книги в браузере (только авторизованные)'
+      operationId: ''
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: fileId
+        description: ''
+        example: architecto
+        required: true
+        schema:
+          type: string
+  '/api/books/file/{fileId}/download':
+    get:
+      summary: 'Скачать файл книги (только авторизованные)'
+      operationId: ''
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: fileId
+        description: ''
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/favorites:
+    get:
+      summary: ''
+      operationId: getApiFavorites
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Требуется авторизация'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Требуется авторизация'
+      tags:
+        - Endpoints
+      security: []
+  '/api/favorites/{book}':
+    post:
+      summary: ''
+      operationId: postApiFavoritesBook
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiFavoritesBook
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: book
+        description: ''
+        example: architecto
+        required: true
+        schema:
+          type: string
