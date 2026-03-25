@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getCurrentUser } from '@api/auth'
 import {
-  getAllBooks,
   getAdminGenres,
   getAdminAuthors,
   getAdminPublishers,
@@ -439,32 +438,6 @@ export const AdminPage = () => {
     return filterBySearch(publishers, search)
   }, [publishers, search, activeTab])
 
-  const handleSelectBook = async (book: Book) => {
-    if (!ensureAdminAccess()) return
-    if (!token) return
-    setSelectedBook(book)
-    setForm({
-      title: book.title,
-      description: (await getBookById(book.id, token)).description,
-      authors: book.authors.map((author) => author.id.toString()),
-      genres: book.genres.map((genre) => genre.id.toString()),
-      publisher: book.publisher.id.toString(),
-      publishedYear: book.publishedYear ? String(book.publishedYear) : '',
-      coverFile: null,
-      files: [],
-    })
-    setSuccessMessage('')
-    setError('')
-  }
-
-  const handleCreateNew = () => {
-    if (!ensureAdminAccess()) return
-    setSelectedBook(null)
-    setForm(initialFormState)
-    setSuccessMessage('')
-    setError('')
-  }
-
   const handleDelete = async (bookId: number) => {
     if (!ensureAdminAccess()) return
     if (!token) return
@@ -482,20 +455,6 @@ export const AdminPage = () => {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const handleSelectAuthor = (author: Author) => {
-    if (!ensureAdminAccess()) return
-    if (!token) return
-
-    setSelectedAuthor(author)
-    setAuthorForm({
-      first_name: author.firstName,
-      middle_name: author.middleName,
-      last_name: author.lastName,
-    })
-    setSuccessMessage('')
-    setError('')
   }
 
   const handleDeleteAuthor = async (authorId: number) => {
@@ -517,18 +476,6 @@ export const AdminPage = () => {
     }
   }
 
-  const handleSelectGenre = (genre: Genre) => {
-    if (!ensureAdminAccess()) return
-    if (!token) return
-
-    setSelectedGenre(genre)
-    setGenreForm({
-      name: genre.name
-    })
-    setSuccessMessage('')
-    setError('')
-  }
-
   const handleDeleteGenre = async (genreId: number) => {
     if (!ensureAdminAccess()) return
     if (!token) return
@@ -546,18 +493,6 @@ export const AdminPage = () => {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const handleSelectPublisher = (publisher: Publisher) => {
-    if (!ensureAdminAccess()) return
-    if (!token) return
-
-    setSelectedPublisher(publisher)
-    setPublisherForm({
-      name: publisher.name
-    })
-    setSuccessMessage('')
-    setError('')
   }
 
   const handleDeletePublisher = async (publisherId: number) => {
@@ -969,14 +904,6 @@ export const AdminPage = () => {
   )
 
   const renderBooksTab = () => {
-    const hasAppliedFilters = Boolean(
-      appliedFilters.search ||
-      appliedFilters.author_ids?.length ||
-      appliedFilters.genre_ids?.length ||
-      appliedFilters.publisher_id ||
-      appliedFilters.year_from ||
-      appliedFilters.year_to
-    )
 
     return (
       <div className={styles.tabContent}>
