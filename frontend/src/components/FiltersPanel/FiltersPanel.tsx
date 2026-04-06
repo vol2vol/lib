@@ -17,6 +17,7 @@ type FiltersPanelProps = {
   onYearFromChange: (value: string) => void
   onYearToChange: (value: string) => void
   onClear: () => void
+  onApply: () => void
 }
 
 const normalizeYearValue = (value: string) => value.replace(/\D+/g, '').slice(0, 4)
@@ -36,6 +37,7 @@ export const FiltersPanel = ({
   onYearFromChange,
   onYearToChange,
   onClear,
+  onApply,
 }: FiltersPanelProps) => {
   return (
     <section className={styles.panel} aria-label="Фильтры каталога">
@@ -114,6 +116,9 @@ export const FiltersPanel = ({
       <div className={styles.actions}>
         <button type="button" className={styles.clearButton} onClick={onClear}>
           Очистить поля
+        </button>
+        <button type="button" className={styles.searchButton} onClick={onApply}>
+          Поиск
         </button>
       </div>
     </section>

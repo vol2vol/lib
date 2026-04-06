@@ -212,6 +212,7 @@ export const HomePage = () => {
                 setValidationError('')
               }}
               onClear={handleClearDraftFilters}
+              onApply={handleSearchSubmit}
             />
           </div>
         ) : null}
