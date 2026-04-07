@@ -765,8 +765,8 @@ export const AdminPage = () => {
             <tbody>
               {filteredGenres.map((genre) => (
                 <tr key={genre.id}>
-                  <td>{genre.name}</td>
-                  <td>
+                  <td data-label="Название">{genre.name}</td>
+                  <td data-label="Действия" className={styles.actionsCell}>
                     <button
                       className={styles.actionButton}
                       type="button"
@@ -835,8 +835,8 @@ export const AdminPage = () => {
             <tbody>
               {filteredAuthors.map((author) => (
                 <tr key={author.id}>
-                  <td>{author.fullName}</td>
-                  <td>
+                  <td data-label="ФИО">{author.fullName}</td>
+                  <td data-label="Действия" className={styles.actionsCell}>
                     <button
                       className={styles.actionButton}
                       type="button"
@@ -921,8 +921,8 @@ export const AdminPage = () => {
             <tbody>
               {filteredPublishers.map((publisher) => (
                 <tr key={publisher.id}>
-                  <td>{publisher.name}</td>
-                  <td>
+                  <td data-label="Название">{publisher.name}</td>
+                  <td data-label="Действия" className={styles.actionsCell}>
                     <button
                       className={styles.actionButton}
                       type="button"
@@ -1056,13 +1056,13 @@ export const AdminPage = () => {
                 <tbody>
                   {books.map((book) => (
                     <tr key={book.id}>
-                      <td>{book.title}</td>
-                      <td>{book.author}</td>
-                      <td>{book.genre}</td>
-                      <td>{book.publisher.name}</td>
-                      <td>{book.publishedYear ?? ''}</td>
-                      <td>{book.filesCount}</td>
-                      <td>
+                      <td data-label="Название">{book.title}</td>
+                      <td data-label="Автор">{book.author}</td>
+                      <td data-label="Жанр">{book.genre}</td>
+                      <td data-label="Издательство">{book.publisher.name}</td>
+                      <td data-label="Год">{book.publishedYear ?? ''}</td>
+                      <td data-label="Файлы">{book.filesCount}</td>
+                      <td data-label="Действия" className={styles.actionsCell}>
                         <button
                           className={styles.actionButton}
                           type="button"
