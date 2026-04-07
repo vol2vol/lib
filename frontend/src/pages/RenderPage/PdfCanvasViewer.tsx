@@ -241,9 +241,10 @@ export const PdfCanvasViewer = ({ fileData, fileName, isDark }: PdfCanvasViewerP
         }
 
         const baseViewport = page.getViewport({ scale: 1 })
+        const horizontalGap = containerWidth <= 640 ? 8 : 32
         const availableWidth = Math.max(
           220,
-          Math.min(FITTED_PAGE_MAX_WIDTH, containerWidth - 48)
+          Math.min(FITTED_PAGE_MAX_WIDTH, containerWidth - horizontalGap)
         )
         const fittedScale = availableWidth / baseViewport.width
         const cssScale = fittedScale * zoom
@@ -326,7 +327,7 @@ export const PdfCanvasViewer = ({ fileData, fileName, isDark }: PdfCanvasViewerP
   return (
     <div className={`${styles.pdfViewer} ${isDark ? styles.pdfViewerDark : ''}`}>
       <div className={styles.pdfToolbar}>
-        <div className={styles.pdfToolbarGroup}>
+        <div className={`${styles.pdfToolbarGroup} ${styles.pdfToolbarNavGroup}`}>
           <button
             type="button"
             className={styles.pdfButton}
@@ -337,7 +338,7 @@ export const PdfCanvasViewer = ({ fileData, fileName, isDark }: PdfCanvasViewerP
           </button>
 
           <div className={styles.pdfPageBox}>
-            <span className={styles.pdfMetaLabel}>Страница</span>
+            <span className={`${styles.pdfMetaLabel} ${styles.pdfPageBoxPrefix}`}>Страница</span>
             <input
               className={styles.pdfPageInput}
               inputMode="numeric"
@@ -351,7 +352,12 @@ export const PdfCanvasViewer = ({ fileData, fileName, isDark }: PdfCanvasViewerP
               }}
               aria-label="Номер страницы"
             />
-            <span className={styles.pdfMetaLabel}>из {totalPages || '—'}</span>
+            <span className={`${styles.pdfMetaLabel} ${styles.pdfPageBoxTotal}`}>
+              из {totalPages || '—'}
+            </span>
+            <span className={`${styles.pdfMetaLabel} ${styles.pdfPageBoxCompactTotal}`}>
+              / {totalPages || '—'}
+            </span>
           </div>
 
           <button
@@ -364,7 +370,7 @@ export const PdfCanvasViewer = ({ fileData, fileName, isDark }: PdfCanvasViewerP
           </button>
         </div>
 
-        <div className={styles.pdfToolbarGroup}>
+        <div className={`${styles.pdfToolbarGroup} ${styles.pdfToolbarZoomGroup}`}>
           <button
             type="button"
             className={styles.pdfButton}
