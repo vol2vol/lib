@@ -158,13 +158,11 @@ export const SignUpPage = () => {
                 <button
                   className={styles.passwordToggle}
                   type="button"
-                  onMouseDown={() => setShowPassword(true)}
-                  onMouseUp={() => setShowPassword(false)}
-                  onMouseLeave={() => setShowPassword(false)}
-                  onTouchStart={() => setShowPassword(true)}
-                  onTouchEnd={() => setShowPassword(false)}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+                  aria-pressed={showPassword}
                 >
-                  Показать
+                  {showPassword ? 'Скрыть' : 'Показать'}
                 </button>
               </div>
 
@@ -199,13 +197,11 @@ export const SignUpPage = () => {
                 <button
                   className={styles.passwordToggle}
                   type="button"
-                  onMouseDown={() => setShowPasswordConfirmation(true)}
-                  onMouseUp={() => setShowPasswordConfirmation(false)}
-                  onMouseLeave={() => setShowPasswordConfirmation(false)}
-                  onTouchStart={() => setShowPasswordConfirmation(true)}
-                  onTouchEnd={() => setShowPasswordConfirmation(false)}
+                  onClick={() => setShowPasswordConfirmation((prev) => !prev)}
+                  aria-label={showPasswordConfirmation ? 'Скрыть пароль' : 'Показать пароль'}
+                  aria-pressed={showPasswordConfirmation}
                 >
-                  Показать
+                  {showPasswordConfirmation ? 'Скрыть' : 'Показать'}
                 </button>
               </div>
 

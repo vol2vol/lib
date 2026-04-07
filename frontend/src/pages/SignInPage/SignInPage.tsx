@@ -133,13 +133,11 @@ export const SignInPage = () => {
                 <button
                   className={styles.passwordToggle}
                   type="button"
-                  onMouseDown={() => setShowPassword(true)}
-                  onMouseUp={() => setShowPassword(false)}
-                  onMouseLeave={() => setShowPassword(false)}
-                  onTouchStart={() => setShowPassword(true)}
-                  onTouchEnd={() => setShowPassword(false)}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+                  aria-pressed={showPassword}
                 >
-                  Показать
+                  {showPassword ? 'Скрыть' : 'Показать'}
                 </button>
               </div>
 
