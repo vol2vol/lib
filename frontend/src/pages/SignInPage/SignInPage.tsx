@@ -35,6 +35,11 @@ export const SignInPage = () => {
       return
     }
 
+    if (password.length < 8) {
+      setFieldErrors({ password: 'Пароль должен содержать минимум 8 символов' })
+      return
+    }
+
     try {
       setIsLoading(true)
 
@@ -107,6 +112,7 @@ export const SignInPage = () => {
 
             <label className={styles.label}>
               Пароль
+              <span className={styles.hint}>Минимум 8 символов</span>
 
               <div className={styles.passwordField}>
                 <input
@@ -119,6 +125,9 @@ export const SignInPage = () => {
                     setFieldErrors((prev) => ({ ...prev, password: undefined }))
                   }}
                   autoComplete="current-password"
+                  minLength={8}
+                  required
+                  title="Пароль должен содержать минимум 8 символов"
                 />
 
                 <button

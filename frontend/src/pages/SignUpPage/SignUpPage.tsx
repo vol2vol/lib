@@ -43,6 +43,21 @@ export const SignUpPage = () => {
       return
     }
 
+    if (password.length < 8) {
+      setFieldErrors({ password: 'Пароль должен содержать минимум 8 символов' })
+      return
+    }
+
+    if (!passwordConfirmation.trim()) {
+      setFieldErrors({ password_confirmation: 'Повторите пароль' })
+      return
+    }
+
+    if (passwordConfirmation.length < 8) {
+      setFieldErrors({ password_confirmation: 'Пароль должен содержать минимум 8 символов' })
+      return
+    }
+
     if (password !== passwordConfirmation) {
       setFieldErrors({ password_confirmation: 'Пароли не совпадают' })
       return
@@ -122,6 +137,7 @@ export const SignUpPage = () => {
 
             <label className={styles.label}>
               Придумайте пароль
+              <span className={styles.hint}>Минимум 8 символов</span>
 
               <div className={styles.passwordField}>
                 <input
@@ -134,6 +150,9 @@ export const SignUpPage = () => {
                     setFieldErrors((prev) => ({ ...prev, password: undefined }))
                   }}
                   autoComplete="new-password"
+                  minLength={8}
+                  required
+                  title="Пароль должен содержать минимум 8 символов"
                 />
 
                 <button
@@ -156,6 +175,7 @@ export const SignUpPage = () => {
 
             <label className={styles.label}>
               Повторите пароль
+              <span className={styles.hint}>Минимум 8 символов</span>
 
               <div className={styles.passwordField}>
                 <input
@@ -171,6 +191,9 @@ export const SignUpPage = () => {
                     }))
                   }}
                   autoComplete="new-password"
+                  minLength={8}
+                  required
+                  title="Пароль должен содержать минимум 8 символов"
                 />
 
                 <button
