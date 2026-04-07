@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Icon } from '@components/Icon'
@@ -10,6 +10,66 @@ type FieldErrors = {
   login?: string
   password?: string
   password_confirmation?: string
+}
+
+const LOGIN_MAX_LENGTH = 255
+const PASSWORD_MIN_LENGTH = 8
+const PASSWORD_MAX_LENGTH = 255
+const LOGIN_ALLOWED_TEXT = 'Разрешены латинские буквы, цифры, точка, дефис и подчёркивание'
+const LOGIN_PATTERN = /^[A-Za-z0-9._-]+$/
+
+const sanitizeLogin = (value: string) => value.replace(/\s+/g, '').replace(/[^A-Za-z0-9._-]/g, '')
+
+const getLoginError = (value: string) => {
+  if (!value) {
+    return 'Введите логин'
+  }
+
+  if (!LOGIN_PATTERN.test(value)) {
+    return LOGIN_ALLOWED_TEXT
+  }
+
+  if (value.length > LOGIN_MAX_LENGTH) {
+    return `Логин должен содержать не более ${LOGIN_MAX_LENGTH} символов`
+  }
+
+  return undefined
+}
+
+const getPasswordError = (value: string) => {
+  if (!value.trim()) {
+    return 'Введите пароль'
+  }
+
+  if (value.length < PASSWORD_MIN_LENGTH) {
+    return `Пароль должен содержать минимум ${PASSWORD_MIN_LENGTH} символов`
+  }
+
+  if (value.length > PASSWORD_MAX_LENGTH) {
+    return `Пароль должен содержать не более ${PASSWORD_MAX_LENGTH} символов`
+  }
+
+  return undefined
+}
+
+const getPasswordConfirmationError = (password: string, confirmation: string) => {
+  if (!confirmation.trim()) {
+    return 'Повторите пароль'
+  }
+
+  if (confirmation.length < PASSWORD_MIN_LENGTH) {
+    return `Пароль должен содержать минимум ${PASSWORD_MIN_LENGTH} символов`
+  }
+
+  if (confirmation.length > PASSWORD_MAX_LENGTH) {
+    return `Пароль должен содержать не более ${PASSWORD_MAX_LENGTH} символов`
+  }
+
+  if (password !== confirmation) {
+    return 'Пароли не совпадают'
+  }
+
+  return undefined
 }
 
 export const SignUpPage = () => {
@@ -24,6 +84,24 @@ export const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false)
 
+  const loginCounterText = useMemo(() => `Символов: ${login.length} / ${LOGIN_MAX_LENGTH}`, [login.length])
+  const passwordCounterText = useMemo(
+    () => `Символов: ${password.length} / минимум ${PASSWORD_MIN_LENGTH}`,
+    [password.length],
+  )
+  const confirmationCounterText = useMemo(
+    () => `Символов: ${passwordConfirmation.length} / минимум ${PASSWORD_MIN_LENGTH}`,
+    [passwordConfirmation.length],
+  )
+  const isPasswordLengthValid = password.length >= PASSWORD_MIN_LENGTH && password.length <= PASSWORD_MAX_LENGTH
+  const isConfirmationLengthValid =
+    passwordConfirmation.length >= PASSWORD_MIN_LENGTH && passwordConfirmation.length <= PASSWORD_MAX_LENGTH
+  const passwordMatchState = !passwordConfirmation
+    ? ''
+    : password === passwordConfirmation
+      ? 'Пароли совпадают'
+      : 'Пароли не совпадают'
+
   const resetErrors = () => {
     setError('')
     setFieldErrors({})
@@ -33,33 +111,14 @@ export const SignUpPage = () => {
     event.preventDefault()
     resetErrors()
 
-    if (!login.trim()) {
-      setFieldErrors({ login: 'Введите логин' })
-      return
+    const nextFieldErrors: FieldErrors = {
+      login: getLoginError(login),
+      password: getPasswordError(password),
+      password_confirmation: getPasswordConfirmationError(password, passwordConfirmation),
     }
 
-    if (!password.trim()) {
-      setFieldErrors({ password: 'Введите пароль' })
-      return
-    }
-
-    if (password.length < 8) {
-      setFieldErrors({ password: 'Пароль должен содержать минимум 8 символов' })
-      return
-    }
-
-    if (!passwordConfirmation.trim()) {
-      setFieldErrors({ password_confirmation: 'Повторите пароль' })
-      return
-    }
-
-    if (passwordConfirmation.length < 8) {
-      setFieldErrors({ password_confirmation: 'Пароль должен содержать минимум 8 символов' })
-      return
-    }
-
-    if (password !== passwordConfirmation) {
-      setFieldErrors({ password_confirmation: 'Пароли не совпадают' })
+    if (nextFieldErrors.login || nextFieldErrors.password || nextFieldErrors.password_confirmation) {
+      setFieldErrors(nextFieldErrors)
       return
     }
 
@@ -115,21 +174,35 @@ export const SignUpPage = () => {
 
         <p className={styles.subtitle}>Чтобы присоединиться, зарегистрируйтесь</p>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <div className={styles.fields}>
             <label className={styles.label}>
               Логин
+              <div className={styles.metaRow}>
+                <span className={styles.hint}>{LOGIN_ALLOWED_TEXT}</span>
+              </div>
               <input
                 className={`${styles.input} ${fieldErrors.login ? styles.inputError : ''}`}
                 type="text"
                 value={login}
                 onChange={(event) => {
-                  setLogin(event.target.value)
+                  const nextValue = sanitizeLogin(event.target.value).slice(0, LOGIN_MAX_LENGTH)
+                  setLogin(nextValue)
                   setError('')
                   setFieldErrors((prev) => ({ ...prev, login: undefined }))
                 }}
                 autoComplete="username"
+                spellCheck={false}
+                inputMode="text"
+                maxLength={LOGIN_MAX_LENGTH}
+                pattern="[A-Za-z0-9._-]+"
+                required
+                title={LOGIN_ALLOWED_TEXT}
+                aria-describedby="signup-login-help"
               />
+              <div className={styles.fieldFooter}>
+                <span className={styles.counter}>{loginCounterText}</span>
+              </div>
               {fieldErrors.login ? (
                 <span className={styles.fieldError}>{fieldErrors.login}</span>
               ) : null}
@@ -137,7 +210,6 @@ export const SignUpPage = () => {
 
             <label className={styles.label}>
               Придумайте пароль
-              <span className={styles.hint}>Минимум 8 символов</span>
 
               <div className={styles.passwordField}>
                 <input
@@ -145,14 +217,20 @@ export const SignUpPage = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(event) => {
-                    setPassword(event.target.value)
+                    setPassword(event.target.value.slice(0, PASSWORD_MAX_LENGTH))
                     setError('')
-                    setFieldErrors((prev) => ({ ...prev, password: undefined }))
+                    setFieldErrors((prev) => ({
+                      ...prev,
+                      password: undefined,
+                      password_confirmation: undefined,
+                    }))
                   }}
                   autoComplete="new-password"
-                  minLength={8}
+                  minLength={PASSWORD_MIN_LENGTH}
+                  maxLength={PASSWORD_MAX_LENGTH}
                   required
-                  title="Пароль должен содержать минимум 8 символов"
+                  title={`Пароль должен содержать минимум ${PASSWORD_MIN_LENGTH} символов`}
+                  aria-describedby="signup-password-help"
                 />
 
                 <button
@@ -165,6 +243,13 @@ export const SignUpPage = () => {
                   {showPassword ? 'Скрыть' : 'Показать'}
                 </button>
               </div>
+              <div className={styles.fieldFooter}>
+                <span
+                  className={`${styles.counter} ${password && !isPasswordLengthValid ? styles.counterWarning : ''}`}
+                >
+                  {passwordCounterText}
+                </span>
+              </div>
 
               {fieldErrors.password ? (
                 <span className={styles.fieldError}>{fieldErrors.password}</span>
@@ -173,7 +258,6 @@ export const SignUpPage = () => {
 
             <label className={styles.label}>
               Повторите пароль
-              <span className={styles.hint}>Минимум 8 символов</span>
 
               <div className={styles.passwordField}>
                 <input
@@ -181,7 +265,7 @@ export const SignUpPage = () => {
                   type={showPasswordConfirmation ? 'text' : 'password'}
                   value={passwordConfirmation}
                   onChange={(event) => {
-                    setPasswordConfirmation(event.target.value)
+                    setPasswordConfirmation(event.target.value.slice(0, PASSWORD_MAX_LENGTH))
                     setError('')
                     setFieldErrors((prev) => ({
                       ...prev,
@@ -189,9 +273,11 @@ export const SignUpPage = () => {
                     }))
                   }}
                   autoComplete="new-password"
-                  minLength={8}
+                  minLength={PASSWORD_MIN_LENGTH}
+                  maxLength={PASSWORD_MAX_LENGTH}
                   required
-                  title="Пароль должен содержать минимум 8 символов"
+                  title={`Пароль должен содержать минимум ${PASSWORD_MIN_LENGTH} символов`}
+                  aria-describedby="signup-password-confirmation-help"
                 />
 
                 <button
@@ -203,6 +289,18 @@ export const SignUpPage = () => {
                 >
                   {showPasswordConfirmation ? 'Скрыть' : 'Показать'}
                 </button>
+              </div>
+              <div className={styles.fieldFooter}>
+                {passwordMatchState ? (
+                  <span className={`${styles.hint} ${passwordConfirmation && password !== passwordConfirmation ? styles.helperWarning : ''}`}>
+                    {passwordMatchState}
+                  </span>
+                ) : <span />}
+                <span
+                  className={`${styles.counter} ${passwordConfirmation && !isConfirmationLengthValid ? styles.counterWarning : ''}`}
+                >
+                  {confirmationCounterText}
+                </span>
               </div>
 
               {fieldErrors.password_confirmation ? (

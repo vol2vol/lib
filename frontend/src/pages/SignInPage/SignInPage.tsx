@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Icon } from '@components/Icon'
 import { loginUser } from '@api/auth'
@@ -8,6 +8,46 @@ import styles from './SignInPage.module.css'
 type FieldErrors = {
   login?: string
   password?: string
+}
+
+const LOGIN_MAX_LENGTH = 255
+const PASSWORD_MIN_LENGTH = 8
+const PASSWORD_MAX_LENGTH = 255
+const LOGIN_ALLOWED_TEXT = 'Разрешены латинские буквы, цифры, точка, дефис и подчёркивание'
+const LOGIN_PATTERN = /^[A-Za-z0-9._-]+$/
+
+const sanitizeLogin = (value: string) => value.replace(/\s+/g, '').replace(/[^A-Za-z0-9._-]/g, '')
+
+const getLoginError = (value: string) => {
+  if (!value) {
+    return 'Введите логин'
+  }
+
+  if (!LOGIN_PATTERN.test(value)) {
+    return LOGIN_ALLOWED_TEXT
+  }
+
+  if (value.length > LOGIN_MAX_LENGTH) {
+    return `Логин должен содержать не более ${LOGIN_MAX_LENGTH} символов`
+  }
+
+  return undefined
+}
+
+const getPasswordError = (value: string) => {
+  if (!value.trim()) {
+    return 'Введите пароль'
+  }
+
+  if (value.length < PASSWORD_MIN_LENGTH) {
+    return `Пароль должен содержать минимум ${PASSWORD_MIN_LENGTH} символов`
+  }
+
+  if (value.length > PASSWORD_MAX_LENGTH) {
+    return `Пароль должен содержать не более ${PASSWORD_MAX_LENGTH} символов`
+  }
+
+  return undefined
 }
 
 export const SignInPage = () => {
@@ -20,25 +60,28 @@ export const SignInPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
+  const loginCounterText = useMemo(() => `Символов: ${login.length} / ${LOGIN_MAX_LENGTH}`, [login.length])
+  const passwordCounterText = useMemo(
+    () => `Символов: ${password.length} / минимум ${PASSWORD_MIN_LENGTH}`,
+    [password.length],
+  )
+  const isPasswordLengthValid = password.length >= PASSWORD_MIN_LENGTH && password.length <= PASSWORD_MAX_LENGTH
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError('')
+
+    const nextFieldErrors: FieldErrors = {
+      login: getLoginError(login),
+      password: getPasswordError(password),
+    }
+
+    if (nextFieldErrors.login || nextFieldErrors.password) {
+      setFieldErrors(nextFieldErrors)
+      return
+    }
+
     setFieldErrors({})
-
-    if (!login.trim()) {
-      setFieldErrors({ login: 'Введите логин' })
-      return
-    }
-
-    if (!password.trim()) {
-      setFieldErrors({ password: 'Введите пароль' })
-      return
-    }
-
-    if (password.length < 8) {
-      setFieldErrors({ password: 'Пароль должен содержать минимум 8 символов' })
-      return
-    }
 
     try {
       setIsLoading(true)
@@ -90,21 +133,35 @@ export const SignInPage = () => {
 
         <p className={styles.subtitle}>Чтобы войти, введите данные аккаунта</p>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <div className={styles.fields}>
             <label className={styles.label}>
               Логин
+              <div className={styles.metaRow}>
+                <span className={styles.hint}>{LOGIN_ALLOWED_TEXT}</span>
+              </div>
               <input
                 className={`${styles.input} ${fieldErrors.login ? styles.inputError : ''}`}
                 type="text"
                 value={login}
                 onChange={(event) => {
-                  setLogin(event.target.value)
+                  const nextValue = sanitizeLogin(event.target.value).slice(0, LOGIN_MAX_LENGTH)
+                  setLogin(nextValue)
                   setError('')
                   setFieldErrors((prev) => ({ ...prev, login: undefined }))
                 }}
                 autoComplete="username"
+                spellCheck={false}
+                inputMode="text"
+                maxLength={LOGIN_MAX_LENGTH}
+                pattern="[A-Za-z0-9._-]+"
+                required
+                title={LOGIN_ALLOWED_TEXT}
+                aria-describedby="signin-login-help"
               />
+              <div className={styles.fieldFooter}>
+                <span className={styles.counter}>{loginCounterText}</span>
+              </div>
               {fieldErrors.login ? (
                 <span className={styles.fieldError}>{fieldErrors.login}</span>
               ) : null}
@@ -112,7 +169,6 @@ export const SignInPage = () => {
 
             <label className={styles.label}>
               Пароль
-              <span className={styles.hint}>Минимум 8 символов</span>
 
               <div className={styles.passwordField}>
                 <input
@@ -120,14 +176,16 @@ export const SignInPage = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(event) => {
-                    setPassword(event.target.value)
+                    setPassword(event.target.value.slice(0, PASSWORD_MAX_LENGTH))
                     setError('')
                     setFieldErrors((prev) => ({ ...prev, password: undefined }))
                   }}
                   autoComplete="current-password"
-                  minLength={8}
+                  minLength={PASSWORD_MIN_LENGTH}
+                  maxLength={PASSWORD_MAX_LENGTH}
                   required
-                  title="Пароль должен содержать минимум 8 символов"
+                  title={`Пароль должен содержать минимум ${PASSWORD_MIN_LENGTH} символов`}
+                  aria-describedby="signin-password-help"
                 />
 
                 <button
@@ -139,6 +197,13 @@ export const SignInPage = () => {
                 >
                   {showPassword ? 'Скрыть' : 'Показать'}
                 </button>
+              </div>
+              <div className={styles.fieldFooter}>
+                <span
+                  className={`${styles.counter} ${password && !isPasswordLengthValid ? styles.counterWarning : ''}`}
+                >
+                  {passwordCounterText}
+                </span>
               </div>
 
               {fieldErrors.password ? (
