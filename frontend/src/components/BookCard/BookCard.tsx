@@ -1,4 +1,4 @@
-import type { KeyboardEvent } from 'react'
+import type { KeyboardEvent, RefObject } from 'react'
 import { useState, useRef, useEffect } from 'react'
 import type { Book } from '@models/library'
 import styles from './BookCard.module.css'
@@ -24,7 +24,7 @@ const useTextOverflow = () => {
     }
 
     checkOverflow()
-    
+
     window.addEventListener('resize', checkOverflow)
     return () => window.removeEventListener('resize', checkOverflow)
   }, [])
@@ -32,28 +32,59 @@ const useTextOverflow = () => {
   return { containerRef, contentRef, isOverflowing }
 }
 
+const useElementInView = (ref: RefObject<HTMLElement | null>) => {
+  const [isInView, setIsInView] = useState(false)
+
+  useEffect(() => {
+    const element = ref.current
+
+    if (!element || typeof IntersectionObserver === 'undefined') {
+      setIsInView(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting && entry.intersectionRatio >= 0.2)
+      },
+      {
+        threshold: [0.2, 0.6],
+      },
+    )
+
+    observer.observe(element)
+
+    return () => observer.disconnect()
+  }, [ref])
+
+  return isInView
+}
+
 export const BookCard = ({ book, onClick }: BookCardProps) => {
   const isInteractive = Boolean(onClick)
   const [isHovered, setIsHovered] = useState(false)
-  const { 
-    containerRef: authorContainerRef, 
-    contentRef: authorContentRef, 
-    isOverflowing: isAuthorOverflowing 
+  const cardRef = useRef<HTMLElement>(null)
+  const isInView = useElementInView(cardRef)
+  const shouldAnimateOverflow = isInView || isHovered
+  const {
+    containerRef: authorContainerRef,
+    contentRef: authorContentRef,
+    isOverflowing: isAuthorOverflowing,
   } = useTextOverflow()
-  const { 
-    containerRef: genreContainerRef, 
-    contentRef: genreContentRef, 
-    isOverflowing: isGenreOverflowing 
+  const {
+    containerRef: genreContainerRef,
+    contentRef: genreContentRef,
+    isOverflowing: isGenreOverflowing,
   } = useTextOverflow()
-  const { 
-    containerRef: titleContainerRef, 
-    contentRef: titleContentRef, 
-    isOverflowing: isTitleOverflowing 
+  const {
+    containerRef: titleContainerRef,
+    contentRef: titleContentRef,
+    isOverflowing: isTitleOverflowing,
   } = useTextOverflow()
-  const { 
-    containerRef: publisherContainerRef, 
-    contentRef: publisherContentRef, 
-    isOverflowing: isPublisherOverflowing 
+  const {
+    containerRef: publisherContainerRef,
+    contentRef: publisherContentRef,
+    isOverflowing: isPublisherOverflowing,
   } = useTextOverflow()
 
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
@@ -72,6 +103,7 @@ export const BookCard = ({ book, onClick }: BookCardProps) => {
 
   return (
     <article
+      ref={cardRef}
       className={`${styles.bookCard} ${isInteractive ? styles.interactive : ''}`}
       onClick={onClick}
       onKeyDown={handleKeyDown}
@@ -92,79 +124,75 @@ export const BookCard = ({ book, onClick }: BookCardProps) => {
       )}
 
       <div className={styles.info}>
-        {/* Заголовок - с бегущей строкой */}
-        <div 
+        <div
           className={styles.titleContainer}
           ref={titleContainerRef}
         >
-          <h3 
-            className={`${styles.title} ${isTitleOverflowing && isHovered ? styles.marquee : ''}`}
+          <h3
+            className={`${styles.title} ${isTitleOverflowing && shouldAnimateOverflow ? styles.marquee : ''}`}
             ref={titleContentRef}
           >
             <span>{book.title}</span>
-            {isTitleOverflowing && isHovered && (
+            {isTitleOverflowing && shouldAnimateOverflow && (
               <span className={styles.marqueeSpacer} aria-hidden="true" />
             )}
-            {isTitleOverflowing && isHovered && (
+            {isTitleOverflowing && shouldAnimateOverflow && (
               <span aria-hidden="true">{book.title}</span>
             )}
           </h3>
         </div>
-        
-        {/* Автор - отдельная строка с бегущей строкой */}
-        <div 
+
+        <div
           className={styles.metaContainer}
           ref={authorContainerRef}
         >
-          <div 
-            className={`${styles.metaContent} ${isAuthorOverflowing && isHovered ? styles.marquee : ''}`}
+          <div
+            className={`${styles.metaContent} ${isAuthorOverflowing && shouldAnimateOverflow ? styles.marquee : ''}`}
             ref={authorContentRef}
           >
             <span className={styles.author}>{book.author}</span>
-            {isAuthorOverflowing && isHovered && (
+            {isAuthorOverflowing && shouldAnimateOverflow && (
               <span className={styles.marqueeSpacer} aria-hidden="true" />
             )}
-            {isAuthorOverflowing && isHovered && (
+            {isAuthorOverflowing && shouldAnimateOverflow && (
               <span className={styles.author} aria-hidden="true">{book.author}</span>
             )}
           </div>
         </div>
 
-        {/* Жанр - отдельная строка с бегущей строкой */}
         {book.genre && (
-          <div 
+          <div
             className={styles.metaContainer}
             ref={genreContainerRef}
           >
-            <div 
-              className={`${styles.metaContent} ${isGenreOverflowing && isHovered ? styles.marquee : ''}`}
+            <div
+              className={`${styles.metaContent} ${isGenreOverflowing && shouldAnimateOverflow ? styles.marquee : ''}`}
               ref={genreContentRef}
             >
               <span className={styles.genre}>{book.genre}</span>
-              {isGenreOverflowing && isHovered && (
+              {isGenreOverflowing && shouldAnimateOverflow && (
                 <span className={styles.marqueeSpacer} aria-hidden="true" />
               )}
-              {isGenreOverflowing && isHovered && (
+              {isGenreOverflowing && shouldAnimateOverflow && (
                 <span className={styles.genre} aria-hidden="true">{book.genre}</span>
               )}
             </div>
           </div>
         )}
 
-        {/* Издательство - с бегущей строкой */}
-        <div 
+        <div
           className={styles.metaContainer}
           ref={publisherContainerRef}
         >
-          <div 
-            className={`${styles.metaContent} ${isPublisherOverflowing && isHovered ? styles.marquee : ''}`}
+          <div
+            className={`${styles.metaContent} ${isPublisherOverflowing && shouldAnimateOverflow ? styles.marquee : ''}`}
             ref={publisherContentRef}
           >
             <span>{book.publisher.name}</span>
-            {isPublisherOverflowing && isHovered && (
+            {isPublisherOverflowing && shouldAnimateOverflow && (
               <span className={styles.marqueeSpacer} aria-hidden="true" />
             )}
-            {isPublisherOverflowing && isHovered && (
+            {isPublisherOverflowing && shouldAnimateOverflow && (
               <span aria-hidden="true">{book.publisher.name}</span>
             )}
           </div>
