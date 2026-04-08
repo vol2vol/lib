@@ -13,6 +13,10 @@ Route::prefix('admin')->group(function () {
             Route::apiResource('publishers', App\Http\Controllers\Admin\PublisherController::class);
             Route::apiResource('formats', App\Http\Controllers\Admin\FormatController::class);
 
+            Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index']);
+            Route::get('/users/{id}', [App\Http\Controllers\Admin\UserController::class, 'show']);
+            Route::put('/users/{id}', [App\Http\Controllers\Admin\UserController::class, 'update']);
+            Route::delete('/users/{id}', [App\Http\Controllers\Admin\UserController::class, 'destroy']);
         });
     });
 });

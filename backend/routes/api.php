@@ -9,6 +9,7 @@ use App\Http\Controllers\API\FormatController;
 use App\Http\Controllers\API\BookController;
 use App\Http\Controllers\API\FileController;
 use App\Http\Controllers\API\FavoriteController;
+use App\Http\Controllers\API\UserProfileController;
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
@@ -48,5 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorites/{book}', [FavoriteController::class, 'store']);
     Route::delete('/favorites/{book}', [FavoriteController::class, 'remove']);
+
+    Route::get('/profile', [UserProfileController::class, 'show']);
+    Route::put('/profile', [UserProfileController::class, 'update']);
 });
 
