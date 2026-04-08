@@ -76,7 +76,7 @@ const loadPdfJsModule = async () => {
   ensurePromiseWithResolvers()
 
   if (!pdfJsModulePromise) {
-    pdfJsModulePromise = import('pdfjs-dist/legacy/build/pdf.mjs') as Promise<PdfJsModuleLike>
+    pdfJsModulePromise = import('pdfjs-dist/legacy/build/pdf.mjs') as unknown as Promise<PdfJsModuleLike>
   }
 
   return pdfJsModulePromise

@@ -298,6 +298,7 @@ export const ProfilePage = () => {
                 setError('')
               }}
               onClear={handleClearDraftFilters}
+              onApply={handleSearchSubmit}
             />
           </div>
         ) : null}
