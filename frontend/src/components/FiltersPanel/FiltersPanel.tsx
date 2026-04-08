@@ -21,6 +21,7 @@ type FiltersPanelProps = {
 }
 
 const normalizeYearValue = (value: string) => value.replace(/\D+/g, '').slice(0, 4)
+const CURRENT_YEAR = new Date().getFullYear()
 
 export const FiltersPanel = ({
   authors,
@@ -84,6 +85,7 @@ export const FiltersPanel = ({
 
         <div className={styles.field}>
           <span className={styles.label}>Год публикации</span>
+          <span className={styles.helper}>Необязательно · только 4 цифры · до {CURRENT_YEAR}</span>
 
           <div className={styles.range}>
             <label className={styles.rangeField}>
@@ -91,11 +93,13 @@ export const FiltersPanel = ({
               <input
                 type="text"
                 inputMode="numeric"
+                maxLength={4}
                 className={styles.input}
                 value={yearFrom}
-                placeholder="1900"
+                placeholder="1800"
                 onChange={(event) => onYearFromChange(normalizeYearValue(event.target.value))}
               />
+              <span className={styles.counter}>Символов: {yearFrom.length} / 4</span>
             </label>
 
             <label className={styles.rangeField}>
@@ -103,11 +107,13 @@ export const FiltersPanel = ({
               <input
                 type="text"
                 inputMode="numeric"
+                maxLength={4}
                 className={styles.input}
                 value={yearTo}
-                placeholder="2026"
+                placeholder={String(CURRENT_YEAR)}
                 onChange={(event) => onYearToChange(normalizeYearValue(event.target.value))}
               />
+              <span className={styles.counter}>Символов: {yearTo.length} / 4</span>
             </label>
           </div>
         </div>

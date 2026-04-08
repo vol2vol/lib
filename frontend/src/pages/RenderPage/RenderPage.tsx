@@ -4,6 +4,7 @@ import { getBookFileForReading } from '@api/library'
 import { ApiError } from '@api/http'
 import styles from './RenderPage.module.css'
 import { Header } from '@components/Header/Header'
+import { PdfCanvasViewer } from './PdfCanvasViewer'
 
 type ReaderTheme = 'light' | 'dark'
 type ReaderFileType = 'pdf' | 'txt' | 'fb2' | 'unknown'
@@ -388,7 +389,7 @@ export const RenderPage = () => {
   const [error, setError] = useState('')
   const [fileName, setFileName] = useState('')
   const [fileType, setFileType] = useState<ReaderFileType>('unknown')
-  const [pdfUrl, setPdfUrl] = useState('')
+  const [pdfData, setPdfData] = useState<Uint8Array | null>(null)
   const [txtContent, setTxtContent] = useState('')
   const [fb2Blocks, setFb2Blocks] = useState<Fb2Block[]>([])
   const [theme, setTheme] = useState<ReaderTheme>(getInitialTheme)
@@ -398,14 +399,6 @@ export const RenderPage = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
   const isTextSizeSupported = fileType === 'txt' || fileType === 'fb2'
-
-  useEffect(() => {
-    return () => {
-      if (pdfUrl) {
-        URL.revokeObjectURL(pdfUrl)
-      }
-    }
-  }, [pdfUrl])
 
   useEffect(() => {
     const parsedFileId = Number(fileId)
@@ -428,6 +421,7 @@ export const RenderPage = () => {
         setError('')
         setTxtContent('')
         setFb2Blocks([])
+        setPdfData(null)
 
         const { blob, fileName, contentType } = await getBookFileForReading(parsedFileId, token)
         const nextFileType = detectFileType(fileName, contentType)
@@ -436,26 +430,10 @@ export const RenderPage = () => {
         setFileType(nextFileType)
 
         if (nextFileType === 'pdf') {
-          const nextPdfUrl = URL.createObjectURL(blob)
-
-          setPdfUrl((prev) => {
-            if (prev) {
-              URL.revokeObjectURL(prev)
-            }
-
-            return nextPdfUrl
-          })
-
+          const buffer = await blob.arrayBuffer()
+          setPdfData(new Uint8Array(buffer))
           return
         }
-
-        setPdfUrl((prev) => {
-          if (prev) {
-            URL.revokeObjectURL(prev)
-          }
-
-          return ''
-        })
 
         if (nextFileType === 'txt') {
           const text = await blob.text()
@@ -606,10 +584,8 @@ export const RenderPage = () => {
         {isLoading ? <p className={styles.state}>Загрузка...</p> : null}
         {error ? <p className={styles.error}>{error}</p> : null}
 
-        {!isLoading && !error && fileType === 'pdf' ? (
-          <div className={styles.pdfWrap}>
-            <iframe title={fileName || 'PDF reader'} src={pdfUrl} className={styles.pdfFrame} />
-          </div>
+        {!isLoading && !error && fileType === 'pdf' && pdfData ? (
+          <PdfCanvasViewer fileData={pdfData} fileName={fileName} isDark={theme === 'dark'} />
         ) : null}
 
         {!isLoading && !error && fileType === 'txt' ? (
