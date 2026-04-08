@@ -93,6 +93,10 @@ export const GenrePage = () => {
     void loadBooks()
   }, [genreId, page, perPage, appliedSearch])
 
+  const handleBack = () => {
+    navigate(-1)
+  }
+
   const handleSearchSubmit = () => {
     const normalizedSearch = search.trim()
 
@@ -117,7 +121,7 @@ export const GenrePage = () => {
   return (
     <main className={styles.genrePage}>
       <Header
-        leftVariant="logo"
+        leftVariant="back"
         centerVariant="search"
         rightVariant="profile"
         searchValue={search}
@@ -127,6 +131,7 @@ export const GenrePage = () => {
         }}
         onSearchClick={handleSearchSubmit}
         onProfileClick={() => navigate('/profile')}
+        onBackClick={handleBack}
       />
 
       <section className={styles.container}>
