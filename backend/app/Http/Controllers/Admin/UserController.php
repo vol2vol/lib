@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
@@ -29,13 +30,13 @@ class UserController extends Controller
             return response()->json(['message' => 'Нельзя редактировать самого себя'], 403);
         }
 
-        if ($user->role && $user->role->slug === 'admin') {
+        if ($user->role && $user->role->role_name === 'admin') {
             return response()->json(['message' => 'Нельзя редактировать администратора'], 403);
         }
 
         $request->validate([
             'login' => 'sometimes|string|max:255|unique:users,login,' . $user->user_id . ',user_id',
-            'password' => ['confirmed', Password::defaults()],
+            'password' => ['sometimes', 'confirmed', Rules\Password::defaults()],
             'role_id' => 'sometimes|exists:roles,role_id',
         ]);
 
@@ -67,7 +68,7 @@ class UserController extends Controller
             return response()->json(['message' => 'Нельзя удалить самого себя'], 403);
         }
 
-        if ($user->role && $user->role->slug === 'admin') {
+        if ($user->role && $user->role->role_name === 'admin') {
             return response()->json(['message' => 'Нельзя удалить администратора'], 403);
         }
 
