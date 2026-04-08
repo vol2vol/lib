@@ -65,6 +65,7 @@ type UserFormState = {
   login: string;
   role_id: number;
   password: string;
+  password_confirmation: string;
 }
 
 type AppliedFilters = Pick<
@@ -146,6 +147,7 @@ const initialUserFormState: UserFormState = {
   login: '',
   role_id: 2, // По умолчанию обычный пользователь
   password: '',
+  password_confirmation: '',
 }
 
 const initialFormState: BookFormState = {
@@ -453,6 +455,7 @@ export const AdminPage = () => {
         login: user.login,
         role_id: user.roleId,
         password: '',
+        password_confirmation: ''
       })
       setModalMode('edit')
     } else {
@@ -882,8 +885,10 @@ export const AdminPage = () => {
     const payload: UserFormPayload = {
       login: normalizedLogin,
       role_id: userForm.role_id,
-      ...(modalMode === 'create' && userForm.password && { password: userForm.password }),
+      password: userForm.password,
+      password_confirmation: userForm.password_confirmation,
     }
+    console.log(payload)
 
     try {
       setIsUserSaving(true)
@@ -1550,12 +1555,6 @@ export const AdminPage = () => {
       <div className={styles.listSection}>
         <div className={styles.sectionHeader}>
           <h2>Пользователи ({filteredUsers.length})</h2>
-          <button 
-            className={styles.newButton}
-            onClick={() => openUserModal()}
-          >
-            Добавить
-          </button>
         </div>
         <div className={styles.tableWrap}>
           <table className={styles.table}>
@@ -1645,7 +1644,7 @@ export const AdminPage = () => {
             <span className={styles.fieldHint}>
               {modalMode === 'create' 
                 ? 'Обязательно · минимум 8 символов' 
-                : 'Оставьте пустым, чтобы не менять'}
+                : 'Оставьте пустым, чтобы не менять · минимум 8 символов'}
             </span>
             <input
               className={styles.input}
@@ -1657,6 +1656,28 @@ export const AdminPage = () => {
             />
             <div className={styles.counterRow}>
               <span className={styles.counterText}>Символов: {userForm.password.length} / 255</span>
+            </div>
+          </label>
+
+          <label className={styles.label}>
+            <span className={styles.labelTitle}>
+              {modalMode === 'create' ? 'Подтверждение пароля' : 'Потверждение нового пароля (необязательно)'}
+            </span>
+            <span className={styles.fieldHint}>
+              {modalMode === 'create' 
+                ? 'Обязательно · минимум 8 символов' 
+                : 'Оставьте пустым, чтобы не менять · минимум 8 символов'}
+            </span>
+            <input
+              className={styles.input}
+              type="password"
+              value={userForm.password_confirmation}
+              maxLength={255}
+              onChange={(event) => setUserForm((prev) => ({ ...prev, password_confirmation: event.target.value }))}
+              placeholder={modalMode === 'create' ? 'Введите подтверждение пароля' : 'Оставьте пустым для сохранения текущего'}
+            />
+            <div className={styles.counterRow}>
+              <span className={styles.counterText}>Символов: {userForm.password_confirmation.length} / 255</span>
             </div>
           </label>
 

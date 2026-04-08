@@ -741,6 +741,10 @@ export const updateUser = async (
     formData.append('password', payload.password)
   }
 
+  if (payload.password_confirmation && payload.password_confirmation.trim()) {
+    formData.append('password_confirmation', payload.password_confirmation)
+  }
+
   const response = await fetch(buildUrl(`/admin/users/${userId}`), {
     method: 'PUT',
     headers: createHeaders(token),
