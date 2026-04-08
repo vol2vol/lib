@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -31,6 +32,12 @@ class UserController extends Controller
         if ($user->role && $user->role->slug === 'admin') {
             return response()->json(['message' => 'Нельзя редактировать администратора'], 403);
         }
+
+        $request->validate([
+            'login' => 'sometimes|string|max:255|unique:users,login,' . $user->user_id . ',user_id',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role_id' => 'sometimes|exists:roles,role_id',
+        ]);
 
         if ($request->has('role_id')) {
             $user->role_id = $request->role_id;
