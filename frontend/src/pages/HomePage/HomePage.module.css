@@ -50,6 +50,10 @@
 
 @media (max-width: 700px) {
   .container {
-    padding: 20px 16px 32px;
+    padding: 16px 12px 28px;
+  }
+
+  .section + .section {
+    margin-top: 24px;
   }
 }

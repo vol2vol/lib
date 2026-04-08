@@ -45,16 +45,56 @@
   padding: 32px 24px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 18px;
 }
 
 .label {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
   color: var(--color-text-primary);
   font-size: clamp(22px, 1.8vw, 40px);
   line-height: 1.1;
+}
+
+.metaRow {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.hint {
+  color: rgba(63, 79, 27, 0.75);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+
+.fieldFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 16px;
+  margin-top: 2px;
+}
+
+.fieldFooter > :first-child:empty {
+  display: none;
+}
+
+.counter {
+  margin-left: auto;
+  display: block;
+  text-align: right;
+  color: rgba(63, 79, 27, 0.75);
+  font-size: 15px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.counterWarning {
+  color: #b42318;
 }
 
 .input {
@@ -62,10 +102,20 @@
   height: 44px;
   border: none;
   outline: none;
-  padding: 0 80px 0 12px;
+  padding: 0 92px 0 12px;
   background: #fff;
   color: var(--color-text-primary);
   font-size: 18px;
+}
+
+.helperText {
+  color: rgba(63, 79, 27, 0.78);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.helperWarning {
+  color: #b42318;
 }
 
 .error {
@@ -130,21 +180,6 @@
   cursor: default;
 }
 
-@media (max-width: 768px) {
-  .signUpPage {
-    padding: 24px 16px;
-  }
-
-  .fields {
-    padding: 20px 16px;
-  }
-
-  .back {
-    top: 16px;
-    left: 16px;
-  }
-}
-
 .passwordField {
   position: relative;
   display: flex;
@@ -170,4 +205,23 @@
 
 .inputError {
   outline: 2px solid #d92d20;
+}
+
+@media (max-width: 768px) {
+  .signUpPage {
+    padding: 24px 16px;
+  }
+
+  .fields {
+    padding: 20px 16px;
+  }
+
+  .back {
+    top: 16px;
+    left: 16px;
+  }
+
+  .input {
+    padding-right: 90px;
+  }
 }

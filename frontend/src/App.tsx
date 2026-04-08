@@ -8,13 +8,28 @@ import { GenrePage } from '@pages/GenrePage'
 import { BookPage } from '@pages/BookPage'
 import { RenderPage } from '@pages/RenderPage'
 import { AdminPage } from '@pages/AdminPage'
+import { GuestOnlyRoute } from '@components/GuestOnlyRoute'
 
 export const App = () => {
   return (
     <Routes>
       <Route path="/" element={<EnterPage />} />
-      <Route path="/signup" element={<SignUpPage />} />
-      <Route path="/signin" element={<SignInPage />} />
+      <Route
+        path="/signup"
+        element={
+          <GuestOnlyRoute>
+            <SignUpPage />
+          </GuestOnlyRoute>
+        }
+      />
+      <Route
+        path="/signin"
+        element={
+          <GuestOnlyRoute>
+            <SignInPage />
+          </GuestOnlyRoute>
+        }
+      />
       <Route path="/library" element={<HomePage />} />
       <Route path="/library/genres/:genreId" element={<GenrePage />} />
       <Route path="/library/books/:bookId" element={<BookPage />} />
