@@ -96,7 +96,7 @@ export const FiltersPanel = ({
                 maxLength={4}
                 className={styles.input}
                 value={yearFrom}
-                placeholder="1900"
+                placeholder="1800"
                 onChange={(event) => onYearFromChange(normalizeYearValue(event.target.value))}
               />
               <span className={styles.counter}>Символов: {yearFrom.length} / 4</span>
