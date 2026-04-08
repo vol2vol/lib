@@ -72,7 +72,7 @@ const MAX_COVER_BYTES = 5 * 1024 * 1024
 const MAX_BOOK_FILE_BYTES = 50 * 1024 * 1024
 const AUTHOR_NAME_ALLOWED_PATTERN = /[^A-Za-zА-Яа-яЁё\s'-]/g
 const IMAGE_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'gif'])
-const BOOK_FILE_EXTENSIONS = new Set(['pdf', 'fb2', 'txt', 'xml'])
+const BOOK_FILE_EXTENSIONS = new Set(['pdf', 'fb2', 'txt'])
 
 const normalizeSingleLine = (value: string, maxLength = MAX_TEXT_LENGTH) =>
   value
@@ -109,7 +109,7 @@ const validateBookAttachment = (file: File) => {
   const extension = getFileExtension(file.name)
 
   if (!BOOK_FILE_EXTENSIONS.has(extension)) {
-    return `Файл "${file.name}" должен быть в формате PDF, FB2, TXT или XML`
+    return `Файл "${file.name}" должен быть в формате PDF, FB2 или TXT`
   }
 
   if (file.size > MAX_BOOK_FILE_BYTES) {
@@ -1460,10 +1460,10 @@ export const AdminPage = () => {
             </label>
             <label className={styles.label}>
               <span className={styles.labelTitle}>Файлы книги</span>
-              <span className={styles.fieldHint}>Необязательно · PDF, FB2, TXT, XML · до 50 МБ каждый</span>
+              <span className={styles.fieldHint}>Необязательно · PDF, FB2, TXT · до 50 МБ каждый</span>
               <input
                 type="file"
-                accept=".pdf,.fb2,.txt,.xml"
+                accept=".pdf,.fb2,.txt"
                 className={styles.inputFile}
                 multiple
                 onChange={handleFilesInputChange}
