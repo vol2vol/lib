@@ -174,3 +174,9 @@ export type BookFormPayload = {
   genres: string[]
   publisher: string
 }
+
+export type UserFormPayload = {
+  login: string;
+  role_id: number;
+  password?: string;
+}

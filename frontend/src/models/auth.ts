@@ -26,7 +26,7 @@ export type AuthResponseDto = {
 export type User = {
   id: number
   login: string
-  roleId: number | null
+  roleId: number
   createdAt: string | null
   updatedAt: string | null
 }

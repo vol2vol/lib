@@ -1,3 +1,4 @@
+import type { User, UserDto } from '@models/auth'
 import { buildUrl, createHeaders, parseResponse, ApiError } from './http'
 import type {
   Book,
@@ -20,6 +21,7 @@ import type {
   PublisherFormPayload,
   AuthorFormPayload,
   GenreFormPayload,
+  UserFormPayload,
 } from '@models/library'
 
 const createQueryString = (params?: GetBooksParams | GetFavoritesParams) => {
@@ -97,6 +99,14 @@ const mapGenre = (genre: GenreDto, index: number): Genre => ({
 const mapPublisher = (publisher: PublisherDto, index: number): Publisher => ({
   id: publisher.publisher_id ?? index,
   name: publisher.publisher_name ?? `Издательство ${index + 1}`,
+})
+
+const mapUser = (user: UserDto, index: number): User => ({
+  id: user.user_id ?? index,
+  login: user.login ?? `Логин ${index + 1}`,
+  roleId: user.role_id ?? 1,
+  createdAt: user.created_at ?? `Дата создания ${index + 1}`,
+  updatedAt: user.updated_at ?? `Дата Обновления ${index + 1}`
 })
 
 const getGenreName = (genres?: BookDto['genres']) => {
@@ -254,6 +264,16 @@ export const getAdminPublishers = async (token: string): Promise<Publisher[]> =>
   const data = await parseResponse<{ data: PublisherDto[] } | PublisherDto[]>(response)
   const publishers = Array.isArray(data) ? data : Array.isArray(data.data) ? data.data : []
   return publishers.map(mapPublisher)
+}
+
+export const getAdminUsers = async (token: string): Promise<User[]> => {
+  const response = await fetch(buildUrl('/admin/users'), {
+    headers: createHeaders(token),
+  })
+  
+  const data = await parseResponse<{ data: UserDto[] } | UserDto[]>(response)
+  const users = Array.isArray(data) ? data : Array.isArray(data.data) ? data.data : []
+  return users.map(mapUser)
 }
 
 export const getBooks = async (params?: GetBooksParams): Promise<BooksListResult> => {
@@ -683,6 +703,62 @@ export const deleteBook = async (bookId: number, token: string): Promise<void> =
   })
 
   await parseResponse<void>(response)
+}
+
+export const createUser = async (
+  payload: UserFormPayload,
+  token: string
+): Promise<User> => {
+  const formData = new FormData()
+  formData.append('login', payload.login)
+  formData.append('role_id', String(payload.role_id))
+  
+  if (payload.password) {
+    formData.append('password', payload.password)
+  }
+
+  const response = await fetch(buildUrl('/admin/users'), {
+    method: 'POST',
+    headers: createHeaders(token),
+    body: formData,
+  })
+
+  const data = await parseResponse<UserDto>(response)
+  return mapUser(data, 0)
+}
+
+export const updateUser = async (
+  userId: number,
+  payload: UserFormPayload,
+  token: string
+): Promise<User> => {
+  const formData = new FormData()
+  formData.append('login', payload.login)
+  formData.append('role_id', String(payload.role_id))
+  
+  // Пароль опционален при редактировании
+  if (payload.password && payload.password.trim()) {
+    formData.append('password', payload.password)
+  }
+
+  const response = await fetch(buildUrl(`/admin/users/${userId}`), {
+    method: 'PUT',
+    headers: createHeaders(token),
+    body: formData,
+  })
+
+  const data = await parseResponse<UserDto>(response)
+  return mapUser(data, 0)
+}
+
+export const deleteUser = async (
+  userId: number,
+  token: string
+): Promise<void> => {
+  await fetch(buildUrl(`/admin/users/${userId}`), {
+    method: 'DELETE',
+    headers: createHeaders(token),
+  })
 }
 
 // Интерфейсы для ответов с пагинацией
