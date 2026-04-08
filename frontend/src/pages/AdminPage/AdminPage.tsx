@@ -20,17 +20,21 @@ import {
   updateGenre,
   deleteGenre,
   getBooks,
+  getAdminUsers,
+  updateUser,
+  createUser,
+  deleteUser,
 } from '@api/library'
 import { Header } from '@components/Header'
 import { FiltersPanel } from '@components/FiltersPanel'
 import { Pagination } from '@components/Pagination'
-import type { Book, Genre, Author, Publisher, PublisherFormPayload, AuthorFormPayload, GenreFormPayload, GetBooksParams } from '@models/library'
+import type { Book, Genre, Author, Publisher, PublisherFormPayload, AuthorFormPayload, GenreFormPayload, GetBooksParams, UserFormPayload } from '@models/library'
 import type { BookFormPayload } from '@models/library'
 import type { User } from '@models/auth'
 import styles from './AdminPage.module.css'
 import { Modal } from '@components/Modal/Modal'
 
-type TabType = 'genres' | 'authors' | 'publishers' | 'books'
+type TabType = 'genres' | 'authors' | 'publishers' | 'books' | 'users'
 
 type GenreFormState = {
   name: string;
@@ -55,6 +59,13 @@ type BookFormState = {
   publishedYear: string
   coverFile: File | null
   files: File[]
+}
+
+type UserFormState = {
+  login: string;
+  role_id: number;
+  password: string;
+  password_confirmation: string;
 }
 
 type AppliedFilters = Pick<
@@ -132,6 +143,13 @@ const initialPublisherFormState: PublisherFormState = {
   name: '',
 }
 
+const initialUserFormState: UserFormState = {
+  login: '',
+  role_id: 2, // По умолчанию обычный пользователь
+  password: '',
+  password_confirmation: '',
+}
+
 const initialFormState: BookFormState = {
   title: '',
   description: '',
@@ -151,6 +169,7 @@ export const AdminPage = () => {
   const [genres, setGenres] = useState<Genre[]>([])
   const [publishers, setPublishers] = useState<Publisher[]>([])
   const [books, setBooks] = useState<Book[]>([])
+  const [users, setUsers] = useState<User[]>([])
   
   // Фильтры для книг
   const [search, setSearch] = useState('')
@@ -173,9 +192,11 @@ export const AdminPage = () => {
   const [selectedAuthor, setSelectedAuthor] = useState<Author | null>(null)
   const [selectedPublisher, setSelectedPublisher] = useState<Publisher | null>(null)
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [genreForm, setGenreForm] = useState<GenreFormState>(initialGenreFormState)
   const [authorForm, setAuthorForm] = useState<AuthorFormState>(initialAuthorFormState)
   const [publisherForm, setPublisherForm] = useState<PublisherFormState>(initialPublisherFormState)
+  const [userForm, setUserForm] = useState<UserFormState>(initialUserFormState)
   const [form, setForm] = useState<BookFormState>(initialFormState)
   const [error, setError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
@@ -183,6 +204,7 @@ export const AdminPage = () => {
   const [isGenreSaving, setIsGenreSaving] = useState(false)
   const [isAuthorSaving, setIsAuthorSaving] = useState(false)
   const [isPublisherSaving, setIsPublisherSaving] = useState(false)
+  const [isUserSaving, setIsUserSaving] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [isLookupsLoading, setIsLookupsLoading] = useState(true)
 
@@ -190,6 +212,7 @@ export const AdminPage = () => {
   const [isAuthorModalOpen, setIsAuthorModalOpen] = useState(false);
   const [isPublisherModalOpen, setIsPublisherModalOpen] = useState(false);
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false)
   const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
 
   const token = localStorage.getItem('token')
@@ -199,14 +222,16 @@ export const AdminPage = () => {
     
     try {
       setIsLookupsLoading(true)
-      const [genresData, authorsData, publishersData] = await Promise.all([
+      const [genresData, authorsData, publishersData, usersData] = await Promise.all([
         getAdminGenres(token),
         getAdminAuthors(token),
         getAdminPublishers(token),
+        getAdminUsers(token)
       ])
       setGenres(genresData)
       setAuthors(authorsData)
       setPublishers(publishersData)
+      setUsers(usersData)
     } catch (err) {
       console.error('Error loading lookups:', err)
     } finally {
@@ -423,11 +448,30 @@ export const AdminPage = () => {
     setIsBookModalOpen(true);
   };
 
+  const openUserModal = (user?: User) => {
+    if (user) {
+      setSelectedUser(user)
+      setUserForm({
+        login: user.login,
+        role_id: user.roleId,
+        password: '',
+        password_confirmation: ''
+      })
+      setModalMode('edit')
+    } else {
+      setSelectedUser(null)
+      setUserForm(initialUserFormState)
+      setModalMode('create')
+    }
+    setIsUserModalOpen(true)
+  }
+  
   const closeAllModals = () => {
     setIsGenreModalOpen(false);
     setIsAuthorModalOpen(false);
     setIsPublisherModalOpen(false);
     setIsBookModalOpen(false);
+    setIsUserModalOpen(false)
     setError('');
     setSuccessMessage('');
   };
@@ -439,6 +483,7 @@ export const AdminPage = () => {
     setSelectedAuthor(null)
     setSelectedPublisher(null)
     setSelectedBook(null)
+    setSelectedUser(null)
     setError('')
     setSuccessMessage('')
     setValidationError('')
@@ -446,6 +491,7 @@ export const AdminPage = () => {
     setGenreForm(initialGenreFormState)
     setAuthorForm(initialAuthorFormState)
     setPublisherForm(initialPublisherFormState)
+    setUserForm(initialUserFormState)
     setForm(initialFormState)
     
     // Если переключаемся на вкладку книг, загружаем их
@@ -519,14 +565,14 @@ export const AdminPage = () => {
   }
 
   // Простой поиск для других вкладок (по названию)
-  const filterBySearch = <T extends { name?: string; fullName?: string }>(
+  const filterBySearch = <T extends { login?: string, name?: string; fullName?: string }>(
     items: T[],
     searchTerm: string
   ): T[] => {
     if (!searchTerm.trim()) return items
     const query = searchTerm.trim().toLowerCase()
     return items.filter(item => {
-      const name = (item.name || item.fullName || '').toLowerCase()
+      const name = (item.login || item.name || item.fullName || '').toLowerCase()
       return name.includes(query)
     })
   }
@@ -545,6 +591,11 @@ export const AdminPage = () => {
     if (activeTab !== 'publishers') return publishers
     return filterBySearch(publishers, search)
   }, [publishers, search, activeTab])
+
+  const filteredUsers = useMemo(() => {
+    if (activeTab !== 'users') return users
+    return filterBySearch(users, search)
+  }, [users, search, activeTab])
 
   const handleDelete = async (bookId: number) => {
     if (!ensureAdminAccess()) return
@@ -614,6 +665,27 @@ export const AdminPage = () => {
       setSuccessMessage('')
       await deletePublisher(publisherId, token)
       setSuccessMessage('Издательство успешно удалено.')
+      await loadLookups()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Произошла ошибка при удалении')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleDeleteUser = async (userId: number) => {
+    if (!ensureAdminAccess()) return
+    if (!token) return
+    
+    const userToDelete = users.find(u => u.id === userId)
+    if (!window.confirm(`Удалить пользователя "${userToDelete?.login}"?`)) return
+
+    try {
+      setIsLoading(true)
+      setError('')
+      setSuccessMessage('')
+      await deleteUser(userId, token)
+      setSuccessMessage('Пользователь успешно удалён.')
       await loadLookups()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Произошла ошибка при удалении')
@@ -769,6 +841,76 @@ export const AdminPage = () => {
       setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
     } finally {
       setIsPublisherSaving(false)
+    }
+  }
+
+  const handleSubmitUser = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!ensureAdminAccess()) return
+    if (!token) return
+
+    const normalizedLogin = userForm.login.trim()
+
+    if (!normalizedLogin) {
+      setError('Логин обязателен')
+      return
+    }
+
+    if (normalizedLogin.length < 1) {
+      setError('Логин должен содержать минимум 1 символ')
+      return
+    }
+
+    if (modalMode === 'create' && !userForm.password) {
+      setError('Пароль обязателен при создании пользователя')
+      return
+    }
+
+    if (userForm.password && userForm.password.length < 6) {
+      setError('Пароль должен содержать минимум 6 символов')
+      return
+    }
+
+    // Проверка на дубликат логина
+    const hasLoginDuplicate = users.some((u) => {
+      if (selectedUser && u.id === selectedUser.id) return false
+      return u.login.toLowerCase() === normalizedLogin.toLowerCase()
+    })
+
+    if (hasLoginDuplicate) {
+      setError('Пользователь с таким логином уже существует')
+      return
+    }
+
+    const payload: UserFormPayload = {
+      login: normalizedLogin,
+      role_id: userForm.role_id,
+      password: userForm.password,
+      password_confirmation: userForm.password_confirmation,
+    }
+    console.log(payload)
+
+    try {
+      setIsUserSaving(true)
+      setError('')
+      setSuccessMessage('')
+      
+      if (selectedUser) {
+        await updateUser(selectedUser.id, payload, token)
+        setSuccessMessage('Пользователь успешно обновлён.')
+      } else {
+        await createUser(payload, token)
+        setSuccessMessage('Пользователь успешно создан.')
+      }
+      
+      setUserForm(initialUserFormState)
+      setSelectedUser(null)
+      await loadLookups() // Перезагружаем список пользователей
+      closeAllModals()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
+    } finally {
+      setIsUserSaving(false)
     }
   }
 
@@ -1408,6 +1550,145 @@ export const AdminPage = () => {
     )
   }
 
+  const renderUsersTab = () => (
+    <div className={styles.tabContent}>
+      <div className={styles.listSection}>
+        <div className={styles.sectionHeader}>
+          <h2>Пользователи ({filteredUsers.length})</h2>
+        </div>
+        <div className={styles.tableWrap}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>Логин</th>
+                <th>Роль</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredUsers.map((u) => (
+                <tr key={u.id}>
+                  <td data-label="Логин">{u.login}</td>
+                  <td data-label="Роль">
+                    {u.roleId === 1 ? 'Администратор' : 'Пользователь'}
+                  </td>
+                  <td data-label="Действия" className={styles.actionsCell}>
+                    <button
+                      className={styles.actionButton}
+                      type="button"
+                      onClick={() => openUserModal(u)}
+                    >
+                      Редактировать
+                    </button>
+                    <button
+                      className={styles.actionButtonDanger}
+                      type="button"
+                      onClick={() => handleDeleteUser(u.id)}
+                      disabled={u.id === user?.id} // Защита от удаления себя
+                    >
+                      Удалить
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <Modal
+        isOpen={isUserModalOpen}
+        onClose={closeAllModals}
+        title={modalMode === 'create' ? 'Добавление пользователя' : 'Редактирование пользователя'}
+      >
+        <form className={styles.form} onSubmit={handleSubmitUser}>
+          <label className={styles.label}>
+            <span className={styles.labelTitle}>Логин</span>
+            <span className={styles.fieldHint}>Обязательно · минимум 1 символ</span>
+            <input
+              className={styles.input}
+              value={userForm.login}
+              maxLength={255}
+              onChange={(event) => {
+                const value = event.target.value.replace(/[^\w.@+-]/g, '')
+                setUserForm((prev) => ({ ...prev, login: value }))
+              }}
+              autoFocus
+              placeholder="Введите логин"
+            />
+            <div className={styles.counterRow}>
+              <span className={styles.counterText}>Символов: {userForm.login.length} / 255</span>
+            </div>
+          </label>
+
+          <label className={styles.label}>
+            <span className={styles.labelTitle}>Роль</span>
+            <span className={styles.fieldHint}>Выберите роль пользователя</span>
+            <select
+              className={styles.select}
+              value={userForm.role_id}
+              onChange={(event) => setUserForm((prev) => ({ 
+                ...prev, 
+                role_id: Number(event.target.value) 
+              }))}
+            >
+              <option value={2}>Пользователь</option>
+              <option value={1}>Администратор</option>
+            </select>
+          </label>
+
+          <label className={styles.label}>
+            <span className={styles.labelTitle}>
+              {modalMode === 'create' ? 'Пароль' : 'Новый пароль (необязательно)'}
+            </span>
+            <span className={styles.fieldHint}>
+              {modalMode === 'create' 
+                ? 'Обязательно · минимум 8 символов' 
+                : 'Оставьте пустым, чтобы не менять · минимум 8 символов'}
+            </span>
+            <input
+              className={styles.input}
+              type="password"
+              value={userForm.password}
+              maxLength={255}
+              onChange={(event) => setUserForm((prev) => ({ ...prev, password: event.target.value }))}
+              placeholder={modalMode === 'create' ? 'Введите пароль' : 'Оставьте пустым для сохранения текущего'}
+            />
+            <div className={styles.counterRow}>
+              <span className={styles.counterText}>Символов: {userForm.password.length} / 255</span>
+            </div>
+          </label>
+
+          <label className={styles.label}>
+            <span className={styles.labelTitle}>
+              {modalMode === 'create' ? 'Подтверждение пароля' : 'Потверждение нового пароля (необязательно)'}
+            </span>
+            <span className={styles.fieldHint}>
+              {modalMode === 'create' 
+                ? 'Обязательно · минимум 8 символов' 
+                : 'Оставьте пустым, чтобы не менять · минимум 8 символов'}
+            </span>
+            <input
+              className={styles.input}
+              type="password"
+              value={userForm.password_confirmation}
+              maxLength={255}
+              onChange={(event) => setUserForm((prev) => ({ ...prev, password_confirmation: event.target.value }))}
+              placeholder={modalMode === 'create' ? 'Введите подтверждение пароля' : 'Оставьте пустым для сохранения текущего'}
+            />
+            <div className={styles.counterRow}>
+              <span className={styles.counterText}>Символов: {userForm.password_confirmation.length} / 255</span>
+            </div>
+          </label>
+
+          <button className={styles.saveButton} type="submit" disabled={isUserSaving}>
+            {isUserSaving ? 'Сохранение...' : modalMode === 'create' ? 'Создать' : 'Сохранить'}
+          </button>
+        </form>
+      </Modal>
+    </div>
+  )
+
   const isLoadingPage = isLoading || (activeTab === 'books' && isBooksLoading) || (activeTab !== 'books' && isLookupsLoading)
 
   return (
@@ -1460,12 +1741,19 @@ export const AdminPage = () => {
           >
             Издательства
           </button>
+          <button
+            className={`${styles.tab} ${activeTab === 'users' ? styles.activeTab : ''}`}
+            onClick={() => handleTabChange('users')}
+          >
+            Пользователи
+          </button>
         </div>
 
         {activeTab === 'books' && renderBooksTab()}
         {activeTab === 'authors' && renderAuthorsTab()}
         {activeTab === 'genres' && renderGenresTab()}
         {activeTab === 'publishers' && renderPublishersTab()}
+        {activeTab === 'users' && renderUsersTab()}
       </section>
     </main>
   )

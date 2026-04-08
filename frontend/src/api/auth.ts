@@ -16,7 +16,7 @@ const mapUser = (user?: UserDto | null): User | null => {
   return {
     id: user.user_id ?? 0,
     login: user.login ?? '',
-    roleId: user.role_id ?? null,
+    roleId: user.role_id ?? 0,
     createdAt: user.created_at ?? null,
     updatedAt: user.updated_at ?? null,
   }
