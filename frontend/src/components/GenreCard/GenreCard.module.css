@@ -22,4 +22,17 @@
   color: var(--color-text-primary);
   font-size: clamp(18px, 1.4vw, 26px);
   line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .genreCard {
+    min-height: 92px;
+    padding: 12px;
+  }
+
+  .title {
+    font-size: 16px;
+    line-height: 1.15;
+  }
 }

@@ -63,6 +63,60 @@ type AppliedFilters = Pick<
 >
 
 const DEFAULT_PER_PAGE = 15
+const MAX_TEXT_LENGTH = 255
+const MAX_SEARCH_LENGTH = 100
+const MIN_BOOK_YEAR = 1800
+const CURRENT_YEAR = new Date().getFullYear()
+const MAX_COVER_BYTES = 5 * 1024 * 1024
+const MAX_BOOK_FILE_BYTES = 50 * 1024 * 1024
+const AUTHOR_NAME_ALLOWED_PATTERN = /[^A-Za-zА-Яа-яЁё\s'-]/g
+const IMAGE_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'gif'])
+const BOOK_FILE_EXTENSIONS = new Set(['pdf', 'fb2', 'txt'])
+
+const normalizeSingleLine = (value: string, maxLength = MAX_TEXT_LENGTH) =>
+  value
+    .replace(/[\r\n\t]+/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/^\s+/, '')
+    .slice(0, maxLength)
+
+const normalizeAuthorInput = (value: string) =>
+  normalizeSingleLine(value).replace(AUTHOR_NAME_ALLOWED_PATTERN, '')
+
+const normalizeSearchInput = (value: string) =>
+  value.replace(/[\r\n\t]+/g, ' ').slice(0, MAX_SEARCH_LENGTH)
+
+const normalizeYearInput = (value: string) => value.replace(/\D+/g, '').slice(0, 4)
+
+const getFileExtension = (fileName: string) => fileName.split('.').pop()?.toLowerCase() ?? ''
+
+const validateCoverFile = (file: File) => {
+  const extension = getFileExtension(file.name)
+
+  if (!IMAGE_EXTENSIONS.has(extension)) {
+    return 'Обложка должна быть в формате JPG, JPEG, PNG или GIF'
+  }
+
+  if (file.size > MAX_COVER_BYTES) {
+    return 'Размер обложки не должен превышать 5 МБ'
+  }
+
+  return ''
+}
+
+const validateBookAttachment = (file: File) => {
+  const extension = getFileExtension(file.name)
+
+  if (!BOOK_FILE_EXTENSIONS.has(extension)) {
+    return `Файл "${file.name}" должен быть в формате PDF, FB2 или TXT`
+  }
+
+  if (file.size > MAX_BOOK_FILE_BYTES) {
+    return `Файл "${file.name}" превышает лимит 50 МБ`
+  }
+
+  return ''
+}
 
 const initialGenreFormState: GenreFormState = {
   name: '',
@@ -242,6 +296,60 @@ export const AdminPage = () => {
       return false
     }
     return true
+  }
+
+  const handleCoverInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null
+
+    if (!file) {
+      setForm((prev) => ({ ...prev, coverFile: null }))
+      return
+    }
+
+    const validationMessage = validateCoverFile(file)
+
+    if (validationMessage) {
+      event.target.value = ''
+      setForm((prev) => ({ ...prev, coverFile: null }))
+      setError(validationMessage)
+      return
+    }
+
+    setError('')
+    setForm((prev) => ({ ...prev, coverFile: file }))
+  }
+
+  const handleFilesInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = event.target.files ? Array.from(event.target.files) : []
+
+    if (selectedFiles.length === 0) {
+      setForm((prev) => ({ ...prev, files: [] }))
+      return
+    }
+
+    const validFiles: File[] = []
+    let firstError = ''
+
+    selectedFiles.forEach((file) => {
+      const validationMessage = validateBookAttachment(file)
+
+      if (validationMessage) {
+        if (!firstError) {
+          firstError = validationMessage
+        }
+        return
+      }
+
+      validFiles.push(file)
+    })
+
+    if (firstError) {
+      setError(firstError)
+    } else {
+      setError('')
+    }
+
+    setForm((prev) => ({ ...prev, files: validFiles }))
   }
 
   // Функции для открытия модальных окон
@@ -519,13 +627,29 @@ export const AdminPage = () => {
     if (!ensureAdminAccess()) return
     if (!token) return
 
-    if (!genreForm.name.trim()) {
+    const normalizedName = genreForm.name.trim()
+
+    if (!normalizedName) {
       setError('Название жанра обязательно')
       return
     }
 
+    const normalizedGenreKey = normalizedName.toLocaleLowerCase('ru-RU')
+    const hasGenreDuplicate = genres.some((genre) => {
+      if (selectedGenre && genre.id === selectedGenre.id) {
+        return false
+      }
+
+      return genre.name.trim().toLocaleLowerCase('ru-RU') === normalizedGenreKey
+    })
+
+    if (hasGenreDuplicate) {
+      setError('Жанр с таким названием уже существует')
+      return
+    }
+
     const payload: GenreFormPayload = {
-      genre_name: genreForm.name.trim(),
+      genre_name: normalizedName,
     }
 
     try {
@@ -555,19 +679,23 @@ export const AdminPage = () => {
     if (!ensureAdminAccess()) return
     if (!token) return
 
-    if (!authorForm.first_name.trim()) {
+    const normalizedFirstName = authorForm.first_name.trim()
+    const normalizedMiddleName = authorForm.middle_name ? authorForm.middle_name.trim() : ''
+    const normalizedLastName = authorForm.last_name.trim()
+
+    if (!normalizedFirstName) {
       setError('Имя обязательно')
       return
     }
-    if (!authorForm.last_name.trim()) {
+    if (!normalizedLastName) {
       setError('Фамилия обязательна')
       return
     }
 
     const payload: AuthorFormPayload = {
-      first_name: authorForm.first_name.trim(),
-      middle_name: authorForm.middle_name ? authorForm.middle_name.trim() : null,
-      last_name: authorForm.last_name.trim(),
+      first_name: normalizedFirstName,
+      middle_name: normalizedMiddleName || null,
+      last_name: normalizedLastName,
     }
 
     try {
@@ -597,13 +725,29 @@ export const AdminPage = () => {
     if (!ensureAdminAccess()) return
     if (!token) return
 
-    if (!publisherForm.name.trim()) {
+    const normalizedName = publisherForm.name.trim()
+
+    if (!normalizedName) {
       setError('Название издательства обязательно')
       return
     }
 
+    const normalizedPublisherKey = normalizedName.toLocaleLowerCase('ru-RU')
+    const hasPublisherDuplicate = publishers.some((publisher) => {
+      if (selectedPublisher && publisher.id === selectedPublisher.id) {
+        return false
+      }
+
+      return publisher.name.trim().toLocaleLowerCase('ru-RU') === normalizedPublisherKey
+    })
+
+    if (hasPublisherDuplicate) {
+      setError('Издательство с таким названием уже существует')
+      return
+    }
+
     const payload: PublisherFormPayload = {
-      publisher_name: publisherForm.name.trim(),
+      publisher_name: normalizedName,
     }
 
     try {
@@ -633,12 +777,29 @@ export const AdminPage = () => {
     if (!ensureAdminAccess()) return
     if (!token) return
 
-    if (!form.title.trim()) {
+    const normalizedTitle = form.title.trim()
+    const normalizedDescription = form.description.trim()
+    const normalizedYear = normalizeYearInput(form.publishedYear)
+    const numericYear = normalizedYear ? Number(normalizedYear) : NaN
+
+    if (!normalizedTitle) {
       setError('Название книги обязательно')
+      return
+    }
+    if (!normalizedDescription) {
+      setError('Описание книги обязательно')
       return
     }
     if (form.authors.length === 0) {
       setError('Укажите хотя бы одного автора')
+      return
+    }
+    if (!form.publisher) {
+      setError('Выберите издательство')
+      return
+    }
+    if (!normalizedYear || Number.isNaN(numericYear) || numericYear < MIN_BOOK_YEAR || numericYear > CURRENT_YEAR) {
+      setError(`Год издания должен быть в диапазоне ${MIN_BOOK_YEAR}–${CURRENT_YEAR}`)
       return
     }
     if (form.genres.length === 0) {
@@ -647,9 +808,9 @@ export const AdminPage = () => {
     }
 
     const payload: BookFormPayload = {
-      book_title: form.title.trim(),
-      description: form.description.trim(),
-      published_year: form.publishedYear ? Number(form.publishedYear) : undefined,
+      book_title: normalizedTitle,
+      description: normalizedDescription,
+      published_year: numericYear,
       authors: form.authors,
       genres: form.genres,
       publisher: form.publisher.trim(),
@@ -700,8 +861,8 @@ export const AdminPage = () => {
             <tbody>
               {filteredGenres.map((genre) => (
                 <tr key={genre.id}>
-                  <td>{genre.name}</td>
-                  <td>
+                  <td data-label="Название">{genre.name}</td>
+                  <td data-label="Действия" className={styles.actionsCell}>
                     <button
                       className={styles.actionButton}
                       type="button"
@@ -731,13 +892,18 @@ export const AdminPage = () => {
       >
         <form className={styles.form} onSubmit={handleSubmitGenre}>
           <label className={styles.label}>
-            Название
+            <span className={styles.labelTitle}>Название</span>
+            <span className={styles.fieldHint}>Обязательно · до 255 символов</span>
             <input
               className={styles.input}
               value={genreForm.name}
-              onChange={(event) => setGenreForm((prev) => ({ ...prev, name: event.target.value }))}
+              maxLength={MAX_TEXT_LENGTH}
+              onChange={(event) => setGenreForm((prev) => ({ ...prev, name: normalizeSingleLine(event.target.value) }))}
               autoFocus
             />
+            <div className={styles.counterRow}>
+              <span className={styles.counterText}>Символов: {genreForm.name.length} / {MAX_TEXT_LENGTH}</span>
+            </div>
           </label>
           <button className={styles.saveButton} type="submit" disabled={isGenreSaving}>
             {isGenreSaving ? 'Сохранение...' : modalMode === 'create' ? 'Добавить' : 'Сохранить'}
@@ -770,8 +936,8 @@ export const AdminPage = () => {
             <tbody>
               {filteredAuthors.map((author) => (
                 <tr key={author.id}>
-                  <td>{author.fullName}</td>
-                  <td>
+                  <td data-label="ФИО">{author.fullName}</td>
+                  <td data-label="Действия" className={styles.actionsCell}>
                     <button
                       className={styles.actionButton}
                       type="button"
@@ -801,29 +967,44 @@ export const AdminPage = () => {
       >
         <form className={styles.form} onSubmit={handleSubmitAuthor}>
           <label className={styles.label}>
-            Имя
+            <span className={styles.labelTitle}>Имя</span>
+            <span className={styles.fieldHint}>Обязательно · буквы, пробел, дефис</span>
             <input
               className={styles.input}
               value={authorForm.first_name}
-              onChange={(event) => setAuthorForm((prev) => ({ ...prev, first_name: event.target.value }))}
+              maxLength={MAX_TEXT_LENGTH}
+              onChange={(event) => setAuthorForm((prev) => ({ ...prev, first_name: normalizeAuthorInput(event.target.value) }))}
               autoFocus
             />
+            <div className={styles.counterRow}>
+              <span className={styles.counterText}>Символов: {authorForm.first_name.length} / {MAX_TEXT_LENGTH}</span>
+            </div>
           </label>
           <label className={styles.label}>
-            Отчество
+            <span className={styles.labelTitle}>Отчество</span>
+            <span className={styles.fieldHint}>Необязательно · буквы, пробел, дефис</span>
             <input
               className={styles.input}
               value={authorForm.middle_name || ''}
-              onChange={(event) => setAuthorForm((prev) => ({ ...prev, middle_name: event.target.value }))}
+              maxLength={MAX_TEXT_LENGTH}
+              onChange={(event) => setAuthorForm((prev) => ({ ...prev, middle_name: normalizeAuthorInput(event.target.value) }))}
             />
+            <div className={styles.counterRow}>
+              <span className={styles.counterText}>Символов: {(authorForm.middle_name || '').length} / {MAX_TEXT_LENGTH}</span>
+            </div>
           </label>
           <label className={styles.label}>
-            Фамилия
+            <span className={styles.labelTitle}>Фамилия</span>
+            <span className={styles.fieldHint}>Обязательно · буквы, пробел, дефис</span>
             <input
               className={styles.input}
               value={authorForm.last_name}
-              onChange={(event) => setAuthorForm((prev) => ({ ...prev, last_name: event.target.value }))}
+              maxLength={MAX_TEXT_LENGTH}
+              onChange={(event) => setAuthorForm((prev) => ({ ...prev, last_name: normalizeAuthorInput(event.target.value) }))}
             />
+            <div className={styles.counterRow}>
+              <span className={styles.counterText}>Символов: {authorForm.last_name.length} / {MAX_TEXT_LENGTH}</span>
+            </div>
           </label>
           <button className={styles.saveButton} type="submit" disabled={isAuthorSaving}>
             {isAuthorSaving ? 'Сохранение...' : modalMode === 'create' ? 'Добавить' : 'Сохранить'}
@@ -856,8 +1037,8 @@ export const AdminPage = () => {
             <tbody>
               {filteredPublishers.map((publisher) => (
                 <tr key={publisher.id}>
-                  <td>{publisher.name}</td>
-                  <td>
+                  <td data-label="Название">{publisher.name}</td>
+                  <td data-label="Действия" className={styles.actionsCell}>
                     <button
                       className={styles.actionButton}
                       type="button"
@@ -887,13 +1068,18 @@ export const AdminPage = () => {
       >
         <form className={styles.form} onSubmit={handleSubmitPublisher}>
           <label className={styles.label}>
-            Название
+            <span className={styles.labelTitle}>Название</span>
+            <span className={styles.fieldHint}>Обязательно · до 255 символов</span>
             <input
               className={styles.input}
               value={publisherForm.name}
-              onChange={(event) => setPublisherForm((prev) => ({ ...prev, name: event.target.value }))}
+              maxLength={MAX_TEXT_LENGTH}
+              onChange={(event) => setPublisherForm((prev) => ({ ...prev, name: normalizeSingleLine(event.target.value) }))}
               autoFocus
             />
+            <div className={styles.counterRow}>
+              <span className={styles.counterText}>Символов: {publisherForm.name.length} / {MAX_TEXT_LENGTH}</span>
+            </div>
           </label>
           <button className={styles.saveButton} type="submit" disabled={isPublisherSaving}>
             {isPublisherSaving ? 'Сохранение...' : modalMode === 'create' ? 'Добавить' : 'Сохранить'}
@@ -939,6 +1125,7 @@ export const AdminPage = () => {
                 setValidationError('')
               }}
               onClear={handleClearDraftFilters}
+              onApply={handleSearchSubmit}
             />
           </div>
         )}
@@ -983,13 +1170,13 @@ export const AdminPage = () => {
                 <tbody>
                   {books.map((book) => (
                     <tr key={book.id}>
-                      <td>{book.title}</td>
-                      <td>{book.author}</td>
-                      <td>{book.genre}</td>
-                      <td>{book.publisher.name}</td>
-                      <td>{book.publishedYear ?? ''}</td>
-                      <td>{book.filesCount}</td>
-                      <td>
+                      <td data-label="Название">{book.title}</td>
+                      <td data-label="Автор">{book.author}</td>
+                      <td data-label="Жанр">{book.genre}</td>
+                      <td data-label="Издательство">{book.publisher.name}</td>
+                      <td data-label="Год">{book.publishedYear ?? ''}</td>
+                      <td data-label="Файлы">{book.filesCount}</td>
+                      <td data-label="Действия" className={styles.actionsCell}>
                         <button
                           className={styles.actionButton}
                           type="button"
@@ -1021,15 +1208,21 @@ export const AdminPage = () => {
         >
           <form className={styles.form} onSubmit={handleSubmit}>
             <label className={styles.label}>
-              Название
+              <span className={styles.labelTitle}>Название</span>
+              <span className={styles.fieldHint}>Обязательно · до 255 символов</span>
               <input
                 className={styles.input}
                 value={form.title}
-                onChange={(event) => setForm((prev) => ({ ...prev, title: event.target.value }))}
+                maxLength={MAX_TEXT_LENGTH}
+                onChange={(event) => setForm((prev) => ({ ...prev, title: normalizeSingleLine(event.target.value) }))}
               />
+              <div className={styles.counterRow}>
+                <span className={styles.counterText}>Символов: {form.title.length} / {MAX_TEXT_LENGTH}</span>
+              </div>
             </label>
             <label className={styles.label}>
-              Описание
+              <span className={styles.labelTitle}>Описание</span>
+              <span className={styles.fieldHint}>Обязательно</span>
               <textarea
                 className={styles.textarea}
                 value={form.description}
@@ -1037,9 +1230,13 @@ export const AdminPage = () => {
                   setForm((prev) => ({ ...prev, description: event.target.value }))
                 }
               />
+              <div className={styles.counterRow}>
+                <span className={styles.counterText}>Символов: {form.description.length}</span>
+              </div>
             </label>
             <label className={styles.label}>
-              Авторы
+              <span className={styles.labelTitle}>Авторы</span>
+              <span className={styles.fieldHint}>Обязательно · выберите хотя бы одного автора</span>
               <div className={styles.genresContainer}>
                 <select
                   className={styles.select}
@@ -1082,9 +1279,13 @@ export const AdminPage = () => {
                   })}
                 </div>
               </div>
+              <div className={styles.counterRow}>
+                <span className={styles.counterText}>Выбрано авторов: {form.authors.length}</span>
+              </div>
             </label>
             <label className={styles.label}>
-              Издательство
+              <span className={styles.labelTitle}>Издательство</span>
+              <span className={styles.fieldHint}>Обязательно</span>
               <div className={styles.genresContainer}>
                 <select
                   className={styles.select}
@@ -1101,20 +1302,30 @@ export const AdminPage = () => {
                   ))}
                 </select>
               </div>
+              <div className={styles.counterRow}>
+                <span className={styles.counterText}>{form.publisher ? 'Издательство выбрано' : 'Издательство не выбрано'}</span>
+              </div>
             </label>
             <label className={styles.label}>
-              Год издания
+              <span className={styles.labelTitle}>Год издания</span>
+              <span className={styles.fieldHint}>Обязательно · только 4 цифры · {MIN_BOOK_YEAR}–{CURRENT_YEAR}</span>
               <input
                 className={styles.input}
-                type="number"
+                type="text"
+                inputMode="numeric"
+                maxLength={4}
                 value={form.publishedYear}
                 onChange={(event) =>
-                  setForm((prev) => ({ ...prev, publishedYear: event.target.value }))
+                  setForm((prev) => ({ ...prev, publishedYear: normalizeYearInput(event.target.value) }))
                 }
               />
+              <div className={styles.counterRow}>
+                <span className={styles.counterText}>Символов: {form.publishedYear.length} / 4</span>
+              </div>
             </label>
             <label className={styles.label}>
-              Жанры
+              <span className={styles.labelTitle}>Жанры</span>
+              <span className={styles.fieldHint}>Обязательно · выберите хотя бы один жанр</span>
               <div className={styles.genresContainer}>
                 <select
                   className={styles.select}
@@ -1157,31 +1368,36 @@ export const AdminPage = () => {
                   })}
                 </div>
               </div>
+              <div className={styles.counterRow}>
+                <span className={styles.counterText}>Выбрано жанров: {form.genres.length}</span>
+              </div>
             </label>
             <label className={styles.label}>
-              Обложка (опция)
+              <span className={styles.labelTitle}>Обложка</span>
+              <span className={styles.fieldHint}>Необязательно · JPG, JPEG, PNG, GIF · до 5 МБ</span>
               <input
                 type="file"
-                accept="image/*"
+                accept=".jpg,.jpeg,.png,.gif,image/jpeg,image/png,image/gif"
                 className={styles.inputFile}
-                onChange={(event) => {
-                  const file = event.target.files?.[0] ?? null
-                  setForm((prev) => ({ ...prev, coverFile: file }))
-                }}
+                onChange={handleCoverInputChange}
               />
+              <div className={styles.counterRow}>
+                <span className={styles.counterText}>{form.coverFile ? `Выбран файл: ${form.coverFile.name}` : 'Файл не выбран'}</span>
+              </div>
             </label>
             <label className={styles.label}>
-              Прикрепить файл(ы) (pdf, fb2, txt)
+              <span className={styles.labelTitle}>Файлы книги</span>
+              <span className={styles.fieldHint}>Необязательно · PDF, FB2, TXT · до 50 МБ каждый</span>
               <input
                 type="file"
                 accept=".pdf,.fb2,.txt"
                 className={styles.inputFile}
                 multiple
-                onChange={(event) => {
-                  const files = event.target.files ? Array.from(event.target.files) : []
-                  setForm((prev) => ({ ...prev, files }))
-                }}
+                onChange={handleFilesInputChange}
               />
+              <div className={styles.counterRow}>
+                <span className={styles.counterText}>Выбрано файлов: {form.files.length}</span>
+              </div>
             </label>
             <button className={styles.saveButton} type="submit" disabled={isSaving}>
               {isSaving ? 'Сохранение...' : selectedBook ? 'Сохранить' : 'Добавить'}
@@ -1202,7 +1418,7 @@ export const AdminPage = () => {
         rightVariant="profile"
         searchValue={search}
         onSearchChange={(value) => {
-          setSearch(value)
+          setSearch(normalizeSearchInput(value))
           setValidationError('')
         }}
         onSearchClick={activeTab === 'books' ? handleSearchSubmit : () => {

@@ -91,6 +91,7 @@
   .wrapper {
     align-items: stretch;
     flex-direction: column;
+    gap: 12px;
   }
 
   .metaBlock,
@@ -98,7 +99,69 @@
     width: 100%;
   }
 
-  .navigation {
+  .metaBlock {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .meta {
+    font-size: 16px;
+  }
+
+  .selectWrap {
+    width: 100%;
     justify-content: space-between;
+  }
+
+  .selectLabel {
+    font-size: 15px;
+  }
+
+  .navigation {
+    display: grid;
+    grid-template-columns: minmax(0, auto) 1fr minmax(0, auto);
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pages {
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .button {
+    min-height: 40px;
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .meta {
+    font-size: 15px;
+  }
+
+  .selectWrap {
+    gap: 8px;
+  }
+
+  .selectLabel {
+    font-size: 14px;
+  }
+
+  .select {
+    min-width: 72px;
+    min-height: 40px;
+    padding: 0 10px;
+  }
+
+  .button {
+    min-width: 40px;
+    min-height: 38px;
+    padding: 0 10px;
+    font-size: 14px;
+  }
+
+  .pages {
+    gap: 6px;
   }
 }

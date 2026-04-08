@@ -2,9 +2,11 @@
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scroll-snap-type: x proximity;
   overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
   padding-bottom: 8px;
   direction: ltr;
 }
@@ -13,6 +15,7 @@
   display: flex;
   gap: 16px;
   min-width: max-content;
+  width: max-content;
   direction: ltr;
 }
 
@@ -23,6 +26,7 @@
   grid-template-rows: repeat(2, minmax(110px, 1fr));
   gap: 12px;
   scroll-snap-align: start;
+  flex: 0 0 auto;
 }
 
 @media (max-width: 900px) {
@@ -42,5 +46,18 @@
     min-width: 180px;
     grid-template-rows: repeat(2, minmax(88px, 1fr));
     gap: 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  .track {
+    gap: 10px;
+  }
+
+  .column {
+    width: 156px;
+    min-width: 156px;
+    grid-template-rows: repeat(2, minmax(84px, 1fr));
+    gap: 8px;
   }
 }
