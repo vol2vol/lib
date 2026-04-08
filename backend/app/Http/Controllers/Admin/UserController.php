@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('role')->paginate(20);
+        $users = User::all();
         return response()->json($users);
     }
 
@@ -35,7 +35,7 @@ class UserController extends Controller
 
         $request->validate([
             'login' => 'sometimes|string|max:255|unique:users,login,' . $user->user_id . ',user_id',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['confirmed', Password::defaults()],
             'role_id' => 'sometimes|exists:roles,role_id',
         ]);
 
