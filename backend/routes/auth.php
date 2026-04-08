@@ -20,7 +20,6 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth:sanctum')
     ->name('logout');
 
-
 /*Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
     ->middleware('guest')
     ->name('password.email');
