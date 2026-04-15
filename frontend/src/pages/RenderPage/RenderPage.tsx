@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getBookFileForReading } from '@api/library'
 import { ApiError } from '@api/http'
@@ -402,6 +402,7 @@ export const RenderPage = () => {
   const [draftTheme, setDraftTheme] = useState<ReaderTheme>(getInitialTheme)
   const [draftFontSize, setDraftFontSize] = useState<number>(getInitialFontSize)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const saveScrollProgressRef = useRef<(() => void) | null>(null)
 
   const parsedFileId = useMemo(() => Number(fileId), [fileId])
   const localProgress = useMemo(() => {
@@ -508,17 +509,38 @@ export const RenderPage = () => {
 
   useEffect(() => {
     if (Number.isNaN(parsedFileId) || isLoading || error) {
+      saveScrollProgressRef.current = null
       return
     }
 
     if (fileType !== 'txt' && fileType !== 'fb2') {
+      saveScrollProgressRef.current = null
+      return
+    }
+
+    const saveCurrentScroll = () => {
+      const scrollTop = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop)
+      saveScrollReadingProgress(parsedFileId, scrollTop)
+    }
+
+    saveScrollProgressRef.current = saveCurrentScroll
+
+    return () => {
+      if (saveScrollProgressRef.current === saveCurrentScroll) {
+        saveScrollProgressRef.current = null
+      }
+    }
+  }, [error, fileType, isLoading, parsedFileId])
+
+  useEffect(() => {
+    if (!saveScrollProgressRef.current) {
       return
     }
 
     let timeoutId: number | null = null
 
     const saveCurrentScroll = () => {
-      saveScrollReadingProgress(parsedFileId, window.scrollY)
+      saveScrollProgressRef.current?.()
     }
 
     const handleScroll = () => {
@@ -529,18 +551,38 @@ export const RenderPage = () => {
       timeoutId = window.setTimeout(saveCurrentScroll, 500)
     }
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        saveCurrentScroll()
+      }
+    }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
     window.addEventListener('beforeunload', saveCurrentScroll)
+    window.addEventListener('pagehide', saveCurrentScroll)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('beforeunload', saveCurrentScroll)
+      window.removeEventListener('pagehide', saveCurrentScroll)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
 
       if (timeoutId) {
         window.clearTimeout(timeoutId)
       }
 
       saveCurrentScroll()
+    }
+  }, [error, fileType, isLoading, parsedFileId])
+
+  useLayoutEffect(() => {
+    if (!saveScrollProgressRef.current) {
+      return
+    }
+
+    return () => {
+      saveScrollProgressRef.current?.()
     }
   }, [error, fileType, isLoading, parsedFileId])
 
