@@ -52,7 +52,9 @@ export const Header = ({
     }
 
     const updateHeaderHeight = () => {
-      setHeaderHeight(element.getBoundingClientRect().height)
+      const nextHeight = element.getBoundingClientRect().height
+      setHeaderHeight(nextHeight)
+      document.documentElement.style.setProperty('--app-header-height', `${nextHeight}px`)
     }
 
     updateHeaderHeight()
@@ -68,6 +70,7 @@ export const Header = ({
     return () => {
       resizeObserver.disconnect()
       window.removeEventListener('resize', updateHeaderHeight)
+      document.documentElement.style.removeProperty('--app-header-height')
     }
   }, [centerVariant, leftVariant, rightVariant, title])
 
