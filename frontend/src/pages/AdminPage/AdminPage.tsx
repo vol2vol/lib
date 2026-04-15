@@ -187,6 +187,8 @@ export const AdminPage = () => {
   const [isBooksLoading, setIsBooksLoading] = useState(true)
   const [booksError, setBooksError] = useState('')
   const [validationError, setValidationError] = useState('')
+  const [modalFormError, setModalFormError] = useState('')
+  const [modalFieldErrors, setModalFieldErrors] = useState<Record<string, string>>({})
   
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null)
   const [selectedAuthor, setSelectedAuthor] = useState<Author | null>(null)
@@ -216,6 +218,25 @@ export const AdminPage = () => {
   const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
 
   const token = localStorage.getItem('token')
+
+  const resetModalValidation = useCallback(() => {
+    setModalFormError('')
+    setModalFieldErrors({})
+  }, [])
+
+  const clearModalFieldError = useCallback((field: string) => {
+    setModalFieldErrors((prev) => {
+      if (!(field in prev)) {
+        return prev
+      }
+
+      const next = { ...prev }
+      delete next[field]
+      return next
+    })
+  }, [])
+
+  const getModalFieldError = (field: string) => modalFieldErrors[field]
 
   const loadLookups = useCallback(async () => {
     if (!token) return
@@ -327,6 +348,7 @@ export const AdminPage = () => {
     const file = event.target.files?.[0] ?? null
 
     if (!file) {
+      clearModalFieldError('bookCoverFile')
       setForm((prev) => ({ ...prev, coverFile: null }))
       return
     }
@@ -336,11 +358,12 @@ export const AdminPage = () => {
     if (validationMessage) {
       event.target.value = ''
       setForm((prev) => ({ ...prev, coverFile: null }))
-      setError(validationMessage)
+      setModalFormError('')
+      setModalFieldErrors((prev) => ({ ...prev, bookCoverFile: validationMessage }))
       return
     }
 
-    setError('')
+    clearModalFieldError('bookCoverFile')
     setForm((prev) => ({ ...prev, coverFile: file }))
   }
 
@@ -348,6 +371,7 @@ export const AdminPage = () => {
     const selectedFiles = event.target.files ? Array.from(event.target.files) : []
 
     if (selectedFiles.length === 0) {
+      clearModalFieldError('bookFiles')
       setForm((prev) => ({ ...prev, files: [] }))
       return
     }
@@ -369,9 +393,10 @@ export const AdminPage = () => {
     })
 
     if (firstError) {
-      setError(firstError)
+      setModalFormError('')
+      setModalFieldErrors((prev) => ({ ...prev, bookFiles: firstError }))
     } else {
-      setError('')
+      clearModalFieldError('bookFiles')
     }
 
     setForm((prev) => ({ ...prev, files: validFiles }))
@@ -388,6 +413,7 @@ export const AdminPage = () => {
       setGenreForm(initialGenreFormState);
       setModalMode('create');
     }
+    resetModalValidation();
     setIsGenreModalOpen(true);
   };
 
@@ -405,6 +431,7 @@ export const AdminPage = () => {
       setAuthorForm(initialAuthorFormState);
       setModalMode('create');
     }
+    resetModalValidation();
     setIsAuthorModalOpen(true);
   };
 
@@ -418,6 +445,7 @@ export const AdminPage = () => {
       setPublisherForm(initialPublisherFormState);
       setModalMode('create');
     }
+    resetModalValidation();
     setIsPublisherModalOpen(true);
   };
 
@@ -445,6 +473,7 @@ export const AdminPage = () => {
       setForm(initialFormState);
       setModalMode('create');
     }
+    resetModalValidation();
     setIsBookModalOpen(true);
   };
 
@@ -463,6 +492,7 @@ export const AdminPage = () => {
       setUserForm(initialUserFormState)
       setModalMode('create')
     }
+    resetModalValidation()
     setIsUserModalOpen(true)
   }
   
@@ -472,6 +502,7 @@ export const AdminPage = () => {
     setIsPublisherModalOpen(false);
     setIsBookModalOpen(false);
     setIsUserModalOpen(false)
+    resetModalValidation()
     setError('');
     setSuccessMessage('');
   };
@@ -487,6 +518,7 @@ export const AdminPage = () => {
     setError('')
     setSuccessMessage('')
     setValidationError('')
+    resetModalValidation()
     // Сбрасываем формы
     setGenreForm(initialGenreFormState)
     setAuthorForm(initialAuthorFormState)
@@ -700,14 +732,14 @@ export const AdminPage = () => {
     if (!token) return
 
     const normalizedName = genreForm.name.trim()
+    const nextErrors: Record<string, string> = {}
 
     if (!normalizedName) {
-      setError('Название жанра обязательно')
-      return
+      nextErrors.genreName = 'Название жанра обязательно'
     }
 
     const normalizedGenreKey = normalizedName.toLocaleLowerCase('ru-RU')
-    const hasGenreDuplicate = genres.some((genre) => {
+    const hasGenreDuplicate = normalizedName && genres.some((genre) => {
       if (selectedGenre && genre.id === selectedGenre.id) {
         return false
       }
@@ -716,7 +748,12 @@ export const AdminPage = () => {
     })
 
     if (hasGenreDuplicate) {
-      setError('Жанр с таким названием уже существует')
+      nextErrors.genreName = 'Жанр с таким названием уже существует'
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setModalFormError('')
+      setModalFieldErrors(nextErrors)
       return
     }
 
@@ -726,7 +763,7 @@ export const AdminPage = () => {
 
     try {
       setIsGenreSaving(true)
-      setError('')
+      resetModalValidation()
       setSuccessMessage('')
       if (selectedGenre) {
         await updateGenre(selectedGenre.id, payload, token)
@@ -740,7 +777,7 @@ export const AdminPage = () => {
       await loadLookups()
       closeAllModals(); // Закрываем модалку после успешного сохранения
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
+      setModalFormError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
     } finally {
       setIsGenreSaving(false)
     }
@@ -754,13 +791,18 @@ export const AdminPage = () => {
     const normalizedFirstName = authorForm.first_name.trim()
     const normalizedMiddleName = authorForm.middle_name ? authorForm.middle_name.trim() : ''
     const normalizedLastName = authorForm.last_name.trim()
+    const nextErrors: Record<string, string> = {}
 
     if (!normalizedFirstName) {
-      setError('Имя обязательно')
-      return
+      nextErrors.authorFirstName = 'Имя обязательно'
     }
     if (!normalizedLastName) {
-      setError('Фамилия обязательна')
+      nextErrors.authorLastName = 'Фамилия обязательна'
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setModalFormError('')
+      setModalFieldErrors(nextErrors)
       return
     }
 
@@ -772,7 +814,7 @@ export const AdminPage = () => {
 
     try {
       setIsAuthorSaving(true)
-      setError('')
+      resetModalValidation()
       setSuccessMessage('')
       if (selectedAuthor) {
         await updateAuthor(selectedAuthor.id, payload, token)
@@ -786,7 +828,7 @@ export const AdminPage = () => {
       await loadLookups()
       closeAllModals()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
+      setModalFormError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
     } finally {
       setIsAuthorSaving(false)
     }
@@ -798,14 +840,14 @@ export const AdminPage = () => {
     if (!token) return
 
     const normalizedName = publisherForm.name.trim()
+    const nextErrors: Record<string, string> = {}
 
     if (!normalizedName) {
-      setError('Название издательства обязательно')
-      return
+      nextErrors.publisherName = 'Название издательства обязательно'
     }
 
     const normalizedPublisherKey = normalizedName.toLocaleLowerCase('ru-RU')
-    const hasPublisherDuplicate = publishers.some((publisher) => {
+    const hasPublisherDuplicate = normalizedName && publishers.some((publisher) => {
       if (selectedPublisher && publisher.id === selectedPublisher.id) {
         return false
       }
@@ -814,7 +856,12 @@ export const AdminPage = () => {
     })
 
     if (hasPublisherDuplicate) {
-      setError('Издательство с таким названием уже существует')
+      nextErrors.publisherName = 'Издательство с таким названием уже существует'
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setModalFormError('')
+      setModalFieldErrors(nextErrors)
       return
     }
 
@@ -824,7 +871,7 @@ export const AdminPage = () => {
 
     try {
       setIsPublisherSaving(true)
-      setError('')
+      resetModalValidation()
       setSuccessMessage('')
       if (selectedPublisher) {
         await updatePublisher(selectedPublisher.id, payload, token)
@@ -838,7 +885,7 @@ export const AdminPage = () => {
       await loadLookups()
       closeAllModals();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
+      setModalFormError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
     } finally {
       setIsPublisherSaving(false)
     }
@@ -850,35 +897,41 @@ export const AdminPage = () => {
     if (!token) return
 
     const normalizedLogin = userForm.login.trim()
+    const nextErrors: Record<string, string> = {}
 
     if (!normalizedLogin) {
-      setError('Логин обязателен')
-      return
+      nextErrors.userLogin = 'Логин обязателен'
     }
 
     if (normalizedLogin.length < 1) {
-      setError('Логин должен содержать минимум 1 символ')
-      return
+      nextErrors.userLogin = 'Логин должен содержать минимум 1 символ'
     }
 
     if (modalMode === 'create' && !userForm.password) {
-      setError('Пароль обязателен при создании пользователя')
-      return
+      nextErrors.userPassword = 'Пароль обязателен при создании пользователя'
     }
 
     if (userForm.password && userForm.password.length < 6) {
-      setError('Пароль должен содержать минимум 6 символов')
-      return
+      nextErrors.userPassword = 'Пароль должен содержать минимум 6 символов'
+    }
+
+    if ((modalMode === 'create' || userForm.password || userForm.password_confirmation) && userForm.password !== userForm.password_confirmation) {
+      nextErrors.userPasswordConfirmation = 'Пароли должны совпадать'
     }
 
     // Проверка на дубликат логина
-    const hasLoginDuplicate = users.some((u) => {
+    const hasLoginDuplicate = normalizedLogin && users.some((u) => {
       if (selectedUser && u.id === selectedUser.id) return false
       return u.login.toLowerCase() === normalizedLogin.toLowerCase()
     })
 
     if (hasLoginDuplicate) {
-      setError('Пользователь с таким логином уже существует')
+      nextErrors.userLogin = 'Пользователь с таким логином уже существует'
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setModalFormError('')
+      setModalFieldErrors(nextErrors)
       return
     }
 
@@ -888,11 +941,10 @@ export const AdminPage = () => {
       password: userForm.password,
       password_confirmation: userForm.password_confirmation,
     }
-    console.log(payload)
 
     try {
       setIsUserSaving(true)
-      setError('')
+      resetModalValidation()
       setSuccessMessage('')
       
       if (selectedUser) {
@@ -908,7 +960,7 @@ export const AdminPage = () => {
       await loadLookups() // Перезагружаем список пользователей
       closeAllModals()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
+      setModalFormError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
     } finally {
       setIsUserSaving(false)
     }
@@ -923,29 +975,30 @@ export const AdminPage = () => {
     const normalizedDescription = form.description.trim()
     const normalizedYear = normalizeYearInput(form.publishedYear)
     const numericYear = normalizedYear ? Number(normalizedYear) : NaN
+    const nextErrors: Record<string, string> = {}
 
     if (!normalizedTitle) {
-      setError('Название книги обязательно')
-      return
+      nextErrors.bookTitle = 'Название книги обязательно'
     }
     if (!normalizedDescription) {
-      setError('Описание книги обязательно')
-      return
+      nextErrors.bookDescription = 'Описание книги обязательно'
     }
     if (form.authors.length === 0) {
-      setError('Укажите хотя бы одного автора')
-      return
+      nextErrors.bookAuthors = 'Укажите хотя бы одного автора'
     }
     if (!form.publisher) {
-      setError('Выберите издательство')
-      return
+      nextErrors.bookPublisher = 'Выберите издательство'
     }
     if (!normalizedYear || Number.isNaN(numericYear) || numericYear < MIN_BOOK_YEAR || numericYear > CURRENT_YEAR) {
-      setError(`Год издания должен быть в диапазоне ${MIN_BOOK_YEAR}–${CURRENT_YEAR}`)
-      return
+      nextErrors.bookPublishedYear = `Год издания должен быть в диапазоне ${MIN_BOOK_YEAR}–${CURRENT_YEAR}`
     }
     if (form.genres.length === 0) {
-      setError('Выберите хотя бы один жанр')
+      nextErrors.bookGenres = 'Выберите хотя бы один жанр'
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setModalFormError('')
+      setModalFieldErrors((prev) => ({ ...prev, ...nextErrors }))
       return
     }
 
@@ -960,7 +1013,7 @@ export const AdminPage = () => {
 
     try {
       setIsSaving(true)
-      setError('')
+      resetModalValidation()
       setSuccessMessage('')
       if (selectedBook) {
         await updateBook(selectedBook.id, payload, token, form.coverFile ?? undefined, form.files)
@@ -974,7 +1027,7 @@ export const AdminPage = () => {
       await loadBooks()
       closeAllModals();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
+      setModalFormError(err instanceof Error ? err.message : 'Произошла ошибка при сохранении')
     } finally {
       setIsSaving(false)
     }
@@ -1033,16 +1086,21 @@ export const AdminPage = () => {
         title={modalMode === 'create' ? 'Добавление жанра' : 'Редактирование жанра'}
       >
         <form className={styles.form} onSubmit={handleSubmitGenre}>
+          {modalFormError ? <p className={styles.formError}>{modalFormError}</p> : null}
           <label className={styles.label}>
             <span className={styles.labelTitle}>Название</span>
             <span className={styles.fieldHint}>Обязательно · до 255 символов</span>
             <input
-              className={styles.input}
+              className={`${styles.input} ${getModalFieldError('genreName') ? styles.inputError : ''}`}
               value={genreForm.name}
               maxLength={MAX_TEXT_LENGTH}
-              onChange={(event) => setGenreForm((prev) => ({ ...prev, name: normalizeSingleLine(event.target.value) }))}
+              onChange={(event) => {
+                clearModalFieldError('genreName')
+                setGenreForm((prev) => ({ ...prev, name: normalizeSingleLine(event.target.value) }))
+              }}
               autoFocus
             />
+            {getModalFieldError('genreName') ? <span className={styles.fieldError}>{getModalFieldError('genreName')}</span> : null}
             <div className={styles.counterRow}>
               <span className={styles.counterText}>Символов: {genreForm.name.length} / {MAX_TEXT_LENGTH}</span>
             </div>
@@ -1108,16 +1166,21 @@ export const AdminPage = () => {
         title={modalMode === 'create' ? 'Добавление автора' : 'Редактирование автора'}
       >
         <form className={styles.form} onSubmit={handleSubmitAuthor}>
+          {modalFormError ? <p className={styles.formError}>{modalFormError}</p> : null}
           <label className={styles.label}>
             <span className={styles.labelTitle}>Имя</span>
             <span className={styles.fieldHint}>Обязательно · буквы, пробел, дефис</span>
             <input
-              className={styles.input}
+              className={`${styles.input} ${getModalFieldError('authorFirstName') ? styles.inputError : ''}`}
               value={authorForm.first_name}
               maxLength={MAX_TEXT_LENGTH}
-              onChange={(event) => setAuthorForm((prev) => ({ ...prev, first_name: normalizeAuthorInput(event.target.value) }))}
+              onChange={(event) => {
+                clearModalFieldError('authorFirstName')
+                setAuthorForm((prev) => ({ ...prev, first_name: normalizeAuthorInput(event.target.value) }))
+              }}
               autoFocus
             />
+            {getModalFieldError('authorFirstName') ? <span className={styles.fieldError}>{getModalFieldError('authorFirstName')}</span> : null}
             <div className={styles.counterRow}>
               <span className={styles.counterText}>Символов: {authorForm.first_name.length} / {MAX_TEXT_LENGTH}</span>
             </div>
@@ -1139,11 +1202,15 @@ export const AdminPage = () => {
             <span className={styles.labelTitle}>Фамилия</span>
             <span className={styles.fieldHint}>Обязательно · буквы, пробел, дефис</span>
             <input
-              className={styles.input}
+              className={`${styles.input} ${getModalFieldError('authorLastName') ? styles.inputError : ''}`}
               value={authorForm.last_name}
               maxLength={MAX_TEXT_LENGTH}
-              onChange={(event) => setAuthorForm((prev) => ({ ...prev, last_name: normalizeAuthorInput(event.target.value) }))}
+              onChange={(event) => {
+                clearModalFieldError('authorLastName')
+                setAuthorForm((prev) => ({ ...prev, last_name: normalizeAuthorInput(event.target.value) }))
+              }}
             />
+            {getModalFieldError('authorLastName') ? <span className={styles.fieldError}>{getModalFieldError('authorLastName')}</span> : null}
             <div className={styles.counterRow}>
               <span className={styles.counterText}>Символов: {authorForm.last_name.length} / {MAX_TEXT_LENGTH}</span>
             </div>
@@ -1209,16 +1276,21 @@ export const AdminPage = () => {
         title={modalMode === 'create' ? 'Добавление издательства' : 'Редактирование издательства'}
       >
         <form className={styles.form} onSubmit={handleSubmitPublisher}>
+          {modalFormError ? <p className={styles.formError}>{modalFormError}</p> : null}
           <label className={styles.label}>
             <span className={styles.labelTitle}>Название</span>
             <span className={styles.fieldHint}>Обязательно · до 255 символов</span>
             <input
-              className={styles.input}
+              className={`${styles.input} ${getModalFieldError('publisherName') ? styles.inputError : ''}`}
               value={publisherForm.name}
               maxLength={MAX_TEXT_LENGTH}
-              onChange={(event) => setPublisherForm((prev) => ({ ...prev, name: normalizeSingleLine(event.target.value) }))}
+              onChange={(event) => {
+                clearModalFieldError('publisherName')
+                setPublisherForm((prev) => ({ ...prev, name: normalizeSingleLine(event.target.value) }))
+              }}
               autoFocus
             />
+            {getModalFieldError('publisherName') ? <span className={styles.fieldError}>{getModalFieldError('publisherName')}</span> : null}
             <div className={styles.counterRow}>
               <span className={styles.counterText}>Символов: {publisherForm.name.length} / {MAX_TEXT_LENGTH}</span>
             </div>
@@ -1349,15 +1421,20 @@ export const AdminPage = () => {
           title={modalMode === 'create' ? 'Добавление книги' : 'Редактирование книги'}
         >
           <form className={styles.form} onSubmit={handleSubmit}>
+            {modalFormError ? <p className={styles.formError}>{modalFormError}</p> : null}
             <label className={styles.label}>
               <span className={styles.labelTitle}>Название</span>
               <span className={styles.fieldHint}>Обязательно · до 255 символов</span>
               <input
-                className={styles.input}
+                className={`${styles.input} ${getModalFieldError('bookTitle') ? styles.inputError : ''}`}
                 value={form.title}
                 maxLength={MAX_TEXT_LENGTH}
-                onChange={(event) => setForm((prev) => ({ ...prev, title: normalizeSingleLine(event.target.value) }))}
+                onChange={(event) => {
+                  clearModalFieldError('bookTitle')
+                  setForm((prev) => ({ ...prev, title: normalizeSingleLine(event.target.value) }))
+                }}
               />
+              {getModalFieldError('bookTitle') ? <span className={styles.fieldError}>{getModalFieldError('bookTitle')}</span> : null}
               <div className={styles.counterRow}>
                 <span className={styles.counterText}>Символов: {form.title.length} / {MAX_TEXT_LENGTH}</span>
               </div>
@@ -1366,12 +1443,14 @@ export const AdminPage = () => {
               <span className={styles.labelTitle}>Описание</span>
               <span className={styles.fieldHint}>Обязательно</span>
               <textarea
-                className={styles.textarea}
+                className={`${styles.textarea} ${getModalFieldError('bookDescription') ? styles.inputError : ''}`}
                 value={form.description}
-                onChange={(event) =>
+                onChange={(event) => {
+                  clearModalFieldError('bookDescription')
                   setForm((prev) => ({ ...prev, description: event.target.value }))
-                }
+                }}
               />
+              {getModalFieldError('bookDescription') ? <span className={styles.fieldError}>{getModalFieldError('bookDescription')}</span> : null}
               <div className={styles.counterRow}>
                 <span className={styles.counterText}>Символов: {form.description.length}</span>
               </div>
@@ -1381,7 +1460,7 @@ export const AdminPage = () => {
               <span className={styles.fieldHint}>Обязательно · выберите хотя бы одного автора</span>
               <div className={styles.genresContainer}>
                 <select
-                  className={styles.select}
+                  className={`${styles.select} ${getModalFieldError('bookAuthors') ? styles.inputError : ''}`}
                   multiple
                   value={form.authors}
                   onChange={(event) => {
@@ -1389,6 +1468,7 @@ export const AdminPage = () => {
                       event.target.selectedOptions,
                       (option) => option.value,
                     )
+                    clearModalFieldError('bookAuthors')
                     setForm((prev) => ({ ...prev, authors: selected }))
                   }}
                 >
@@ -1421,6 +1501,7 @@ export const AdminPage = () => {
                   })}
                 </div>
               </div>
+              {getModalFieldError('bookAuthors') ? <span className={styles.fieldError}>{getModalFieldError('bookAuthors')}</span> : null}
               <div className={styles.counterRow}>
                 <span className={styles.counterText}>Выбрано авторов: {form.authors.length}</span>
               </div>
@@ -1430,9 +1511,10 @@ export const AdminPage = () => {
               <span className={styles.fieldHint}>Обязательно</span>
               <div className={styles.genresContainer}>
                 <select
-                  className={styles.select}
+                  className={`${styles.select} ${getModalFieldError('bookPublisher') ? styles.inputError : ''}`}
                   value={form.publisher}
                   onChange={(event) => {
+                    clearModalFieldError('bookPublisher')
                     setForm((prev) => ({ ...prev, publisher: event.target.value }))
                   }}
                 >
@@ -1444,6 +1526,7 @@ export const AdminPage = () => {
                   ))}
                 </select>
               </div>
+              {getModalFieldError('bookPublisher') ? <span className={styles.fieldError}>{getModalFieldError('bookPublisher')}</span> : null}
               <div className={styles.counterRow}>
                 <span className={styles.counterText}>{form.publisher ? 'Издательство выбрано' : 'Издательство не выбрано'}</span>
               </div>
@@ -1452,15 +1535,17 @@ export const AdminPage = () => {
               <span className={styles.labelTitle}>Год издания</span>
               <span className={styles.fieldHint}>Обязательно · только 4 цифры · {MIN_BOOK_YEAR}–{CURRENT_YEAR}</span>
               <input
-                className={styles.input}
+                className={`${styles.input} ${getModalFieldError('bookPublishedYear') ? styles.inputError : ''}`}
                 type="text"
                 inputMode="numeric"
                 maxLength={4}
                 value={form.publishedYear}
-                onChange={(event) =>
+                onChange={(event) => {
+                  clearModalFieldError('bookPublishedYear')
                   setForm((prev) => ({ ...prev, publishedYear: normalizeYearInput(event.target.value) }))
-                }
+                }}
               />
+              {getModalFieldError('bookPublishedYear') ? <span className={styles.fieldError}>{getModalFieldError('bookPublishedYear')}</span> : null}
               <div className={styles.counterRow}>
                 <span className={styles.counterText}>Символов: {form.publishedYear.length} / 4</span>
               </div>
@@ -1470,7 +1555,7 @@ export const AdminPage = () => {
               <span className={styles.fieldHint}>Обязательно · выберите хотя бы один жанр</span>
               <div className={styles.genresContainer}>
                 <select
-                  className={styles.select}
+                  className={`${styles.select} ${getModalFieldError('bookGenres') ? styles.inputError : ''}`}
                   multiple
                   value={form.genres}
                   onChange={(event) => {
@@ -1478,6 +1563,7 @@ export const AdminPage = () => {
                       event.target.selectedOptions,
                       (option) => option.value,
                     )
+                    clearModalFieldError('bookGenres')
                     setForm((prev) => ({ ...prev, genres: selected }))
                   }}
                 >
@@ -1510,6 +1596,7 @@ export const AdminPage = () => {
                   })}
                 </div>
               </div>
+              {getModalFieldError('bookGenres') ? <span className={styles.fieldError}>{getModalFieldError('bookGenres')}</span> : null}
               <div className={styles.counterRow}>
                 <span className={styles.counterText}>Выбрано жанров: {form.genres.length}</span>
               </div>
@@ -1520,9 +1607,10 @@ export const AdminPage = () => {
               <input
                 type="file"
                 accept=".jpg,.jpeg,.png,.gif,image/jpeg,image/png,image/gif"
-                className={styles.inputFile}
+                className={`${styles.inputFile} ${getModalFieldError('bookCoverFile') ? styles.inputError : ''}`}
                 onChange={handleCoverInputChange}
               />
+              {getModalFieldError('bookCoverFile') ? <span className={styles.fieldError}>{getModalFieldError('bookCoverFile')}</span> : null}
               <div className={styles.counterRow}>
                 <span className={styles.counterText}>{form.coverFile ? `Выбран файл: ${form.coverFile.name}` : 'Файл не выбран'}</span>
               </div>
@@ -1533,10 +1621,11 @@ export const AdminPage = () => {
               <input
                 type="file"
                 accept=".pdf,.fb2,.txt"
-                className={styles.inputFile}
+                className={`${styles.inputFile} ${getModalFieldError('bookFiles') ? styles.inputError : ''}`}
                 multiple
                 onChange={handleFilesInputChange}
               />
+              {getModalFieldError('bookFiles') ? <span className={styles.fieldError}>{getModalFieldError('bookFiles')}</span> : null}
               <div className={styles.counterRow}>
                 <span className={styles.counterText}>Выбрано файлов: {form.files.length}</span>
               </div>
@@ -1602,20 +1691,23 @@ export const AdminPage = () => {
         title={modalMode === 'create' ? 'Добавление пользователя' : 'Редактирование пользователя'}
       >
         <form className={styles.form} onSubmit={handleSubmitUser}>
+          {modalFormError ? <p className={styles.formError}>{modalFormError}</p> : null}
           <label className={styles.label}>
             <span className={styles.labelTitle}>Логин</span>
             <span className={styles.fieldHint}>Обязательно · минимум 1 символ</span>
             <input
-              className={styles.input}
+              className={`${styles.input} ${getModalFieldError('userLogin') ? styles.inputError : ''}`}
               value={userForm.login}
               maxLength={255}
               onChange={(event) => {
                 const value = event.target.value.replace(/[^\w.@+-]/g, '')
+                clearModalFieldError('userLogin')
                 setUserForm((prev) => ({ ...prev, login: value }))
               }}
               autoFocus
               placeholder="Введите логин"
             />
+            {getModalFieldError('userLogin') ? <span className={styles.fieldError}>{getModalFieldError('userLogin')}</span> : null}
             <div className={styles.counterRow}>
               <span className={styles.counterText}>Символов: {userForm.login.length} / 255</span>
             </div>
@@ -1647,13 +1739,18 @@ export const AdminPage = () => {
                 : 'Оставьте пустым, чтобы не менять · минимум 8 символов'}
             </span>
             <input
-              className={styles.input}
+              className={`${styles.input} ${getModalFieldError('userPassword') ? styles.inputError : ''}`}
               type="password"
               value={userForm.password}
               maxLength={255}
-              onChange={(event) => setUserForm((prev) => ({ ...prev, password: event.target.value }))}
+              onChange={(event) => {
+                clearModalFieldError('userPassword')
+                clearModalFieldError('userPasswordConfirmation')
+                setUserForm((prev) => ({ ...prev, password: event.target.value }))
+              }}
               placeholder={modalMode === 'create' ? 'Введите пароль' : 'Оставьте пустым для сохранения текущего'}
             />
+            {getModalFieldError('userPassword') ? <span className={styles.fieldError}>{getModalFieldError('userPassword')}</span> : null}
             <div className={styles.counterRow}>
               <span className={styles.counterText}>Символов: {userForm.password.length} / 255</span>
             </div>
@@ -1669,13 +1766,17 @@ export const AdminPage = () => {
                 : 'Оставьте пустым, чтобы не менять · минимум 8 символов'}
             </span>
             <input
-              className={styles.input}
+              className={`${styles.input} ${getModalFieldError('userPasswordConfirmation') ? styles.inputError : ''}`}
               type="password"
               value={userForm.password_confirmation}
               maxLength={255}
-              onChange={(event) => setUserForm((prev) => ({ ...prev, password_confirmation: event.target.value }))}
+              onChange={(event) => {
+                clearModalFieldError('userPasswordConfirmation')
+                setUserForm((prev) => ({ ...prev, password_confirmation: event.target.value }))
+              }}
               placeholder={modalMode === 'create' ? 'Введите подтверждение пароля' : 'Оставьте пустым для сохранения текущего'}
             />
+            {getModalFieldError('userPasswordConfirmation') ? <span className={styles.fieldError}>{getModalFieldError('userPasswordConfirmation')}</span> : null}
             <div className={styles.counterRow}>
               <span className={styles.counterText}>Символов: {userForm.password_confirmation.length} / 255</span>
             </div>

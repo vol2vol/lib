@@ -284,6 +284,23 @@
   color: #6b7280;
 }
 
+.formError {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.fieldError {
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: #b91c1c;
+}
+
 .counterRow {
   display: flex;
   justify-content: flex-end;
@@ -318,6 +335,16 @@
   outline: none;
   border-color: #0037d2;
   box-shadow: 0 0 0 2px rgba(0, 55, 210, 0.1);
+}
+
+.inputError {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.08);
+}
+
+.inputError:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.14);
 }
 
 .textarea {
