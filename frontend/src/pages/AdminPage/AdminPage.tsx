@@ -1100,8 +1100,8 @@ export const AdminPage = () => {
               }}
               autoFocus
             />
-            {getModalFieldError('genreName') ? <span className={styles.fieldError}>{getModalFieldError('genreName')}</span> : null}
             <div className={styles.counterRow}>
+              {getModalFieldError('genreName') ? <span className={styles.fieldError}>{getModalFieldError('genreName')}</span> : null}
               <span className={styles.counterText}>Символов: {genreForm.name.length} / {MAX_TEXT_LENGTH}</span>
             </div>
           </label>
@@ -1180,8 +1180,8 @@ export const AdminPage = () => {
               }}
               autoFocus
             />
-            {getModalFieldError('authorFirstName') ? <span className={styles.fieldError}>{getModalFieldError('authorFirstName')}</span> : null}
             <div className={styles.counterRow}>
+              {getModalFieldError('authorFirstName') ? <span className={styles.fieldError}>{getModalFieldError('authorFirstName')}</span> : null}
               <span className={styles.counterText}>Символов: {authorForm.first_name.length} / {MAX_TEXT_LENGTH}</span>
             </div>
           </label>
@@ -1195,6 +1195,7 @@ export const AdminPage = () => {
               onChange={(event) => setAuthorForm((prev) => ({ ...prev, middle_name: normalizeAuthorInput(event.target.value) }))}
             />
             <div className={styles.counterRow}>
+              {getModalFieldError('authorLastName') ? <span className={styles.fieldError}>{getModalFieldError('authorLastName')}</span> : null}
               <span className={styles.counterText}>Символов: {(authorForm.middle_name || '').length} / {MAX_TEXT_LENGTH}</span>
             </div>
           </label>
@@ -1210,7 +1211,6 @@ export const AdminPage = () => {
                 setAuthorForm((prev) => ({ ...prev, last_name: normalizeAuthorInput(event.target.value) }))
               }}
             />
-            {getModalFieldError('authorLastName') ? <span className={styles.fieldError}>{getModalFieldError('authorLastName')}</span> : null}
             <div className={styles.counterRow}>
               <span className={styles.counterText}>Символов: {authorForm.last_name.length} / {MAX_TEXT_LENGTH}</span>
             </div>
@@ -1290,8 +1290,8 @@ export const AdminPage = () => {
               }}
               autoFocus
             />
-            {getModalFieldError('publisherName') ? <span className={styles.fieldError}>{getModalFieldError('publisherName')}</span> : null}
             <div className={styles.counterRow}>
+              {getModalFieldError('publisherName') ? <span className={styles.fieldError}>{getModalFieldError('publisherName')}</span> : null}
               <span className={styles.counterText}>Символов: {publisherForm.name.length} / {MAX_TEXT_LENGTH}</span>
             </div>
           </label>
@@ -1434,8 +1434,8 @@ export const AdminPage = () => {
                   setForm((prev) => ({ ...prev, title: normalizeSingleLine(event.target.value) }))
                 }}
               />
-              {getModalFieldError('bookTitle') ? <span className={styles.fieldError}>{getModalFieldError('bookTitle')}</span> : null}
               <div className={styles.counterRow}>
+                {getModalFieldError('bookTitle') ? <span className={styles.fieldError}>{getModalFieldError('bookTitle')}</span> : null}
                 <span className={styles.counterText}>Символов: {form.title.length} / {MAX_TEXT_LENGTH}</span>
               </div>
             </label>
@@ -1450,8 +1450,8 @@ export const AdminPage = () => {
                   setForm((prev) => ({ ...prev, description: event.target.value }))
                 }}
               />
-              {getModalFieldError('bookDescription') ? <span className={styles.fieldError}>{getModalFieldError('bookDescription')}</span> : null}
               <div className={styles.counterRow}>
+                {getModalFieldError('bookDescription') ? <span className={styles.fieldError}>{getModalFieldError('bookDescription')}</span> : null}
                 <span className={styles.counterText}>Символов: {form.description.length}</span>
               </div>
             </label>
@@ -1501,8 +1501,8 @@ export const AdminPage = () => {
                   })}
                 </div>
               </div>
-              {getModalFieldError('bookAuthors') ? <span className={styles.fieldError}>{getModalFieldError('bookAuthors')}</span> : null}
               <div className={styles.counterRow}>
+                {getModalFieldError('bookAuthors') ? <span className={styles.fieldError}>{getModalFieldError('bookAuthors')}</span> : null}
                 <span className={styles.counterText}>Выбрано авторов: {form.authors.length}</span>
               </div>
             </label>
@@ -1526,8 +1526,8 @@ export const AdminPage = () => {
                   ))}
                 </select>
               </div>
-              {getModalFieldError('bookPublisher') ? <span className={styles.fieldError}>{getModalFieldError('bookPublisher')}</span> : null}
               <div className={styles.counterRow}>
+                {getModalFieldError('bookPublisher') ? <span className={styles.fieldError}>{getModalFieldError('bookPublisher')}</span> : null}
                 <span className={styles.counterText}>{form.publisher ? 'Издательство выбрано' : 'Издательство не выбрано'}</span>
               </div>
             </label>
@@ -1545,8 +1545,8 @@ export const AdminPage = () => {
                   setForm((prev) => ({ ...prev, publishedYear: normalizeYearInput(event.target.value) }))
                 }}
               />
-              {getModalFieldError('bookPublishedYear') ? <span className={styles.fieldError}>{getModalFieldError('bookPublishedYear')}</span> : null}
               <div className={styles.counterRow}>
+                {getModalFieldError('bookPublishedYear') ? <span className={styles.fieldError}>{getModalFieldError('bookPublishedYear')}</span> : null}
                 <span className={styles.counterText}>Символов: {form.publishedYear.length} / 4</span>
               </div>
             </label>
@@ -1596,8 +1596,8 @@ export const AdminPage = () => {
                   })}
                 </div>
               </div>
-              {getModalFieldError('bookGenres') ? <span className={styles.fieldError}>{getModalFieldError('bookGenres')}</span> : null}
               <div className={styles.counterRow}>
+                {getModalFieldError('bookGenres') ? <span className={styles.fieldError}>{getModalFieldError('bookGenres')}</span> : null}
                 <span className={styles.counterText}>Выбрано жанров: {form.genres.length}</span>
               </div>
             </label>
@@ -1610,8 +1610,8 @@ export const AdminPage = () => {
                 className={`${styles.inputFile} ${getModalFieldError('bookCoverFile') ? styles.inputError : ''}`}
                 onChange={handleCoverInputChange}
               />
-              {getModalFieldError('bookCoverFile') ? <span className={styles.fieldError}>{getModalFieldError('bookCoverFile')}</span> : null}
               <div className={styles.counterRow}>
+                {getModalFieldError('bookCoverFile') ? <span className={styles.fieldError}>{getModalFieldError('bookCoverFile')}</span> : null}
                 <span className={styles.counterText}>{form.coverFile ? `Выбран файл: ${form.coverFile.name}` : 'Файл не выбран'}</span>
               </div>
             </label>
@@ -1625,8 +1625,8 @@ export const AdminPage = () => {
                 multiple
                 onChange={handleFilesInputChange}
               />
-              {getModalFieldError('bookFiles') ? <span className={styles.fieldError}>{getModalFieldError('bookFiles')}</span> : null}
               <div className={styles.counterRow}>
+                {getModalFieldError('bookFiles') ? <span className={styles.fieldError}>{getModalFieldError('bookFiles')}</span> : null}
                 <span className={styles.counterText}>Выбрано файлов: {form.files.length}</span>
               </div>
             </label>
@@ -1707,8 +1707,8 @@ export const AdminPage = () => {
               autoFocus
               placeholder="Введите логин"
             />
-            {getModalFieldError('userLogin') ? <span className={styles.fieldError}>{getModalFieldError('userLogin')}</span> : null}
             <div className={styles.counterRow}>
+              {getModalFieldError('userLogin') ? <span className={styles.fieldError}>{getModalFieldError('userLogin')}</span> : null}
               <span className={styles.counterText}>Символов: {userForm.login.length} / 255</span>
             </div>
           </label>
@@ -1750,8 +1750,8 @@ export const AdminPage = () => {
               }}
               placeholder={modalMode === 'create' ? 'Введите пароль' : 'Оставьте пустым для сохранения текущего'}
             />
-            {getModalFieldError('userPassword') ? <span className={styles.fieldError}>{getModalFieldError('userPassword')}</span> : null}
             <div className={styles.counterRow}>
+              {getModalFieldError('userPassword') ? <span className={styles.fieldError}>{getModalFieldError('userPassword')}</span> : null}
               <span className={styles.counterText}>Символов: {userForm.password.length} / 255</span>
             </div>
           </label>
@@ -1776,8 +1776,8 @@ export const AdminPage = () => {
               }}
               placeholder={modalMode === 'create' ? 'Введите подтверждение пароля' : 'Оставьте пустым для сохранения текущего'}
             />
-            {getModalFieldError('userPasswordConfirmation') ? <span className={styles.fieldError}>{getModalFieldError('userPasswordConfirmation')}</span> : null}
             <div className={styles.counterRow}>
+              {getModalFieldError('userPasswordConfirmation') ? <span className={styles.fieldError}>{getModalFieldError('userPasswordConfirmation')}</span> : null}
               <span className={styles.counterText}>Символов: {userForm.password_confirmation.length} / 255</span>
             </div>
           </label>
