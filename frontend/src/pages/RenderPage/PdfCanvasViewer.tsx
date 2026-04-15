@@ -157,6 +157,14 @@ export const PdfCanvasViewer = ({
       setDocumentError('')
       setRenderError('')
       setTotalPages(0)
+
+      const canvas = canvasRef.current
+      if (canvas) {
+        canvas.width = 0
+        canvas.height = 0
+        canvas.style.width = '0px'
+        canvas.style.height = '0px'
+      }
       setCurrentPage(Math.max(1, Math.trunc(initialPage)))
       setPageInput(String(Math.max(1, Math.trunc(initialPage))))
       setZoom(clampZoom(initialZoom))
@@ -244,7 +252,7 @@ export const PdfCanvasViewer = ({
     const pdfDocument = documentRef.current
     const canvas = canvasRef.current
 
-    if (!pdfDocument || !canvas || !containerWidth || documentError) {
+    if (!pdfDocument || !canvas || !containerWidth || documentError || isDocumentLoading || totalPages === 0) {
       return
     }
 
@@ -310,7 +318,7 @@ export const PdfCanvasViewer = ({
       isCancelled = true
       renderTask?.cancel?.()
     }
-  }, [containerWidth, currentPage, documentError, zoom])
+  }, [containerWidth, currentPage, documentError, isDocumentLoading, totalPages, zoom])
 
   const commitPageInput = () => {
     if (!totalPages) {
