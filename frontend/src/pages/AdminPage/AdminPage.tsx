@@ -303,7 +303,7 @@ export const AdminPage = () => {
       }
 
       if (currentUser.roleId !== 1) {
-        navigate('/profile', { replace: true })
+        navigate('/signin', { replace: true })
         return
       }
 
@@ -338,7 +338,7 @@ export const AdminPage = () => {
       return false
     }
     if (user?.roleId !== 1) {
-      navigate('/profile', { replace: true })
+      navigate('/signin', { replace: true })
       return false
     }
     return true
