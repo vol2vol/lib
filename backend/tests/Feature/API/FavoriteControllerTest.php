@@ -124,7 +124,7 @@ class FavoriteControllerTest extends TestCase
         $this->assertEquals('Фантастика', $favoriteData['genres'][0]['genre_name']);
         $this->assertCount(1, $favoriteData['authors']);
         $this->assertEquals('Лукьяненко', $favoriteData['authors'][0]['last_name']);
-        $this->assertEquals('Эксмо', $favoriteData['publisher']);
+        $this->assertEquals('Эксмо', $favoriteData['publisher']["publisher_name"]);
         $this->assertEquals(1, $favoriteData['files_count']);
     }
 
@@ -465,7 +465,7 @@ class FavoriteControllerTest extends TestCase
         $this->assertEquals('Властелин колец', $favorite['book_title']);
         $this->assertEquals(1954, $favorite['published_year']);
         $this->assertEquals('/api/covers/lotr.jpg', $favorite['cover_url']);
-        $this->assertEquals('АСТ', $favorite['publisher']);
+        $this->assertEquals('АСТ', $favorite['publisher']["publisher_name"]);
         $this->assertCount(2, $favorite['genres']);
         $this->assertCount(2, $favorite['authors']);
         $this->assertEquals(2, $favorite['files_count']);
