@@ -37,6 +37,9 @@ type PdfCanvasViewerProps = {
   fileData: Uint8Array
   fileName: string
   isDark: boolean
+  initialPage?: number
+  initialZoom?: number
+  onProgressChange?: (progress: { page: number; zoom: number }) => void
 }
 
 const ZOOM_MIN = 0.6
@@ -90,7 +93,14 @@ const isRenderCancelledError = (error: unknown) => {
   return error.name === 'RenderingCancelledException' || error.name === 'AbortException'
 }
 
-export const PdfCanvasViewer = ({ fileData, fileName, isDark }: PdfCanvasViewerProps) => {
+export const PdfCanvasViewer = ({
+  fileData,
+  fileName,
+  isDark,
+  initialPage = 1,
+  initialZoom = 1,
+  onProgressChange,
+}: PdfCanvasViewerProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const documentRef = useRef<PdfDocumentLike | null>(null)
@@ -101,9 +111,9 @@ export const PdfCanvasViewer = ({ fileData, fileName, isDark }: PdfCanvasViewerP
   const [documentError, setDocumentError] = useState('')
   const [renderError, setRenderError] = useState('')
   const [totalPages, setTotalPages] = useState(0)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [pageInput, setPageInput] = useState('1')
-  const [zoom, setZoom] = useState(1)
+  const [currentPage, setCurrentPage] = useState(Math.max(1, Math.trunc(initialPage)))
+  const [pageInput, setPageInput] = useState(String(Math.max(1, Math.trunc(initialPage))))
+  const [zoom, setZoom] = useState(clampZoom(initialZoom))
 
   useEffect(() => {
     const element = containerRef.current
@@ -147,9 +157,17 @@ export const PdfCanvasViewer = ({ fileData, fileName, isDark }: PdfCanvasViewerP
       setDocumentError('')
       setRenderError('')
       setTotalPages(0)
-      setCurrentPage(1)
-      setPageInput('1')
-      setZoom(1)
+
+      const canvas = canvasRef.current
+      if (canvas) {
+        canvas.width = 0
+        canvas.height = 0
+        canvas.style.width = '0px'
+        canvas.style.height = '0px'
+      }
+      setCurrentPage(Math.max(1, Math.trunc(initialPage)))
+      setPageInput(String(Math.max(1, Math.trunc(initialPage))))
+      setZoom(clampZoom(initialZoom))
 
       if (documentRef.current) {
         const previousDocument = documentRef.current
@@ -193,6 +211,7 @@ export const PdfCanvasViewer = ({ fileData, fileName, isDark }: PdfCanvasViewerP
 
         documentRef.current = loadedDocument
         setTotalPages(loadedDocument.numPages)
+        setCurrentPage((previousPage) => Math.min(Math.max(1, previousPage), loadedDocument.numPages))
       } catch (error) {
         setDocumentError(error instanceof Error ? error.message : 'Не удалось загрузить PDF')
       } finally {
@@ -219,10 +238,21 @@ export const PdfCanvasViewer = ({ fileData, fileName, isDark }: PdfCanvasViewerP
   }, [currentPage])
 
   useEffect(() => {
+    if (!totalPages || isDocumentLoading) {
+      return
+    }
+
+    onProgressChange?.({
+      page: currentPage,
+      zoom,
+    })
+  }, [currentPage, isDocumentLoading, onProgressChange, totalPages, zoom])
+
+  useEffect(() => {
     const pdfDocument = documentRef.current
     const canvas = canvasRef.current
 
-    if (!pdfDocument || !canvas || !containerWidth || documentError) {
+    if (!pdfDocument || !canvas || !containerWidth || documentError || isDocumentLoading || totalPages === 0) {
       return
     }
 
@@ -288,7 +318,7 @@ export const PdfCanvasViewer = ({ fileData, fileName, isDark }: PdfCanvasViewerP
       isCancelled = true
       renderTask?.cancel?.()
     }
-  }, [containerWidth, currentPage, documentError, zoom])
+  }, [containerWidth, currentPage, documentError, isDocumentLoading, totalPages, zoom])
 
   const commitPageInput = () => {
     if (!totalPages) {

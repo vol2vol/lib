@@ -9,6 +9,9 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && docker-php-ext-install pdo pdo_pgsql pgsql zip
 
+COPY ./uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+RUN cat /usr/local/etc/php/conf.d/uploads.ini
+
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
 ARG USER_ID=1000

@@ -18,12 +18,14 @@
 }
 
 .settingsPanel {
-  position: absolute;
-  top: 28px;
+  position: fixed;
+  top: calc(var(--app-header-height, 80px) + 16px);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 20;
+  z-index: 1010;
   width: min(360px, calc(100vw - 32px));
+  max-height: calc(100vh - var(--app-header-height, 80px) - 32px);
+  overflow: auto;
   padding: 18px 16px 16px;
   border-radius: 16px;
   background: var(--color-bg-primary);
@@ -258,7 +260,9 @@
 
 @media (max-width: 900px) {
   .settingsPanel {
+    top: calc(var(--app-header-height, 80px) + 12px);
     width: min(340px, calc(100vw - 24px));
+    max-height: calc(100vh - var(--app-header-height, 80px) - 24px);
   }
 
   .textReader {

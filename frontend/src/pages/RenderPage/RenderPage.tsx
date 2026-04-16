@@ -1,10 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getBookFileForReading } from '@api/library'
 import { ApiError } from '@api/http'
 import styles from './RenderPage.module.css'
 import { Header } from '@components/Header/Header'
 import { PdfCanvasViewer } from './PdfCanvasViewer'
+import {
+  getReadingProgress,
+  savePdfReadingProgress,
+  saveScrollReadingProgress,
+} from './readingProgress'
 
 type ReaderTheme = 'light' | 'dark'
 type ReaderFileType = 'pdf' | 'txt' | 'fb2' | 'unknown'
@@ -397,11 +402,24 @@ export const RenderPage = () => {
   const [draftTheme, setDraftTheme] = useState<ReaderTheme>(getInitialTheme)
   const [draftFontSize, setDraftFontSize] = useState<number>(getInitialFontSize)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const saveScrollProgressRef = useRef<(() => void) | null>(null)
+
+  const parsedFileId = useMemo(() => Number(fileId), [fileId])
+  const localProgress = useMemo(() => {
+    if (Number.isNaN(parsedFileId)) {
+      return null
+    }
+
+    return getReadingProgress(parsedFileId)
+  }, [parsedFileId])
 
   const isTextSizeSupported = fileType === 'txt' || fileType === 'fb2'
 
   useEffect(() => {
-    const parsedFileId = Number(fileId)
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [fileId])
+
+  useEffect(() => {
 
     if (!fileId || Number.isNaN(parsedFileId)) {
       navigate('/library', { replace: true })
@@ -463,6 +481,110 @@ export const RenderPage = () => {
 
     void loadFile()
   }, [fileId, navigate])
+
+  useEffect(() => {
+    if (isLoading || error || !localProgress || localProgress.type !== 'scroll') {
+      return
+    }
+
+    if (fileType !== 'txt' && fileType !== 'fb2') {
+      return
+    }
+
+    const restoreScroll = () => {
+      window.scrollTo({
+        top: localProgress.scrollTop,
+        left: 0,
+        behavior: 'auto',
+      })
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      restoreScroll()
+      window.setTimeout(restoreScroll, 0)
+    })
+
+    return () => window.cancelAnimationFrame(frameId)
+  }, [error, fb2Blocks, fileType, isLoading, localProgress, txtContent])
+
+  useEffect(() => {
+    if (Number.isNaN(parsedFileId) || isLoading || error) {
+      saveScrollProgressRef.current = null
+      return
+    }
+
+    if (fileType !== 'txt' && fileType !== 'fb2') {
+      saveScrollProgressRef.current = null
+      return
+    }
+
+    const saveCurrentScroll = () => {
+      const scrollTop = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop)
+      saveScrollReadingProgress(parsedFileId, scrollTop)
+    }
+
+    saveScrollProgressRef.current = saveCurrentScroll
+
+    return () => {
+      if (saveScrollProgressRef.current === saveCurrentScroll) {
+        saveScrollProgressRef.current = null
+      }
+    }
+  }, [error, fileType, isLoading, parsedFileId])
+
+  useEffect(() => {
+    if (!saveScrollProgressRef.current) {
+      return
+    }
+
+    let timeoutId: number | null = null
+
+    const saveCurrentScroll = () => {
+      saveScrollProgressRef.current?.()
+    }
+
+    const handleScroll = () => {
+      if (timeoutId) {
+        window.clearTimeout(timeoutId)
+      }
+
+      timeoutId = window.setTimeout(saveCurrentScroll, 500)
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        saveCurrentScroll()
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('beforeunload', saveCurrentScroll)
+    window.addEventListener('pagehide', saveCurrentScroll)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('beforeunload', saveCurrentScroll)
+      window.removeEventListener('pagehide', saveCurrentScroll)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+
+      if (timeoutId) {
+        window.clearTimeout(timeoutId)
+      }
+
+      saveCurrentScroll()
+    }
+  }, [error, fileType, isLoading, parsedFileId])
+
+  useLayoutEffect(() => {
+    if (!saveScrollProgressRef.current) {
+      return
+    }
+
+    return () => {
+      saveScrollProgressRef.current?.()
+    }
+  }, [error, fileType, isLoading, parsedFileId])
 
   const pageClassName = useMemo(() => {
     return `${styles.page} ${theme === 'dark' ? styles.pageDark : ''}`
@@ -585,7 +707,20 @@ export const RenderPage = () => {
         {error ? <p className={styles.error}>{error}</p> : null}
 
         {!isLoading && !error && fileType === 'pdf' && pdfData ? (
-          <PdfCanvasViewer fileData={pdfData} fileName={fileName} isDark={theme === 'dark'} />
+          <PdfCanvasViewer
+            fileData={pdfData}
+            fileName={fileName}
+            isDark={theme === 'dark'}
+            initialPage={localProgress?.type === 'pdf' ? localProgress.page : 1}
+            initialZoom={localProgress?.type === 'pdf' ? localProgress.zoom ?? 1 : 1}
+            onProgressChange={({ page, zoom }) => {
+              if (Number.isNaN(parsedFileId)) {
+                return
+              }
+
+              savePdfReadingProgress(parsedFileId, page, zoom)
+            }}
+          />
         ) : null}
 
         {!isLoading && !error && fileType === 'txt' ? (
