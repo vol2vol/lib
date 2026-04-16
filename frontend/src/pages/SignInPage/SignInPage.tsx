@@ -214,8 +214,6 @@ export const SignInPage = () => {
 
           {error ? <p className={styles.error}>{error}</p> : null}
 
-          <p className={styles.note}>Восстановление пароля пока недоступно</p>
-
           <div className={styles.footer}>
             <span className={styles.footerText}>Нет аккаунта?</span>
             <Link className={styles.link} to="/signup">
