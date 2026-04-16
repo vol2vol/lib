@@ -59,7 +59,10 @@ class FavoriteController extends Controller
                         'first_name' => $author->first_name,
                         'middle_name' => $author->middle_name
                     ]),
-                    'publisher' => $book->publisher?->publisher_name,
+                    'publisher' => [
+                        'publisher_id' => $book->publisher->publisher_id,
+                        'publisher_name' => $book->publisher->publisher_name
+                    ],
                     'files_count' => $book->files->count()
                 ];
             });
