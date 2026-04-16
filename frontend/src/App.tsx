@@ -9,6 +9,7 @@ import { BookPage } from '@pages/BookPage'
 import { RenderPage } from '@pages/RenderPage'
 import { AdminPage } from '@pages/AdminPage'
 import { GuestOnlyRoute } from '@components/GuestOnlyRoute'
+import { AdminOnlyRoute } from '@components/AdminOnlyRoute'
 
 export const App = () => {
   return (
@@ -35,7 +36,14 @@ export const App = () => {
       <Route path="/library/books/:bookId" element={<BookPage />} />
       <Route path="/library/read/:fileId" element={<RenderPage />} />
       <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/admin" element={<AdminPage />} />
+      <Route
+        path="/admin"
+        element={
+          <AdminOnlyRoute>
+            <AdminPage />
+          </AdminOnlyRoute>
+        }
+      />
     </Routes>
   )
 }

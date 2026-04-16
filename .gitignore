@@ -19,6 +19,7 @@
 /frontend/*.njsproj
 /frontend/*.sln
 /frontend/*.sw?
+/frontend/*.zip
 
 #backend (при переключении между ветками)
 /backend/.DS_Store
