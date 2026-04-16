@@ -211,7 +211,7 @@ export const PdfCanvasViewer = ({
 
         documentRef.current = loadedDocument
         setTotalPages(loadedDocument.numPages)
-        setCurrentPage((previousPage) => Math.min(Math.max(1, previousPage), loadedDocument.numPages))
+        setCurrentPage((previousPage) => Math.min(Math.max(1, previousPage), loadedDocument != null ? loadedDocument.numPages : 0))
       } catch (error) {
         setDocumentError(error instanceof Error ? error.message : 'Не удалось загрузить PDF')
       } finally {
